@@ -64,7 +64,7 @@ export function NewsletterForm({ source = 'footer', className }: NewsletterFormP
   if (status === 'success') {
     return (
       <div className={cn('text-center', className)}>
-        <p className="text-sm text-nd-cream">
+        <p className="text-sm text-foreground">
           Thanks for subscribing! We&apos;ll be in touch.
         </p>
       </div>
@@ -86,7 +86,7 @@ export function NewsletterForm({ source = 'footer', className }: NewsletterFormP
                 <Input
                   type="email"
                   placeholder="Enter your email"
-                  className="bg-nd-black/50 border-nd-gray-700 text-nd-white placeholder:text-nd-gray-500"
+                  className="bg-background border-border"
                   disabled={status === 'loading'}
                   {...field}
                 />
@@ -98,7 +98,7 @@ export function NewsletterForm({ source = 'footer', className }: NewsletterFormP
         <Button
           type="submit"
           disabled={status === 'loading'}
-          className="bg-nd-red hover:bg-nd-red/90 text-nd-white"
+          className="bg-nd-red hover:bg-nd-red/90 text-white"
         >
           {status === 'loading' ? 'Subscribing...' : 'Subscribe'}
         </Button>

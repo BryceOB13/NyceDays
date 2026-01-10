@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Instagram } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -20,32 +21,46 @@ export function Footer({ className }: FooterProps) {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className={cn("bg-nd-black border-t border-nd-gray-800", className)}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className={cn("bg-background border-t border-border/40", className)}>
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           {/* Logo and Tagline */}
-          <div className="md:col-span-2">
-            <Link href="/" className="inline-block">
-              <span className="font-serif text-2xl font-bold text-nd-white">
-                NYCE DAYS
-              </span>
+          <div className="md:col-span-5">
+            <Link href="/" className="inline-block transition-opacity hover:opacity-70">
+              {/* Full logo - dark mode */}
+              <Image
+                src="/logos/full-white.png"
+                alt="Nyce Days"
+                width={180}
+                height={72}
+                className="hidden dark:block object-contain h-16 w-auto"
+              />
+              {/* Full logo - light mode */}
+              <Image
+                src="/logos/full-black.png"
+                alt="Nyce Days"
+                width={180}
+                height={72}
+                className="dark:hidden object-contain h-16 w-auto"
+              />
             </Link>
-            <p className="mt-2 font-sans text-nd-gray-400 max-w-md">
-              Event curation, community marketing, and content creation. Have A Nyce Day!
+            <p className="mt-6 font-sans text-sm text-muted-foreground max-w-sm leading-relaxed">
+              Event curation, community marketing, and content creation. 
+              Building culture, one experience at a time.
             </p>
           </div>
 
           {/* Navigation Links */}
-          <div>
-            <h3 className="font-serif text-sm font-semibold text-nd-white uppercase tracking-wider">
+          <div className="md:col-span-3">
+            <h3 className="font-sans text-xs font-medium text-foreground uppercase tracking-widest">
               Navigation
             </h3>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-6 space-y-3">
               {footerLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="font-sans text-sm text-nd-gray-400 hover:text-nd-white transition-colors"
+                    className="font-sans text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -55,29 +70,29 @@ export function Footer({ className }: FooterProps) {
           </div>
 
           {/* Newsletter and Social */}
-          <div>
-            <h3 className="font-serif text-sm font-semibold text-nd-white uppercase tracking-wider">
+          <div className="md:col-span-4">
+            <h3 className="font-sans text-xs font-medium text-foreground uppercase tracking-widest">
               Stay Connected
             </h3>
-            {/* Newsletter form placeholder - will be replaced with NewsletterForm component */}
+            <p className="mt-6 font-sans text-sm text-muted-foreground leading-relaxed">
+              Subscribe to our newsletter for updates on events and community happenings.
+            </p>
+            {/* Newsletter form placeholder */}
             <div className="mt-4">
-              <p className="font-sans text-sm text-nd-gray-400 mb-4">
-                Subscribe to our newsletter for updates.
-              </p>
-              {/* NewsletterForm will be added here in task 6 */}
+              {/* NewsletterForm will be added here */}
             </div>
 
             {/* Social Links */}
-            <div className="mt-6">
-              <h4 className="font-serif text-sm font-semibold text-nd-white uppercase tracking-wider mb-3">
+            <div className="mt-8">
+              <h4 className="font-sans text-xs font-medium text-foreground uppercase tracking-widest">
                 Follow Us
               </h4>
-              <div className="flex space-x-4">
+              <div className="mt-4 flex gap-4">
                 <a
                   href="https://instagram.com/nycedays"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-nd-gray-400 hover:text-nd-white transition-colors"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
                   aria-label="Follow us on Instagram"
                 >
                   <Instagram className="h-5 w-5" />
@@ -88,8 +103,8 @@ export function Footer({ className }: FooterProps) {
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 pt-8 border-t border-nd-gray-800">
-          <p className="font-sans text-sm text-nd-gray-500 text-center">
+        <div className="mt-16 pt-8 border-t border-border/40">
+          <p className="font-sans text-xs text-muted-foreground text-center tracking-wide">
             © {currentYear} Nyce Days. All rights reserved.
           </p>
         </div>

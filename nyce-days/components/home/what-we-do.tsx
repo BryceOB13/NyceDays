@@ -32,9 +32,9 @@ const services: ServiceItem[] = [
 
 export function WhatWeDo() {
   return (
-    <Section className="bg-nd-cream">
+    <Section className="bg-secondary">
       <FadeUp>
-        <h2 className="text-center font-serif text-3xl font-bold text-nd-black md:text-4xl lg:text-5xl">
+        <h2 className="text-center font-serif text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
           What We Do
         </h2>
       </FadeUp>
@@ -42,15 +42,15 @@ export function WhatWeDo() {
       <div className="mt-12 grid gap-8 md:grid-cols-3">
         {services.map((service, index) => (
           <FadeUp key={service.title} delay={0.1 * (index + 1)}>
-            <Card className="h-full border-none bg-nd-white shadow-lg transition-transform hover:-translate-y-1">
+            <Card className="h-full border-border/50 bg-background shadow-lg transition-transform hover:-translate-y-1">
               <CardHeader className="items-center text-center">
                 <div className="mb-4 text-nd-red">{service.icon}</div>
-                <CardTitle className="font-serif text-xl text-nd-black">
+                <CardTitle className="font-serif text-xl text-foreground">
                   {service.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-center font-sans text-nd-gray-600">
+                <p className="text-center font-sans text-muted-foreground">
                   {service.description}
                 </p>
               </CardContent>

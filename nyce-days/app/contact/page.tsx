@@ -11,19 +11,19 @@ export default function ContactPage() {
   return (
     <main>
       {/* Hero Section */}
-      <Section className="bg-nd-black pt-32">
+      <Section className="bg-background pt-32">
         <FadeUp>
-          <h1 className="text-center font-serif text-4xl font-bold text-nd-white md:text-5xl lg:text-6xl">
+          <h1 className="text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
             Get In Touch
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-nd-gray-400">
+          <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
             Have a project in mind? Want to collaborate? We&apos;d love to hear from you.
           </p>
         </FadeUp>
       </Section>
 
       {/* Contact Form Section */}
-      <Section className="bg-nd-black">
+      <Section className="bg-background">
         <div className="mx-auto max-w-2xl">
           <FadeUp>
             <ContactForm />
@@ -32,13 +32,13 @@ export default function ContactPage() {
       </Section>
 
       {/* Additional Info Section */}
-      <Section className="bg-nd-gray-900">
+      <Section className="bg-secondary">
         <div className="mx-auto max-w-2xl text-center">
           <FadeUp>
-            <h2 className="font-serif text-2xl font-semibold text-nd-white md:text-3xl">
+            <h2 className="font-serif text-2xl font-semibold text-foreground md:text-3xl">
               Other Ways to Connect
             </h2>
-            <p className="mt-4 text-nd-gray-400">
+            <p className="mt-4 text-muted-foreground">
               Follow us on social media for the latest updates, behind-the-scenes content, and event announcements.
             </p>
             <div className="mt-6">

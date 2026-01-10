@@ -13,12 +13,12 @@ export default async function MediaPage() {
 
   return (
     <main>
-      <Section className="bg-nd-black pt-32">
+      <Section className="bg-background pt-32">
         <FadeUp>
-          <h1 className="text-center font-serif text-4xl font-bold text-nd-white md:text-5xl lg:text-6xl">
+          <h1 className="text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
             Media Gallery
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-nd-gray-400">
+          <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
             Photos and videos from our events, behind the scenes, and community moments.
           </p>
         </FadeUp>

@@ -11,7 +11,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <Link
       href={`/portfolio/${project.slug}`}
-      className="group block overflow-hidden rounded-lg bg-nd-gray-900"
+      className="group block overflow-hidden rounded-lg bg-secondary"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
         {project.hero_media?.public_url ? (
@@ -22,11 +22,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-nd-gray-800">
-            <span className="text-nd-gray-500">No image</span>
+          <div className="flex h-full w-full items-center justify-center bg-muted">
+            <span className="text-muted-foreground">No image</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-nd-black/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
       </div>
       <div className="p-6">
         <div className="flex items-center gap-3">
@@ -37,18 +37,18 @@ export function ProjectCard({ project }: ProjectCardProps) {
           )}
           {project.date && (
             <>
-              <span className="text-nd-gray-600">•</span>
-              <span className="text-sm text-nd-gray-400">
+              <span className="text-muted-foreground/50">•</span>
+              <span className="text-sm text-muted-foreground">
                 {formatDate(project.date, { month: 'short', year: 'numeric' })}
               </span>
             </>
           )}
         </div>
-        <h3 className="mt-2 font-serif text-xl font-semibold text-nd-white group-hover:text-nd-cream transition-colors">
+        <h3 className="mt-2 font-serif text-xl font-semibold text-foreground group-hover:text-muted-foreground transition-colors">
           {project.title}
         </h3>
         {project.description && (
-          <p className="mt-2 line-clamp-2 font-sans text-sm text-nd-gray-400">
+          <p className="mt-2 line-clamp-2 font-sans text-sm text-muted-foreground">
             {project.description}
           </p>
         )}

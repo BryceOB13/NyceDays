@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { Nav } from "@/components/layout/nav"
 import { Footer } from "@/components/layout/footer"
+import { ThemeProvider } from "@/components/shared/theme-provider"
 
 export const metadata: Metadata = {
   title: "Nyce Days | Event Curation & Community Marketing",
@@ -14,13 +15,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className="font-sans bg-nd-black text-nd-white antialiased min-h-screen flex flex-col">
-        <Nav />
-        <main className="flex-1 pt-16">
-          {children}
-        </main>
-        <Footer />
+    <html lang="en" suppressHydrationWarning>
+      <body className="font-sans antialiased min-h-screen flex flex-col bg-background text-foreground">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Nav />
+          <main className="flex-1 pt-16">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   )

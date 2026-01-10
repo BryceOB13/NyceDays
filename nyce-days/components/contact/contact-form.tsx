@@ -68,7 +68,6 @@ export function ContactForm({ className }: ContactFormProps) {
 
       if (!response.ok) {
         setStatus('error')
-        // Handle field-level errors from API
         if (result.details) {
           Object.entries(result.details).forEach(([field, messages]) => {
             if (Array.isArray(messages) && messages.length > 0) {
@@ -93,15 +92,15 @@ export function ContactForm({ className }: ContactFormProps) {
 
   if (status === 'success') {
     return (
-      <div className={cn('rounded-lg bg-nd-cream/10 p-8 text-center', className)}>
-        <h3 className="font-serif text-2xl text-nd-cream mb-2">Message Sent!</h3>
-        <p className="text-nd-gray-400">
+      <div className={cn('rounded-lg bg-secondary p-8 text-center', className)}>
+        <h3 className="font-serif text-2xl text-foreground mb-2">Message Sent!</h3>
+        <p className="text-muted-foreground">
           Thanks for reaching out. We&apos;ll get back to you soon.
         </p>
         <Button
           onClick={() => setStatus('idle')}
           variant="outline"
-          className="mt-4 border-nd-cream/30 text-nd-cream hover:bg-nd-cream/10"
+          className="mt-4"
         >
           Send Another Message
         </Button>
@@ -116,17 +115,16 @@ export function ContactForm({ className }: ContactFormProps) {
         className={cn('space-y-6', className)}
       >
         <div className="grid gap-6 sm:grid-cols-2">
-          {/* Name - Required */}
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-nd-cream">Name *</FormLabel>
+                <FormLabel className="text-foreground">Name *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Your name"
-                    className="bg-nd-black/50 border-nd-gray-700 text-nd-white placeholder:text-nd-gray-500"
+                    className="bg-secondary border-border"
                     disabled={status === 'loading'}
                     {...field}
                   />
@@ -136,18 +134,17 @@ export function ContactForm({ className }: ContactFormProps) {
             )}
           />
 
-          {/* Email - Required */}
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-nd-cream">Email *</FormLabel>
+                <FormLabel className="text-foreground">Email *</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
                     placeholder="your@email.com"
-                    className="bg-nd-black/50 border-nd-gray-700 text-nd-white placeholder:text-nd-gray-500"
+                    className="bg-secondary border-border"
                     disabled={status === 'loading'}
                     {...field}
                   />
@@ -159,17 +156,16 @@ export function ContactForm({ className }: ContactFormProps) {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2">
-          {/* Company - Optional */}
           <FormField
             control={form.control}
             name="company"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-nd-cream">Company</FormLabel>
+                <FormLabel className="text-foreground">Company</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Your company (optional)"
-                    className="bg-nd-black/50 border-nd-gray-700 text-nd-white placeholder:text-nd-gray-500"
+                    className="bg-secondary border-border"
                     disabled={status === 'loading'}
                     {...field}
                   />
@@ -179,29 +175,27 @@ export function ContactForm({ className }: ContactFormProps) {
             )}
           />
 
-          {/* Inquiry Type - Required */}
           <FormField
             control={form.control}
             name="inquiry_type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-nd-cream">Inquiry Type *</FormLabel>
+                <FormLabel className="text-foreground">Inquiry Type *</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                   disabled={status === 'loading'}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-nd-black/50 border-nd-gray-700 text-nd-white">
+                    <SelectTrigger className="bg-secondary border-border">
                       <SelectValue placeholder="Select inquiry type" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="bg-nd-black border-nd-gray-700">
+                  <SelectContent className="bg-popover border-border">
                     {inquiryTypes.map((type) => (
                       <SelectItem
                         key={type.value}
                         value={type.value}
-                        className="text-nd-white focus:bg-nd-gray-800 focus:text-nd-white"
                       >
                         {type.label}
                       </SelectItem>
@@ -214,17 +208,16 @@ export function ContactForm({ className }: ContactFormProps) {
           />
         </div>
 
-        {/* Message - Required */}
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-nd-cream">Message *</FormLabel>
+              <FormLabel className="text-foreground">Message *</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell us about your project or inquiry..."
-                  className="min-h-[150px] bg-nd-black/50 border-nd-gray-700 text-nd-white placeholder:text-nd-gray-500"
+                  className="min-h-[150px] bg-secondary border-border"
                   disabled={status === 'loading'}
                   {...field}
                 />
@@ -234,17 +227,16 @@ export function ContactForm({ className }: ContactFormProps) {
           )}
         />
 
-        {/* Referral - Optional */}
         <FormField
           control={form.control}
           name="referral"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-nd-cream">How did you hear about us?</FormLabel>
+              <FormLabel className="text-foreground">How did you hear about us?</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Instagram, friend, event, etc. (optional)"
-                  className="bg-nd-black/50 border-nd-gray-700 text-nd-white placeholder:text-nd-gray-500"
+                  className="bg-secondary border-border"
                   disabled={status === 'loading'}
                   {...field}
                 />
@@ -261,7 +253,7 @@ export function ContactForm({ className }: ContactFormProps) {
         <Button
           type="submit"
           disabled={status === 'loading'}
-          className="w-full bg-nd-red hover:bg-nd-red/90 text-nd-white"
+          className="w-full bg-nd-red hover:bg-nd-red/90 text-white"
         >
           {status === 'loading' ? 'Sending...' : 'Send Message'}
         </Button>

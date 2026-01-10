@@ -24,9 +24,7 @@ export function MediaGallery({ media }: MediaGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
 
-  // Filter media by category
   const filteredMedia = useMemo(() => {
-    // Only include images with public URLs
     const images = media.filter(
       (item) => item.type === "image" && item.public_url
     )
@@ -37,7 +35,6 @@ export function MediaGallery({ media }: MediaGalleryProps) {
     return images.filter((item) => item.category === activeCategory)
   }, [media, activeCategory])
 
-  // Prepare images for lightbox
   const lightboxImages = useMemo(() => {
     return filteredMedia.map((item) => ({
       src: item.public_url!,
@@ -58,12 +55,12 @@ export function MediaGallery({ media }: MediaGalleryProps) {
           onValueChange={setActiveCategory}
           className="mb-8"
         >
-          <TabsList className="bg-nd-gray-900 border border-nd-gray-800">
+          <TabsList className="bg-secondary border border-border">
             {CATEGORIES.map((category) => (
               <TabsTrigger
                 key={category.value}
                 value={category.value}
-                className="data-[state=active]:bg-nd-amber data-[state=active]:text-nd-black text-nd-gray-400 hover:text-nd-white"
+                className="data-[state=active]:bg-nd-amber data-[state=active]:text-black text-muted-foreground hover:text-foreground"
               >
                 {category.label}
               </TabsTrigger>
@@ -75,7 +72,7 @@ export function MediaGallery({ media }: MediaGalleryProps) {
       {filteredMedia.length === 0 ? (
         <FadeUp>
           <div className="py-12 text-center">
-            <p className="text-nd-gray-400">No media found in this category.</p>
+            <p className="text-muted-foreground">No media found in this category.</p>
           </div>
         </FadeUp>
       ) : (
@@ -84,7 +81,7 @@ export function MediaGallery({ media }: MediaGalleryProps) {
             <FadeUp key={item.id} delay={0.05 * (index % 12)}>
               <button
                 onClick={() => handleImageClick(index)}
-                className="group relative aspect-square w-full overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-nd-amber focus:ring-offset-2 focus:ring-offset-nd-black"
+                className="group relative aspect-square w-full overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-nd-amber focus:ring-offset-2 focus:ring-offset-background"
               >
                 <Image
                   src={item.public_url!}
@@ -93,10 +90,10 @@ export function MediaGallery({ media }: MediaGalleryProps) {
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                   sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 />
-                <div className="absolute inset-0 bg-nd-black/0 transition-colors duration-300 group-hover:bg-nd-black/20" />
+                <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
                 {item.caption && (
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-nd-black/80 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <p className="text-sm text-nd-white line-clamp-2">
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <p className="text-sm text-white line-clamp-2">
                       {item.caption}
                     </p>
                   </div>

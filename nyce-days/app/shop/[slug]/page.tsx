@@ -38,7 +38,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const hasDiscount = product.compare_price && product.compare_price > product.price
   const images = product.images
     ?.sort((a, b) => {
-      // Primary image first, then by sort_order
       if (a.is_primary && !b.is_primary) return -1
       if (!a.is_primary && b.is_primary) return 1
       return a.sort_order - b.sort_order
@@ -51,20 +50,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <main>
-      <Section className="bg-nd-black pt-32">
+      <Section className="bg-background pt-32">
         <div className="grid gap-12 lg:grid-cols-2">
-          {/* Product Images */}
           <FadeUp>
             {images.length > 0 ? (
               <ProductImageGallery images={images} productName={product.name} />
             ) : (
-              <div className="flex aspect-square items-center justify-center rounded-lg bg-nd-gray-900">
-                <span className="text-nd-gray-500">No image available</span>
+              <div className="flex aspect-square items-center justify-center rounded-lg bg-secondary">
+                <span className="text-muted-foreground">No image available</span>
               </div>
             )}
           </FadeUp>
 
-          {/* Product Details */}
           <FadeUp delay={0.1}>
             <div className="flex flex-col">
               {product.category && (
@@ -73,20 +70,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </span>
               )}
               
-              <h1 className="mt-2 font-serif text-3xl font-bold text-nd-white md:text-4xl">
+              <h1 className="mt-2 font-serif text-3xl font-bold text-foreground md:text-4xl">
                 {product.name}
               </h1>
 
               <div className="mt-4 flex items-center gap-3">
-                <span className="text-2xl font-semibold text-nd-white">
+                <span className="text-2xl font-semibold text-foreground">
                   {formatPrice(product.price)}
                 </span>
                 {hasDiscount && (
                   <>
-                    <span className="text-lg text-nd-gray-500 line-through">
+                    <span className="text-lg text-muted-foreground line-through">
                       {formatPrice(product.compare_price!)}
                     </span>
-                    <span className="rounded bg-nd-red px-2 py-1 text-xs font-medium text-nd-white">
+                    <span className="rounded bg-nd-red px-2 py-1 text-xs font-medium text-white">
                       Sale
                     </span>
                   </>
@@ -94,15 +91,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
 
               {product.description && (
-                <p className="mt-6 text-nd-gray-300 leading-relaxed">
+                <p className="mt-6 text-muted-foreground leading-relaxed">
                   {product.description}
                 </p>
               )}
 
-              {/* Inventory Status */}
               <div className="mt-6">
                 {product.inventory > 0 ? (
-                  <span className="text-sm text-nd-gray-400">
+                  <span className="text-sm text-muted-foreground">
                     {product.inventory <= 5
                       ? `Only ${product.inventory} left in stock`
                       : "In stock"}
@@ -112,23 +108,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 )}
               </div>
 
-              {/* Purchase Button - Placeholder for Snipcart integration */}
               <div className="mt-8">
                 <Button
                   size="lg"
-                  className="w-full bg-nd-amber text-nd-black hover:bg-nd-amber/90 sm:w-auto"
+                  className="w-full bg-nd-amber text-black hover:bg-nd-amber/90 sm:w-auto"
                   disabled={product.inventory === 0}
                 >
                   {product.inventory === 0 ? "Sold Out" : "Add to Cart"}
                 </Button>
               </div>
 
-              {/* Back to Shop */}
-              <div className="mt-12 border-t border-nd-gray-800 pt-8">
+              <div className="mt-12 border-t border-border pt-8">
                 <Button
                   asChild
                   variant="outline"
-                  className="border-nd-gray-700 text-nd-gray-400 hover:border-nd-white hover:text-nd-white"
                 >
                   <Link href="/shop">← Back to Shop</Link>
                 </Button>

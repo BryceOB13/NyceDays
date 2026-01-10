@@ -1,0 +1,12 @@
+# Logo Assets
+
+Place your logo files here:
+
+- stars-white.png - White stars logo for dark backgrounds (navbar in dark mode)
+- stars-black.png - Black stars logo for light backgrounds (navbar in light mode)
+- full-white.png - Full logo with text for dark backgrounds (hero, footer in dark mode)
+- full-black.png - Full logo with text for light backgrounds (hero, footer in light mode)
+
+Recommended dimensions:
+- Stars logos: 200x64px (will be displayed at ~100x32px)
+- Full logos: 400x160px (will be displayed at various sizes)

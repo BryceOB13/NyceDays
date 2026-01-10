@@ -10,7 +10,7 @@ interface EventCardProps {
 
 export function EventCard({ event }: EventCardProps) {
   return (
-    <div className="group overflow-hidden rounded-lg bg-nd-gray-900">
+    <div className="group overflow-hidden rounded-lg bg-secondary">
       {/* Flyer Image */}
       <div className="relative aspect-[3/4] overflow-hidden">
         {event.flyer?.public_url ? (
@@ -21,21 +21,21 @@ export function EventCard({ event }: EventCardProps) {
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-nd-gray-800">
-            <span className="text-nd-gray-500">No flyer</span>
+          <div className="flex h-full w-full items-center justify-center bg-muted">
+            <span className="text-muted-foreground">No flyer</span>
           </div>
         )}
       </div>
 
       {/* Event Details */}
       <div className="p-6">
-        <h3 className="font-serif text-xl font-semibold text-nd-white group-hover:text-nd-cream transition-colors">
+        <h3 className="font-serif text-xl font-semibold text-foreground group-hover:text-muted-foreground transition-colors">
           {event.title}
         </h3>
 
         <div className="mt-3 space-y-2">
           {/* Date */}
-          <div className="flex items-center gap-2 text-sm text-nd-gray-400">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 text-nd-amber"
@@ -58,7 +58,7 @@ export function EventCard({ event }: EventCardProps) {
 
           {/* Location */}
           {event.location && (
-            <div className="flex items-center gap-2 text-sm text-nd-gray-400">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4 text-nd-amber"
@@ -86,7 +86,7 @@ export function EventCard({ event }: EventCardProps) {
 
         {/* Description */}
         {event.description && (
-          <p className="mt-3 line-clamp-2 text-sm text-nd-gray-400">
+          <p className="mt-3 line-clamp-2 text-sm text-muted-foreground">
             {event.description}
           </p>
         )}
@@ -95,11 +95,11 @@ export function EventCard({ event }: EventCardProps) {
         {event.ticket_url && (
           <Button
             asChild
-            className="mt-4 w-full bg-nd-red hover:bg-nd-red/90 text-nd-white"
+            className="mt-4 w-full bg-nd-red hover:bg-nd-red/90 text-white"
           >
             <Link href={event.ticket_url} target="_blank" rel="noopener noreferrer">
               Get Tickets
-              {event.ticket_price && ` • $${event.ticket_price}`}
+              {event.ticket_price && ` • ${event.ticket_price}`}
             </Link>
           </Button>
         )}

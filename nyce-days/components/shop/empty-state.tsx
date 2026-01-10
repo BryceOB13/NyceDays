@@ -13,15 +13,15 @@ export function EmptyState({
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
       <FadeUp>
-        <h2 className="font-serif text-3xl font-semibold text-nd-white md:text-4xl">
+        <h2 className="font-serif text-3xl font-semibold text-foreground md:text-4xl">
           {title}
         </h2>
-        <p className="mt-4 text-lg text-nd-gray-400">{description}</p>
+        <p className="mt-4 text-lg text-muted-foreground">{description}</p>
       </FadeUp>
 
       <FadeUp delay={0.2}>
         <div className="mt-10 w-full max-w-md">
-          <p className="mb-4 text-sm text-nd-gray-400">
+          <p className="mb-4 text-sm text-muted-foreground">
             Sign up to be the first to know when new drops are available.
           </p>
           <NewsletterForm source="shop" />

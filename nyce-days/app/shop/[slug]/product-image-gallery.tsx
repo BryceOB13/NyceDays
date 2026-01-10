@@ -16,18 +16,17 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
 
   if (images.length === 0) {
     return (
-      <div className="flex aspect-square items-center justify-center rounded-lg bg-nd-gray-900">
-        <span className="text-nd-gray-500">No image available</span>
+      <div className="flex aspect-square items-center justify-center rounded-lg bg-secondary">
+        <span className="text-muted-foreground">No image available</span>
       </div>
     )
   }
 
   return (
     <div className="space-y-4">
-      {/* Main Image */}
       <button
         onClick={() => setLightboxOpen(true)}
-        className="relative aspect-square w-full overflow-hidden rounded-lg bg-nd-gray-900 cursor-zoom-in"
+        className="relative aspect-square w-full overflow-hidden rounded-lg bg-secondary cursor-zoom-in"
       >
         <Image
           src={images[selectedIndex].src}
@@ -38,7 +37,6 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
         />
       </button>
 
-      {/* Thumbnail Grid */}
       {images.length > 1 && (
         <div className="grid grid-cols-4 gap-2">
           {images.map((image, index) => (
@@ -46,7 +44,7 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
               key={index}
               onClick={() => setSelectedIndex(index)}
               className={cn(
-                "relative aspect-square overflow-hidden rounded-md bg-nd-gray-900 transition-all",
+                "relative aspect-square overflow-hidden rounded-md bg-secondary transition-all",
                 selectedIndex === index
                   ? "ring-2 ring-nd-amber"
                   : "opacity-70 hover:opacity-100"
@@ -63,7 +61,6 @@ export function ProductImageGallery({ images, productName }: ProductImageGallery
         </div>
       )}
 
-      {/* Lightbox */}
       <Lightbox
         images={images}
         initialIndex={selectedIndex}

@@ -54,11 +54,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             priority
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-nd-gray-900">
-            <span className="text-nd-gray-500">No hero image</span>
+          <div className="flex h-full w-full items-center justify-center bg-secondary">
+            <span className="text-muted-foreground">No hero image</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-nd-black via-nd-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
         
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
           <div className="mx-auto max-w-6xl">
@@ -68,7 +68,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   {project.category}
                 </span>
               )}
-              <h1 className="mt-2 font-serif text-4xl font-bold text-nd-white md:text-5xl lg:text-6xl">
+              <h1 className="mt-2 font-serif text-4xl font-bold text-white md:text-5xl lg:text-6xl">
                 {project.title}
               </h1>
             </FadeUp>
@@ -77,43 +77,43 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </section>
 
       {/* Project Details */}
-      <Section className="bg-nd-black">
+      <Section className="bg-background">
         <div className="grid gap-12 lg:grid-cols-3">
           {/* Metadata Sidebar */}
           <FadeUp className="lg:col-span-1">
-            <div className="space-y-6 rounded-lg bg-nd-gray-900 p-6">
+            <div className="space-y-6 rounded-lg bg-secondary p-6">
               {project.client && (
                 <div>
-                  <h3 className="text-sm font-medium uppercase tracking-wider text-nd-gray-400">
+                  <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
                     Client
                   </h3>
-                  <p className="mt-1 text-nd-white">{project.client}</p>
+                  <p className="mt-1 text-foreground">{project.client}</p>
                 </div>
               )}
               {project.date && (
                 <div>
-                  <h3 className="text-sm font-medium uppercase tracking-wider text-nd-gray-400">
+                  <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
                     Date
                   </h3>
-                  <p className="mt-1 text-nd-white">{formatDate(project.date)}</p>
+                  <p className="mt-1 text-foreground">{formatDate(project.date)}</p>
                 </div>
               )}
               {project.location && (
                 <div>
-                  <h3 className="text-sm font-medium uppercase tracking-wider text-nd-gray-400">
+                  <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
                     Location
                   </h3>
-                  <p className="mt-1 text-nd-white">{project.location}</p>
+                  <p className="mt-1 text-foreground">{project.location}</p>
                 </div>
               )}
               {project.services && project.services.length > 0 && (
                 <div>
-                  <h3 className="text-sm font-medium uppercase tracking-wider text-nd-gray-400">
+                  <h3 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
                     Services
                   </h3>
                   <ul className="mt-1 space-y-1">
                     {project.services.map((service, index) => (
-                      <li key={index} className="text-nd-white">
+                      <li key={index} className="text-foreground">
                         {service}
                       </li>
                     ))}
@@ -126,13 +126,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           {/* Content */}
           <FadeUp delay={0.1} className="lg:col-span-2">
             {project.description && (
-              <p className="text-lg leading-relaxed text-nd-gray-300">
+              <p className="text-lg leading-relaxed text-muted-foreground">
                 {project.description}
               </p>
             )}
             {project.content && (
               <div
-                className="prose prose-invert mt-8 max-w-none prose-headings:font-serif prose-headings:text-nd-white prose-p:text-nd-gray-300 prose-a:text-nd-amber prose-a:no-underline hover:prose-a:underline"
+                className="prose prose-neutral dark:prose-invert mt-8 max-w-none prose-headings:font-serif"
                 dangerouslySetInnerHTML={{ __html: project.content }}
               />
             )}
@@ -142,7 +142,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       {/* Gallery */}
       {gallery.length > 0 && (
-        <Section className="bg-nd-gray-900">
+        <Section className="bg-secondary">
           <FadeUp>
             <ProjectGallery media={gallery} />
           </FadeUp>
@@ -150,13 +150,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       )}
 
       {/* Navigation */}
-      <Section className="bg-nd-black">
+      <Section className="bg-background">
         <FadeUp>
-          <div className="flex items-center justify-between border-t border-nd-gray-800 pt-8">
+          <div className="flex items-center justify-between border-t border-border pt-8">
             {adjacentProjects.prev ? (
               <Link
                 href={`/portfolio/${adjacentProjects.prev.slug}`}
-                className="group flex items-center gap-2 text-nd-gray-400 transition-colors hover:text-nd-white"
+                className="group flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
               >
                 <svg
                   className="h-5 w-5 transition-transform group-hover:-translate-x-1"
@@ -173,7 +173,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </svg>
                 <div className="text-left">
                   <span className="block text-xs uppercase tracking-wider">Previous</span>
-                  <span className="block font-serif text-nd-white">
+                  <span className="block font-serif text-foreground">
                     {adjacentProjects.prev.title}
                   </span>
                 </div>
@@ -182,22 +182,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div />
             )}
 
-            <Button
-              asChild
-              variant="outline"
-              className="border-nd-gray-700 text-nd-gray-400 hover:border-nd-white hover:text-nd-white"
-            >
+            <Button asChild variant="outline">
               <Link href="/portfolio">All Projects</Link>
             </Button>
 
             {adjacentProjects.next ? (
               <Link
                 href={`/portfolio/${adjacentProjects.next.slug}`}
-                className="group flex items-center gap-2 text-nd-gray-400 transition-colors hover:text-nd-white"
+                className="group flex items-center gap-2 text-muted-foreground transition-colors hover:text-foreground"
               >
                 <div className="text-right">
                   <span className="block text-xs uppercase tracking-wider">Next</span>
-                  <span className="block font-serif text-nd-white">
+                  <span className="block font-serif text-foreground">
                     {adjacentProjects.next.title}
                   </span>
                 </div>

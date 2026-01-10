@@ -15,9 +15,9 @@ export function FeaturedWork({ projects }: FeaturedWorkProps) {
   }
 
   return (
-    <Section className="bg-nd-black">
+    <Section className="bg-background">
       <FadeUp>
-        <h2 className="text-center font-serif text-3xl font-bold text-nd-white md:text-4xl lg:text-5xl">
+        <h2 className="text-center font-serif text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
           Featured Work
         </h2>
       </FadeUp>
@@ -27,7 +27,7 @@ export function FeaturedWork({ projects }: FeaturedWorkProps) {
           <FadeUp key={project.id} delay={0.1 * (index + 1)}>
             <Link
               href={`/portfolio/${project.slug}`}
-              className="group block overflow-hidden rounded-lg bg-nd-gray-900"
+              className="group block overflow-hidden rounded-lg bg-secondary"
             >
               <div className="relative aspect-[4/3] overflow-hidden">
                 {project.hero_media?.public_url ? (
@@ -38,11 +38,11 @@ export function FeaturedWork({ projects }: FeaturedWorkProps) {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-nd-gray-800">
-                    <span className="text-nd-gray-500">No image</span>
+                  <div className="flex h-full w-full items-center justify-center bg-muted">
+                    <span className="text-muted-foreground">No image</span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-nd-black/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               </div>
               <div className="p-6">
                 {project.category && (
@@ -50,11 +50,11 @@ export function FeaturedWork({ projects }: FeaturedWorkProps) {
                     {project.category}
                   </span>
                 )}
-                <h3 className="mt-2 font-serif text-xl font-semibold text-nd-white group-hover:text-nd-cream">
+                <h3 className="mt-2 font-serif text-xl font-semibold text-foreground group-hover:text-muted-foreground transition-colors">
                   {project.title}
                 </h3>
                 {project.description && (
-                  <p className="mt-2 line-clamp-2 font-sans text-sm text-nd-gray-400">
+                  <p className="mt-2 line-clamp-2 font-sans text-sm text-muted-foreground">
                     {project.description}
                   </p>
                 )}
@@ -70,7 +70,7 @@ export function FeaturedWork({ projects }: FeaturedWorkProps) {
             asChild
             variant="outline"
             size="lg"
-            className="border-nd-white text-nd-white hover:bg-nd-white hover:text-nd-black"
+            className="border-foreground text-foreground hover:bg-foreground hover:text-background"
           >
             <Link href="/portfolio">View All Work</Link>
           </Button>
