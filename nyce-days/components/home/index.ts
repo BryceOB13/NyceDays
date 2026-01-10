@@ -1,0 +1,4 @@
+export { Hero } from "./hero"
+export { WhatWeDo } from "./what-we-do"
+export { FeaturedWork } from "./featured-work"
+export { StatsBar } from "./stats-bar"
