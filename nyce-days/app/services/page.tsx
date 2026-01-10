@@ -28,7 +28,7 @@ const services: Service[] = [
       "Production & technical management",
       "Day-of coordination",
     ],
-    icon: <Calendar className="h-12 w-12" />,
+    icon: <Calendar className="h-8 w-8" />,
   },
   {
     title: "Community Marketing",
@@ -40,7 +40,7 @@ const services: Service[] = [
       "Social media management",
       "Community building",
     ],
-    icon: <Users className="h-12 w-12" />,
+    icon: <Users className="h-8 w-8" />,
   },
   {
     title: "Content Creation",
@@ -52,7 +52,7 @@ const services: Service[] = [
       "Social content packages",
       "Brand storytelling",
     ],
-    icon: <Camera className="h-12 w-12" />,
+    icon: <Camera className="h-8 w-8" />,
   },
   {
     title: "Merch & Brand Collaboration",
@@ -64,7 +64,7 @@ const services: Service[] = [
       "Pop-up shop experiences",
       "E-commerce strategy",
     ],
-    icon: <ShoppingBag className="h-12 w-12" />,
+    icon: <ShoppingBag className="h-8 w-8" />,
   },
 ]
 
@@ -74,10 +74,13 @@ export default function ServicesPage() {
       {/* Hero Section */}
       <Section className="bg-background pt-32">
         <FadeUp>
-          <h1 className="text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
+          <p className="text-center font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
+            What We Offer
+          </p>
+          <h1 className="mt-3 text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
             Our Services
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
+          <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-muted-foreground">
             Full-service creative solutions for brands looking to connect with culture and community.
           </p>
         </FadeUp>
@@ -88,20 +91,22 @@ export default function ServicesPage() {
         <div className="grid gap-8 md:grid-cols-2">
           {services.map((service, index) => (
             <FadeUp key={service.title} delay={0.1 * (index + 1)}>
-              <Card className="h-full border-border/50 bg-background shadow-lg">
+              <Card className="h-full border-border/50 bg-card transition-all duration-300 hover:border-border hover:shadow-lg">
                 <CardHeader>
-                  <div className="mb-4 text-nd-red">{service.icon}</div>
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-nd-red/10 text-nd-red">
+                    {service.icon}
+                  </div>
                   <CardTitle className="font-serif text-2xl text-foreground">
                     {service.title}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{service.description}</p>
-                  <ul className="mt-6 space-y-2">
+                  <p className="text-muted-foreground leading-relaxed">{service.description}</p>
+                  <ul className="mt-6 space-y-3">
                     {service.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2 text-foreground/80">
-                        <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-nd-red" />
-                        {feature}
+                      <li key={feature} className="flex items-start gap-3 text-foreground/80">
+                        <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-nd-red" />
+                        <span className="text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -119,7 +124,7 @@ export default function ServicesPage() {
             <h2 className="font-serif text-3xl font-bold text-white md:text-4xl">
               Ready to Work Together?
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-white/90">
+            <p className="mx-auto mt-4 max-w-xl text-white/90 leading-relaxed">
               Let&apos;s discuss how we can help bring your vision to life. Get in touch to start the conversation.
             </p>
           </FadeUp>
@@ -127,8 +132,8 @@ export default function ServicesPage() {
           <FadeUp delay={0.2}>
             <Button
               asChild
-              size="lg"
-              className="mt-8 bg-white px-8 py-6 text-lg font-semibold text-nd-red hover:bg-white/90"
+              size="xl"
+              className="mt-8 bg-white text-nd-red hover:bg-white/90"
             >
               <Link href="/contact">Get In Touch</Link>
             </Button>

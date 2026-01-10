@@ -3,8 +3,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 import { Menu } from "lucide-react"
-import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/shared/theme-toggle"
 import { MobileNav } from "./mobile-nav"
@@ -27,14 +27,19 @@ interface NavProps {
 
 export function Nav({ className }: NavProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
-  const { resolvedTheme } = useTheme()
+  const pathname = usePathname()
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/"
+    return pathname.startsWith(href)
+  }
 
   return (
     <header 
       className={cn(
         "fixed top-0 left-0 right-0 z-50",
-        "bg-background/80 backdrop-blur-md",
-        "border-b border-border/40",
+        "bg-background/95 backdrop-blur-md",
+        "border-b border-border/50",
         "transition-all duration-300",
         className
       )}
@@ -53,7 +58,7 @@ export function Nav({ className }: NavProps) {
               alt="Nyce Days"
               width={180}
               height={48}
-              className="hidden dark:block object-contain h-12 w-auto"
+              className="hidden dark:block object-contain h-10 w-auto"
               priority
             />
             {/* Light mode: black stars */}
@@ -62,7 +67,7 @@ export function Nav({ className }: NavProps) {
               alt="Nyce Days"
               width={180}
               height={48}
-              className="dark:hidden object-contain h-12 w-auto"
+              className="dark:hidden object-contain h-10 w-auto"
               priority
             />
           </Link>
@@ -74,13 +79,14 @@ export function Nav({ className }: NavProps) {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "relative px-4 py-2 font-sans text-sm tracking-wide",
-                  "text-foreground/70 transition-colors duration-200",
-                  "hover:text-foreground",
-                  "after:absolute after:bottom-1 after:left-4 after:right-4",
-                  "after:h-px after:bg-foreground after:origin-left",
-                  "after:scale-x-0 after:transition-transform after:duration-200",
-                  "hover:after:scale-x-100"
+                  "relative px-3 py-2 font-sans text-sm tracking-wide",
+                  "transition-colors duration-200",
+                  "after:absolute after:bottom-1 after:left-3 after:right-3",
+                  "after:h-px after:bg-nd-red after:origin-left",
+                  "after:transition-transform after:duration-200",
+                  isActive(link.href)
+                    ? "text-foreground after:scale-x-100"
+                    : "text-muted-foreground hover:text-foreground after:scale-x-0 hover:after:scale-x-100"
                 )}
               >
                 {link.label}
@@ -88,7 +94,7 @@ export function Nav({ className }: NavProps) {
             ))}
             
             {/* Theme Toggle */}
-            <div className="ml-2 pl-2 border-l border-border/40">
+            <div className="ml-3 pl-3 border-l border-border/50">
               <ThemeToggle />
             </div>
           </div>
@@ -99,7 +105,7 @@ export function Nav({ className }: NavProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 text-foreground/70 hover:text-foreground hover:bg-transparent"
+              className="h-10 w-10 text-foreground/70 hover:text-foreground"
               onClick={() => setMobileNavOpen(true)}
               aria-label="Open menu"
             >

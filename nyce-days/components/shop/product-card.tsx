@@ -16,7 +16,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/shop/${product.slug}`}
-      className="group block overflow-hidden rounded-lg bg-secondary"
+      className="group block overflow-hidden rounded-lg bg-card border border-border/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-border"
     >
       <div className="relative aspect-square overflow-hidden">
         {primaryImage?.public_url ? (
@@ -36,18 +36,20 @@ export function ProductCard({ product }: ProductCardProps) {
             Sale
           </div>
         )}
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
       </div>
-      <div className="p-4">
+      <div className="p-5">
         {product.category && (
-          <span className="text-xs font-medium uppercase tracking-wider text-nd-amber">
+          <span className="text-xs font-medium uppercase tracking-widest text-nd-amber">
             {product.category}
           </span>
         )}
-        <h3 className="mt-1 font-serif text-lg font-semibold text-foreground group-hover:text-muted-foreground transition-colors">
+        <h3 className="mt-2 font-serif text-lg font-semibold text-foreground group-hover:text-nd-red transition-colors duration-200">
           {product.name}
         </h3>
-        <div className="mt-2 flex items-center gap-2">
-          <span className="font-sans text-foreground">
+        <div className="mt-3 flex items-center gap-2">
+          <span className="font-sans font-medium text-foreground">
             {formatPrice(product.price)}
           </span>
           {hasDiscount && (

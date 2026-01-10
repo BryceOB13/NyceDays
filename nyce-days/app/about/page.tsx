@@ -54,10 +54,13 @@ export default function AboutPage() {
       {/* Hero Section */}
       <Section className="bg-background pt-32">
         <FadeUp>
-          <h1 className="text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
+          <p className="text-center font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
+            About Us
+          </p>
+          <h1 className="mt-3 text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
             About Nyce Days
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
+          <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-muted-foreground">
             Building community through events, content, and culture.
           </p>
         </FadeUp>
@@ -65,7 +68,7 @@ export default function AboutPage() {
 
       {/* Origin Story Section */}
       <Section className="bg-secondary">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <FadeUp>
             <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-muted">
               <Image
@@ -80,10 +83,13 @@ export default function AboutPage() {
 
           <FadeUp delay={0.2}>
             <div>
-              <h2 className="font-serif text-3xl font-bold text-foreground md:text-4xl">
+              <p className="font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
                 Our Story
+              </p>
+              <h2 className="mt-3 font-serif text-3xl font-bold text-foreground md:text-4xl">
+                From Small Gatherings to Cultural Movement
               </h2>
-              <div className="mt-6 space-y-4 text-muted-foreground">
+              <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
                 <p>
                   Nyce Days started with a simple idea: create spaces where people feel welcome, 
                   inspired, and connected. What began as small gatherings among friends has grown 
@@ -119,7 +125,7 @@ export default function AboutPage() {
                 <p className="font-serif text-4xl font-bold text-white md:text-5xl">
                   {stat.value}
                 </p>
-                <p className="mt-2 font-sans text-white/80">
+                <p className="mt-2 font-sans text-sm uppercase tracking-widest text-white/80">
                   {stat.label}
                 </p>
               </div>
@@ -131,25 +137,28 @@ export default function AboutPage() {
       {/* Values Section */}
       <Section className="bg-background">
         <FadeUp>
-          <h2 className="text-center font-serif text-3xl font-bold text-foreground md:text-4xl">
+          <p className="text-center font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
             Our Values
+          </p>
+          <h2 className="mt-3 text-center font-serif text-3xl font-bold text-foreground md:text-4xl">
+            The Principles That Guide Us
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
-            The principles that guide everything we do.
+            Everything we do is rooted in these core beliefs.
           </p>
         </FadeUp>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-2">
+        <div className="mt-12 grid gap-6 md:grid-cols-2">
           {values.map((value, index) => (
             <FadeUp key={value.number} delay={0.1 * (index + 1)}>
-              <div className="rounded-lg border border-border bg-secondary p-6">
-                <span className="font-serif text-4xl font-bold text-nd-red">
+              <div className="rounded-lg border border-border/50 bg-card p-8 transition-all duration-300 hover:border-border hover:shadow-lg">
+                <span className="font-serif text-5xl font-bold text-nd-red/20">
                   {value.number}
                 </span>
                 <h3 className="mt-4 font-serif text-xl font-semibold text-foreground">
                   {value.title}
                 </h3>
-                <p className="mt-2 text-muted-foreground">
+                <p className="mt-3 text-muted-foreground leading-relaxed">
                   {value.description}
                 </p>
               </div>

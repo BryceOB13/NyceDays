@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { formatDate } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { Calendar, MapPin } from "lucide-react"
 import type { EventWithFlyer } from "@/types/database"
 
 interface EventCardProps {
@@ -10,7 +11,7 @@ interface EventCardProps {
 
 export function EventCard({ event }: EventCardProps) {
   return (
-    <div className="group overflow-hidden rounded-lg bg-secondary">
+    <div className="group overflow-hidden rounded-lg bg-card border border-border/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-border">
       {/* Flyer Image */}
       <div className="relative aspect-[3/4] overflow-hidden">
         {event.flyer?.public_url ? (
@@ -25,31 +26,20 @@ export function EventCard({ event }: EventCardProps) {
             <span className="text-muted-foreground">No flyer</span>
           </div>
         )}
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
       </div>
 
       {/* Event Details */}
       <div className="p-6">
-        <h3 className="font-serif text-xl font-semibold text-foreground group-hover:text-muted-foreground transition-colors">
+        <h3 className="font-serif text-xl font-semibold text-foreground group-hover:text-nd-red transition-colors duration-200">
           {event.title}
         </h3>
 
-        <div className="mt-3 space-y-2">
+        <div className="mt-4 space-y-2">
           {/* Date */}
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-nd-amber"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
+            <Calendar className="h-4 w-4 text-nd-red" />
             <span>
               {formatDate(event.date, { weekday: 'short', month: 'short', day: 'numeric' })}
               {event.time && ` • ${event.time}`}
@@ -59,26 +49,7 @@ export function EventCard({ event }: EventCardProps) {
           {/* Location */}
           {event.location && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-nd-amber"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
+              <MapPin className="h-4 w-4 text-nd-red" />
               <span>{event.location}</span>
             </div>
           )}
@@ -86,7 +57,7 @@ export function EventCard({ event }: EventCardProps) {
 
         {/* Description */}
         {event.description && (
-          <p className="mt-3 line-clamp-2 text-sm text-muted-foreground">
+          <p className="mt-4 line-clamp-2 text-sm text-muted-foreground">
             {event.description}
           </p>
         )}
@@ -95,7 +66,8 @@ export function EventCard({ event }: EventCardProps) {
         {event.ticket_url && (
           <Button
             asChild
-            className="mt-4 w-full bg-nd-red hover:bg-nd-red/90 text-white"
+            variant="primary"
+            className="mt-5 w-full"
           >
             <Link href={event.ticket_url} target="_blank" rel="noopener noreferrer">
               Get Tickets

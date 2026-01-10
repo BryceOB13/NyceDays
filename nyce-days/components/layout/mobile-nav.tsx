@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -18,12 +19,19 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
+  const pathname = usePathname()
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/"
+    return pathname.startsWith(href)
+  }
+
   return (
     <>
       {/* Backdrop */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-background/80 backdrop-blur-sm transition-opacity duration-300",
+          "fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300",
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
         onClick={onClose}
@@ -33,35 +41,35 @@ export function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
       {/* Slide-out panel */}
       <div
         className={cn(
-          "fixed top-0 right-0 z-50 h-full w-[280px]",
-          "bg-background border-l border-border/40",
+          "fixed top-0 right-0 z-50 h-full w-[300px]",
+          "bg-background border-l border-border/50",
           "transform transition-transform duration-300 ease-out",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 h-16 border-b border-border/40">
+        <div className="flex items-center justify-between px-6 h-16 border-b border-border/50">
           {/* Stars logo */}
           <Image
             src="/logos/stars-white.png"
             alt="Nyce Days"
-            width={80}
-            height={26}
-            className="hidden dark:block object-contain h-6 w-auto"
+            width={100}
+            height={32}
+            className="hidden dark:block object-contain h-8 w-auto"
           />
           <Image
             src="/logos/stars-black.png"
             alt="Nyce Days"
-            width={80}
-            height={26}
-            className="dark:hidden object-contain h-6 w-auto"
+            width={100}
+            height={32}
+            className="dark:hidden object-contain h-8 w-auto"
           />
           
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="h-9 w-9 text-foreground/70 hover:text-foreground hover:bg-transparent"
+            className="h-10 w-10 text-foreground/70 hover:text-foreground"
             aria-label="Close menu"
           >
             <X className="h-5 w-5" />
@@ -77,12 +85,14 @@ export function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
                   href={link.href}
                   onClick={onClose}
                   className={cn(
-                    "block py-3 font-sans text-base tracking-wide",
-                    "text-foreground/70 transition-colors duration-200",
-                    "hover:text-foreground hover:pl-2"
+                    "block py-3 px-4 rounded-md font-sans text-base tracking-wide",
+                    "transition-all duration-200",
+                    isActive(link.href)
+                      ? "bg-secondary text-foreground font-medium"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                   )}
                   style={{
-                    transitionDelay: isOpen ? `${index * 50}ms` : "0ms",
+                    transitionDelay: isOpen ? `${index * 30}ms` : "0ms",
                   }}
                 >
                   {link.label}
@@ -91,6 +101,19 @@ export function MobileNav({ isOpen, onClose, links }: MobileNavProps) {
             ))}
           </ul>
         </nav>
+
+        {/* CTA */}
+        <div className="absolute bottom-8 left-6 right-6">
+          <Button
+            asChild
+            variant="primary"
+            className="w-full"
+          >
+            <Link href="/contact" onClick={onClose}>
+              Get In Touch
+            </Link>
+          </Button>
+        </div>
       </div>
     </>
   )
