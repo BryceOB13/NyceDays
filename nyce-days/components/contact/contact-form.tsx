@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { contactFormSchema, type ContactFormData } from '@/lib/schemas'
+import { useAnalytics } from '@/hooks/use-analytics'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -38,6 +39,8 @@ const inquiryTypes = [
 export function ContactForm({ className }: ContactFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const { track } = useAnalytics()
+  const hasTrackedStart = useRef(false)
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
@@ -82,11 +85,21 @@ export function ContactForm({ className }: ContactFormProps) {
         return
       }
 
+      // Track successful submission
+      track('contact_form_submit', { inquiry_type: data.inquiry_type })
       setStatus('success')
       form.reset()
     } catch {
       setStatus('error')
       setErrorMessage('Network error. Please try again.')
+    }
+  }
+
+  // Track form start on first interaction
+  const handleFormStart = () => {
+    if (!hasTrackedStart.current) {
+      track('contact_form_start', { page: '/contact' })
+      hasTrackedStart.current = true
     }
   }
 
@@ -112,6 +125,7 @@ export function ContactForm({ className }: ContactFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
+        onFocus={handleFormStart}
         className={cn('space-y-6', className)}
       >
         <div className="grid gap-6 sm:grid-cols-2">

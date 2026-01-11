@@ -67,6 +67,7 @@ const config: Config = {
       fontFamily: {
         serif: ["Georgia", "Times New Roman", "serif"],
         sans: ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+        mono: ["SF Mono", "Monaco", "Inconsolata", "monospace"],
       },
       borderRadius: {
         lg: "var(--radius)",

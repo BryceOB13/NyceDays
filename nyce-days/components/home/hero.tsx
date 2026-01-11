@@ -20,14 +20,14 @@ export function Hero({
       <VideoBackground
         src={videoSrc}
         poster={posterSrc}
-        overlay="bg-black/40"
+        overlay="bg-white/30"
         className="h-full"
       >
         <div className="flex h-full flex-col items-center justify-center px-6 text-center">
           {/* Full Logo */}
           <FadeUp>
             <Image
-              src="/logos/full-white.png"
+              src="/logos/full-black.png"
               alt="Nyce Days - Have A Nyce Day"
               width={600}
               height={240}
@@ -37,7 +37,7 @@ export function Hero({
           </FadeUp>
           
           <FadeUp delay={0.2}>
-            <p className="mt-6 font-serif text-lg md:text-xl text-white/80 italic tracking-wide">
+            <p className="mt-6 font-serif text-lg md:text-xl text-black/70 italic tracking-wide">
               Building culture, one experience at a time.
             </p>
           </FadeUp>
@@ -47,7 +47,7 @@ export function Hero({
               <Button
                 asChild
                 size="xl"
-                className="bg-white text-black hover:bg-white/90 hover:scale-[1.02] shadow-lg"
+                className="bg-black text-white hover:bg-black/90 hover:scale-[1.02] shadow-lg"
               >
                 <Link href="/contact">Get In Touch</Link>
               </Button>
@@ -55,7 +55,7 @@ export function Hero({
                 asChild
                 size="xl"
                 variant="outline"
-                className="border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+                className="border-black/30 text-black hover:bg-black/10 hover:border-black/50"
               >
                 <Link href="/portfolio">View Our Work</Link>
               </Button>

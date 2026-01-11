@@ -57,9 +57,22 @@ export default function AboutPage() {
           <p className="text-center font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
             About Us
           </p>
-          <h1 className="mt-3 text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
-            About Nyce Days
-          </h1>
+          <div className="mt-6 flex justify-center">
+            <Image
+              src="/logos/stars-white.png"
+              alt="Nyce Days"
+              width={320}
+              height={96}
+              className="hidden dark:block object-contain h-24 md:h-28 w-auto"
+            />
+            <Image
+              src="/logos/stars-black.png"
+              alt="Nyce Days"
+              width={320}
+              height={96}
+              className="dark:hidden object-contain h-24 md:h-28 w-auto"
+            />
+          </div>
           <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-muted-foreground">
             Building community through events, content, and culture.
           </p>

@@ -1,36 +1,133 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nyce Days
+
+> Event curation, community marketing, and content creation platform
+
+**Live:** [nycedays.com](https://nycedays.com)
+
+## Overview
+
+Nyce Days is a full-stack web application for a creative platform spanning DC, NYC, and Baltimore. Features event management, portfolio showcase, e-commerce, and community engagement.
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Framework | Next.js 14 (App Router) |
+| Database | Supabase (PostgreSQL) |
+| Auth | Supabase Auth (Magic Links) |
+| Styling | Tailwind CSS + shadcn/ui |
+| Animations | Framer Motion |
+| Email | Resend |
+| Analytics | Custom (Supabase) |
+| CI/CD | GitHub Actions |
+| Hosting | Vercel |
+
+## Features
+
+### Public Site
+- Responsive design with VHS aesthetic
+- Portfolio with category filtering
+- Event calendar
+- Newsletter signup with welcome emails
+- Contact form with auto-reply
+
+### Admin Dashboard (`/admin`)
+- Authentication with magic links
+- Analytics dashboard with real metrics
+- Contact submission management
+- Subscriber management with CSV export
+- Content management (Projects, Events, Media, Products)
+
+### Technical Highlights
+- Custom analytics tracking (page views, conversions, scroll depth)
+- Dynamic OG image generation
+- Automated email notifications
+- E2E test coverage with Playwright
+- CI/CD pipeline with lint, type-check, test, build
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.local.example .env.local
+# Fill in your Supabase credentials
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Run tests
+npm test
+npm run test:e2e
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+See `.env.local.example` for required variables:
+- `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anon key
+- `NEXT_PUBLIC_SITE_URL` - Site URL for OG images
+- `RESEND_API_KEY` - (Optional) For email notifications
+- `CONTACT_EMAIL` - (Optional) Admin notification email
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+```
+├── app/
+│   ├── admin/           # Admin dashboard
+│   ├── api/             # API routes
+│   ├── about/           # About page
+│   ├── community/       # Community/events page
+│   ├── contact/         # Contact page
+│   ├── media/           # Media gallery
+│   ├── portfolio/       # Portfolio pages
+│   ├── services/        # Services page
+│   └── shop/            # Shop pages
+├── components/
+│   ├── admin/           # Admin components
+│   ├── community/       # Community components
+│   ├── contact/         # Contact form
+│   ├── layout/          # Nav, Footer
+│   ├── shared/          # Shared components
+│   └── ui/              # shadcn/ui components
+├── lib/
+│   ├── supabase/        # Database clients
+│   ├── queries/         # Data fetching
+│   └── schemas/         # Zod schemas
+├── hooks/               # Custom hooks
+├── e2e/                 # Playwright tests
+└── public/              # Static assets
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run type-check   # Run TypeScript check
+npm run test         # Run unit tests
+npm run test:e2e     # Run E2E tests
+npm run test:e2e:ui  # Run E2E tests with UI
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Database Setup
 
-## Deploy on Vercel
+Run the SQL schema in Supabase SQL Editor:
+1. `supabase-schema.sql` - Main tables
+2. `lib/supabase/analytics-schema.sql` - Analytics table
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The site auto-deploys to Vercel on push to `main`. GitHub Actions runs:
+1. Lint
+2. Type check
+3. Unit tests
+4. Build
+
+## License
+
+Private - Nyce Days

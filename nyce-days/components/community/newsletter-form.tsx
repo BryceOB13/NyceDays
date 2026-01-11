@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { subscribeSchema, type SubscribeData } from '@/lib/schemas'
+import { useAnalytics } from '@/hooks/use-analytics'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -23,6 +24,7 @@ interface NewsletterFormProps {
 export function NewsletterForm({ source = 'footer', className }: NewsletterFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const { track } = useAnalytics()
 
   const form = useForm<SubscribeData>({
     resolver: zodResolver(subscribeSchema),
@@ -53,6 +55,8 @@ export function NewsletterForm({ source = 'footer', className }: NewsletterFormP
         return
       }
 
+      // Track successful subscription
+      track('newsletter_signup', { source })
       setStatus('success')
       form.reset()
     } catch {

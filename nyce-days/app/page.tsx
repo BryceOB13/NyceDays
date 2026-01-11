@@ -1,4 +1,4 @@
-import { Hero, WhatWeDo, FeaturedWork, StatsBar } from "@/components/home"
+import { Hero, WhatWeDo, FeaturedWork, ImpactSectionPremium } from "@/components/home"
 import { getFeaturedProjects } from "@/lib/queries"
 
 export default async function Home() {
@@ -9,7 +9,7 @@ export default async function Home() {
       <Hero />
       <WhatWeDo />
       <FeaturedWork projects={featuredProjects} />
-      <StatsBar />
+      <ImpactSectionPremium />
     </main>
   )
 }

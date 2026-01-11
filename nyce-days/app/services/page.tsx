@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { Section } from "@/components/shared/section"
 import { FadeUp } from "@/components/shared/fade-up"
@@ -75,11 +76,24 @@ export default function ServicesPage() {
       <Section className="bg-background pt-32">
         <FadeUp>
           <p className="text-center font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
-            What We Offer
+            Services
           </p>
-          <h1 className="mt-3 text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
-            Our Services
-          </h1>
+          <div className="mt-6 flex justify-center">
+            <Image
+              src="/logos/stars-white.png"
+              alt="Nyce Days"
+              width={320}
+              height={96}
+              className="hidden dark:block object-contain h-24 md:h-28 w-auto"
+            />
+            <Image
+              src="/logos/stars-black.png"
+              alt="Nyce Days"
+              width={320}
+              height={96}
+              className="dark:hidden object-contain h-24 md:h-28 w-auto"
+            />
+          </div>
           <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-muted-foreground">
             Full-service creative solutions for brands looking to connect with culture and community.
           </p>

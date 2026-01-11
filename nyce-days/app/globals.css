@@ -170,4 +170,48 @@
   .section-padding {
     @apply py-16 md:py-24 lg:py-32;
   }
+
+  /* VHS grain animation */
+  @keyframes grain {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-1%, -1%); }
+    20% { transform: translate(1%, 1%); }
+    30% { transform: translate(-1%, 1%); }
+    40% { transform: translate(1%, -1%); }
+    50% { transform: translate(-1%, 0%); }
+    60% { transform: translate(1%, 0%); }
+    70% { transform: translate(0%, 1%); }
+    80% { transform: translate(0%, -1%); }
+    90% { transform: translate(1%, 1%); }
+  }
+
+  .animate-grain {
+    animation: grain 0.5s steps(10) infinite;
+  }
+
+  /* Smooth text rendering */
+  .text-smooth {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* VHS scanlines effect */
+  .vhs-scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.15) 2px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+    pointer-events: none;
+  }
+
+  /* Tabular numbers for counters */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
 }

@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Section } from "@/components/shared/section"
 import { FadeUp } from "@/components/shared/fade-up"
 import { EventCard, NewsletterForm } from "@/components/community"
@@ -16,11 +17,27 @@ export default async function CommunityPage() {
       {/* Hero Section */}
       <Section className="bg-background pt-32">
         <FadeUp>
-          <h1 className="text-center font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
-            You&apos;re Invited
-          </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
-            Join us at our upcoming events and become part of the Nyce Days community.
+          <p className="text-center font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
+            Community
+          </p>
+          <div className="mt-6 flex justify-center">
+            <Image
+              src="/logos/stars-white.png"
+              alt="Nyce Days"
+              width={320}
+              height={96}
+              className="hidden dark:block object-contain h-24 md:h-28 w-auto"
+            />
+            <Image
+              src="/logos/stars-black.png"
+              alt="Nyce Days"
+              width={320}
+              height={96}
+              className="dark:hidden object-contain h-24 md:h-28 w-auto"
+            />
+          </div>
+          <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-muted-foreground">
+            Join us at our upcoming events and become part of the community.
           </p>
         </FadeUp>
       </Section>
