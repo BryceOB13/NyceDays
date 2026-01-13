@@ -3,40 +3,12 @@ import { FadeUp } from "@/components/shared/fade-up"
 import { AboutHeader } from "@/components/about/about-header"
 import { AboutMission } from "@/components/about/about-mission"
 import { StoryCarousel } from "@/components/about/story-carousel"
+import { ValuesSection } from "@/components/about/values-section"
 
 export const metadata = {
   title: "About | Nyce Days",
   description: "Learn about Nyce Days - our story, values, and the team behind the brand.",
 }
-
-interface Value {
-  number: string
-  title: string
-  description: string
-}
-
-const values: Value[] = [
-  {
-    number: "01",
-    title: "Community First",
-    description: "Everything we do starts with the community. We build authentic connections that bring people together.",
-  },
-  {
-    number: "02",
-    title: "Creative Excellence",
-    description: "We push boundaries and challenge conventions to create memorable experiences and content.",
-  },
-  {
-    number: "03",
-    title: "Cultural Relevance",
-    description: "We stay connected to culture, trends, and the pulse of what matters to our audience.",
-  },
-  {
-    number: "04",
-    title: "Authentic Partnerships",
-    description: "We collaborate with brands and artists who share our vision and values.",
-  },
-]
 
 export default function AboutPage() {
   return (
@@ -103,16 +75,16 @@ export default function AboutPage() {
           <FadeUp delay={0.2}>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <a 
-                href="/services"
+                href="/contact"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-nd-red font-medium uppercase tracking-wider text-sm rounded-full hover:bg-white/90 transition-all"
               >
-                View Services
+                Get In Touch
               </a>
               <a 
-                href="/contact"
+                href="/community"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/50 text-white font-medium uppercase tracking-wider text-sm rounded-full hover:bg-white/10 hover:border-white transition-all"
               >
-                Get In Touch
+                View Events
               </a>
             </div>
           </FadeUp>
@@ -120,37 +92,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Values Section */}
-      <Section className="bg-background">
-        <FadeUp>
-          <p className="text-center font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
-            Our Values
-          </p>
-          <h2 className="mt-3 text-center font-serif text-3xl font-bold text-foreground md:text-4xl">
-            The Principles That Guide Us
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
-            Everything we do is rooted in these core beliefs.
-          </p>
-        </FadeUp>
-
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {values.map((value, index) => (
-            <FadeUp key={value.number} delay={0.1 * (index + 1)}>
-              <div className="rounded-lg border border-border/50 bg-card p-8 transition-all duration-300 hover:border-border hover:shadow-lg">
-                <span className="font-serif text-5xl font-bold text-nd-red/20">
-                  {value.number}
-                </span>
-                <h3 className="mt-4 font-serif text-xl font-semibold text-foreground">
-                  {value.title}
-                </h3>
-                <p className="mt-3 text-muted-foreground leading-relaxed">
-                  {value.description}
-                </p>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
-      </Section>
+      <ValuesSection />
     </main>
   )
 }
