@@ -10,7 +10,6 @@ import { useState } from "react"
 const navLinksCol1 = [
   { href: "/about", label: "About" },
   { href: "/services", label: "Services" },
-  { href: "/portfolio", label: "Portfolio" },
   { href: "/media", label: "Media" },
 ]
 
@@ -207,9 +206,13 @@ export function Footer({ className }: FooterProps) {
 
           {/* Bottom Section */}
           <div className="mt-16 pt-8 border-t border-background/10">
+            {/* Home Base */}
+            <p className="text-center text-sm text-background/70 tracking-wide mb-2">
+              Based in the DMV
+            </p>
             {/* Locations */}
             <p className="text-center text-xs text-background/50 tracking-wide mb-4">
-              Washington DC · New York · Baltimore
+              Baltimore · NYC · Philly · Charlotte · LA · SF · Bos · SD
             </p>
             {/* Copyright */}
             <p className="font-sans text-xs text-background/40 text-center tracking-wide">

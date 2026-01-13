@@ -134,12 +134,36 @@ CREATE TABLE subscribers (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   created_at TIMESTAMPTZ DEFAULT NOW(),
   email TEXT UNIQUE NOT NULL,
-  source TEXT CHECK (source IN ('footer', 'community', 'shop', 'contact')),
-  subscribed BOOLEAN DEFAULT TRUE
+  first_name TEXT,
+  last_name TEXT,
+  phone TEXT,
+  source TEXT CHECK (source IN ('footer', 'community', 'shop', 'contact', 'modal')),
+  email_consent BOOLEAN DEFAULT TRUE,
+  sms_consent BOOLEAN DEFAULT FALSE,
+  subscribed BOOLEAN DEFAULT TRUE,
+  subscribed_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE INDEX idx_subscribers_email ON subscribers(email);
 CREATE INDEX idx_subscribers_subscribed ON subscribers(subscribed) WHERE subscribed = TRUE;
+
+-- ============================================
+-- SMS SUBSCRIBERS TABLE
+-- ============================================
+CREATE TABLE sms_subscribers (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  phone TEXT UNIQUE NOT NULL,
+  first_name TEXT,
+  last_name TEXT,
+  email TEXT,
+  source TEXT CHECK (source IN ('footer', 'community', 'shop', 'contact', 'modal')),
+  subscribed BOOLEAN DEFAULT TRUE,
+  subscribed_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_sms_subscribers_phone ON sms_subscribers(phone);
+CREATE INDEX idx_sms_subscribers_subscribed ON sms_subscribers(subscribed) WHERE subscribed = TRUE;
 
 -- ============================================
 -- CONTACT SUBMISSIONS TABLE
@@ -213,6 +237,7 @@ ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE product_images ENABLE ROW LEVEL SECURITY;
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE subscribers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sms_subscribers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE contact_submissions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
 
@@ -237,6 +262,9 @@ CREATE POLICY "Public can view site settings" ON site_settings
 
 -- Public insert policies (for forms)
 CREATE POLICY "Public can subscribe" ON subscribers
+  FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Public can subscribe sms" ON sms_subscribers
   FOR INSERT WITH CHECK (true);
 
 CREATE POLICY "Public can submit contact form" ON contact_submissions

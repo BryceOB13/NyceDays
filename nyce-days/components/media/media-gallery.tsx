@@ -1,39 +1,41 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useCallback } from "react"
 import Image from "next/image"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Lightbox } from "@/components/shared/lightbox"
 import { FadeUp } from "@/components/shared/fade-up"
+import { RefreshCw } from "lucide-react"
 import type { Media } from "@/types/database"
 
 interface MediaGalleryProps {
   media: Media[]
+  enableShuffle?: boolean
 }
 
-const CATEGORIES = [
-  { value: "all", label: "All" },
-  { value: "event", label: "Events" },
-  { value: "bts", label: "Behind The Scenes" },
-  { value: "merch", label: "Merch" },
-  { value: "community", label: "Community" },
-] as const
-
-export function MediaGallery({ media }: MediaGalleryProps) {
-  const [activeCategory, setActiveCategory] = useState<string>("all")
+export function MediaGallery({ media: initialMedia, enableShuffle = true }: MediaGalleryProps) {
+  const [media, setMedia] = useState<Media[]>(initialMedia)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
+  const [isShuffling, setIsShuffling] = useState(false)
+
+  const handleShuffle = useCallback(async () => {
+    setIsShuffling(true)
+    try {
+      const res = await fetch('/api/media/random?count=24')
+      if (res.ok) {
+        const data = await res.json()
+        setMedia(data)
+      }
+    } catch (error) {
+      console.error('Failed to shuffle media:', error)
+    } finally {
+      setIsShuffling(false)
+    }
+  }, [])
 
   const filteredMedia = useMemo(() => {
-    const images = media.filter(
-      (item) => item.type === "image" && item.public_url
-    )
-    
-    if (activeCategory === "all") {
-      return images
-    }
-    return images.filter((item) => item.category === activeCategory)
-  }, [media, activeCategory])
+    return media.filter((item) => item.type === "image" && item.public_url)
+  }, [media])
 
   const lightboxImages = useMemo(() => {
     return filteredMedia.map((item) => ({
@@ -49,30 +51,25 @@ export function MediaGallery({ media }: MediaGalleryProps) {
 
   return (
     <div>
-      <FadeUp>
-        <Tabs
-          value={activeCategory}
-          onValueChange={setActiveCategory}
-          className="mb-8"
-        >
-          <TabsList className="bg-secondary border border-border">
-            {CATEGORIES.map((category) => (
-              <TabsTrigger
-                key={category.value}
-                value={category.value}
-                className="data-[state=active]:bg-nd-amber data-[state=active]:text-black text-muted-foreground hover:text-foreground"
-              >
-                {category.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-      </FadeUp>
+      {enableShuffle && (
+        <FadeUp>
+          <div className="flex justify-end mb-8">
+            <button
+              onClick={handleShuffle}
+              disabled={isShuffling}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-foreground/70 hover:text-foreground border border-border rounded-full transition-colors disabled:opacity-50"
+            >
+              <RefreshCw className={`w-4 h-4 ${isShuffling ? 'animate-spin' : ''}`} />
+              Shuffle
+            </button>
+          </div>
+        </FadeUp>
+      )}
 
       {filteredMedia.length === 0 ? (
         <FadeUp>
           <div className="py-12 text-center">
-            <p className="text-muted-foreground">No media found in this category.</p>
+            <p className="text-muted-foreground">No media found.</p>
           </div>
         </FadeUp>
       ) : (

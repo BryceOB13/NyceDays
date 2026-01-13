@@ -15,7 +15,7 @@ const stats: Stat[] = [
     label: "Team Members",
   },
   {
-    value: "3",
+    value: "6",
     label: "Markets",
   },
 ]

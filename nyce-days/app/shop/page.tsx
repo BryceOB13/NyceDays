@@ -6,7 +6,7 @@ import { getAllProducts } from "@/lib/queries"
 
 export const metadata = {
   title: "Shop | Nyce Days",
-  description: "Shop Nyce Days merchandise, apparel, accessories, and event tickets.",
+  description: "Shop Nyce Days merchandise and apparel.",
 }
 
 export default async function ShopPage() {
@@ -36,13 +36,16 @@ export default async function ShopPage() {
             />
           </div>
           <p className="mx-auto mt-6 max-w-2xl text-center text-lg text-muted-foreground">
-            Exclusive merch, apparel, and event tickets.
+            Exclusive merch and apparel.
           </p>
         </FadeUp>
 
         <div className="mt-12">
           {products.length === 0 ? (
-            <EmptyState />
+            <EmptyState 
+              title="Coming Soon"
+              description="New drops loading. Stay tuned."
+            />
           ) : (
             <ProductGrid products={products} />
           )}

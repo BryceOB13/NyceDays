@@ -17,11 +17,13 @@ import {
 import { cn } from '@/lib/utils'
 
 interface NewsletterFormProps {
-  source?: 'footer' | 'community' | 'shop' | 'contact'
+  source?: 'footer' | 'community' | 'shop' | 'contact' | 'modal'
   className?: string
+  onSuccess?: () => void
+  variant?: 'light' | 'dark'
 }
 
-export function NewsletterForm({ source = 'footer', className }: NewsletterFormProps) {
+export function NewsletterForm({ source = 'footer', className, onSuccess, variant = 'light' }: NewsletterFormProps) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState<string>('')
   const { track } = useAnalytics()
@@ -59,6 +61,7 @@ export function NewsletterForm({ source = 'footer', className }: NewsletterFormP
       track('newsletter_signup', { source })
       setStatus('success')
       form.reset()
+      onSuccess?.()
     } catch {
       setStatus('error')
       setErrorMessage('Network error. Please try again.')
@@ -68,7 +71,7 @@ export function NewsletterForm({ source = 'footer', className }: NewsletterFormP
   if (status === 'success') {
     return (
       <div className={cn('text-center', className)}>
-        <p className="text-sm text-foreground">
+        <p className={cn('text-sm', variant === 'dark' ? 'text-background' : 'text-foreground')}>
           Thanks for subscribing! We&apos;ll be in touch.
         </p>
       </div>
@@ -90,7 +93,11 @@ export function NewsletterForm({ source = 'footer', className }: NewsletterFormP
                 <Input
                   type="email"
                   placeholder="Enter your email"
-                  className="bg-background border-border"
+                  className={cn(
+                    variant === 'dark' 
+                      ? 'bg-background/10 border-background/20 text-background placeholder:text-background/50' 
+                      : 'bg-background border-border'
+                  )}
                   disabled={status === 'loading'}
                   {...field}
                 />

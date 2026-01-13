@@ -244,6 +244,29 @@ export async function getMediaByCategory(category?: string): Promise<Media[]> {
   return data
 }
 
+export async function getRandomMedia(count: number = 12): Promise<Media[]> {
+  const supabase = await createClient()
+  
+  // Fetch all images then shuffle client-side (Supabase doesn't have native random)
+  const { data, error } = await supabase
+    .from('media')
+    .select('*')
+    .eq('type', 'image')
+    .not('public_url', 'is', null)
+
+  if (error) throw error
+  if (!data || data.length === 0) return []
+  
+  // Fisher-Yates shuffle
+  const shuffled = [...data]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  
+  return shuffled.slice(0, count)
+}
+
 // ============================================
 // SITE SETTINGS
 // ============================================

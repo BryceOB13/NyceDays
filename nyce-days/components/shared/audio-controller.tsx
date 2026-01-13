@@ -52,39 +52,63 @@ export function AudioController() {
       >
         <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-foreground/10 backdrop-blur-sm border border-foreground/10 hover:bg-foreground/20 hover:border-foreground/20 transition-all duration-300">
           
-          {/* Sound wave bars animation */}
-          <div className="flex items-end justify-center gap-[3px] h-4">
-            {[1, 2, 3, 4].map((bar) => (
-              <motion.span
-                key={bar}
-                className="w-[3px] bg-foreground/70 rounded-full"
-                animate={isPlaying ? {
-                  height: ['4px', '16px', '8px', '14px', '4px'],
-                } : {
-                  height: '4px',
-                }}
-                transition={isPlaying ? {
-                  duration: 1,
-                  repeat: Infinity,
-                  delay: bar * 0.1,
-                  ease: 'easeInOut',
-                } : {
-                  duration: 0.3,
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Muted indicator */}
+          {/* Sound wave bars animation - only visible when playing */}
           <AnimatePresence>
-            {!isPlaying && (
-              <motion.div
+            {isPlaying && (
+              <motion.div 
+                className="flex items-end justify-center gap-[3px] h-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {[1, 2, 3, 4].map((bar) => (
+                  <motion.span
+                    key={bar}
+                    className="w-[3px] bg-foreground/70 rounded-full"
+                    animate={{
+                      height: ['4px', '16px', '8px', '14px', '4px'],
+                    }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      delay: bar * 0.1,
+                      ease: 'easeInOut',
+                    }}
+                  />
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Muted indicator - speaker with X */}
+          <AnimatePresence>
+            {!isPlaying && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
                 className="absolute inset-0 flex items-center justify-center"
               >
-                <div className="w-6 h-[2px] bg-foreground/50 rotate-45 absolute" />
+                <svg 
+                  className="w-5 h-5 text-foreground/60" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor" 
+                  strokeWidth={1.5}
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" 
+                  />
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    d="M17 9l-4 6m0-6l4 6" 
+                  />
+                </svg>
               </motion.div>
             )}
           </AnimatePresence>

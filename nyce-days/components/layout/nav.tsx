@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import { usePathname } from "next/navigation"
-import { Menu } from "lucide-react"
+import { Menu, Send, ShoppingBag, HelpCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/shared/theme-toggle"
 import { MobileNav } from "./mobile-nav"
@@ -12,13 +12,11 @@ import { cn } from "@/lib/utils"
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/services", label: "Services" },
-  { href: "/portfolio", label: "Portfolio" },
   { href: "/media", label: "Media" },
-  { href: "/community", label: "Community" },
-  { href: "/shop", label: "Shop" },
-  { href: "/contact", label: "Contact" },
+  { href: "/community", label: "Events", emphasized: true },
+  { href: "/shop", label: "shop", isIcon: true, iconType: "shop" },
+  { href: "/contact", label: "contact", isIcon: true, iconType: "contact" },
+  { href: "/about", label: "about", isIcon: true, iconType: "about" },
 ]
 
 interface NavProps {
@@ -74,24 +72,40 @@ export function Nav({ className }: NavProps) {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "relative px-3 py-2 font-sans text-sm tracking-wide",
-                  "transition-colors duration-200",
-                  "after:absolute after:bottom-1 after:left-3 after:right-3",
-                  "after:h-px after:bg-nd-red after:origin-left",
-                  "after:transition-transform after:duration-200",
-                  isActive(link.href)
-                    ? "text-foreground after:scale-x-100"
-                    : "text-muted-foreground hover:text-foreground after:scale-x-0 hover:after:scale-x-100"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isIcon = 'isIcon' in link && link.isIcon
+              const iconType = 'iconType' in link ? link.iconType : null
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "relative px-3 py-2 font-sans tracking-wide",
+                    "transition-all duration-200",
+                    "after:absolute after:bottom-1 after:left-3 after:right-3",
+                    "after:h-px after:bg-nd-red after:origin-left",
+                    "after:transition-transform after:duration-200",
+                    !isIcon && "text-sm",
+                    isActive(link.href)
+                      ? "text-foreground after:scale-x-100"
+                      : "text-muted-foreground hover:text-foreground after:scale-x-0 hover:after:scale-x-100"
+                  )}
+                  aria-label={isIcon ? link.label : undefined}
+                >
+                  {isIcon ? (
+                    iconType === "shop" ? (
+                      <ShoppingBag className="w-5 h-5 hover:scale-110 transition-transform" />
+                    ) : iconType === "about" ? (
+                      <HelpCircle className="w-5 h-5 hover:scale-110 transition-transform" />
+                    ) : (
+                      <Send className="w-5 h-5 hover:scale-110 transition-transform" />
+                    )
+                  ) : (
+                    link.label
+                  )}
+                </Link>
+              )
+            })}
             
             {/* Theme Toggle */}
             <div className="ml-3 pl-3 border-l border-border/50">

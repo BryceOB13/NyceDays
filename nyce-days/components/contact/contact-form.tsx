@@ -105,17 +105,18 @@ export function ContactForm({ className }: ContactFormProps) {
 
   if (status === 'success') {
     return (
-      <div className={cn('rounded-lg bg-secondary p-8 text-center', className)}>
-        <h3 className="font-serif text-2xl text-foreground mb-2">Message Sent!</h3>
-        <p className="text-muted-foreground">
+      <div className={cn('rounded-lg bg-secondary/50 p-6 text-center', className)}>
+        <h3 className="font-serif text-xl text-foreground mb-2">Message Sent!</h3>
+        <p className="text-muted-foreground text-sm">
           Thanks for reaching out. We&apos;ll get back to you soon.
         </p>
         <Button
           onClick={() => setStatus('idle')}
           variant="outline"
+          size="sm"
           className="mt-4"
         >
-          Send Another Message
+          Send Another
         </Button>
       </div>
     )
@@ -126,24 +127,24 @@ export function ContactForm({ className }: ContactFormProps) {
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         onFocus={handleFormStart}
-        className={cn('space-y-6', className)}
+        className={cn('space-y-4', className)}
       >
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-foreground">Name *</FormLabel>
+              <FormItem className="space-y-1">
+                <FormLabel className="text-foreground text-xs">Name *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Your name"
-                    className="bg-secondary border-border"
+                    className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors"
                     disabled={status === 'loading'}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
@@ -152,39 +153,39 @@ export function ContactForm({ className }: ContactFormProps) {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-foreground">Email *</FormLabel>
+              <FormItem className="space-y-1">
+                <FormLabel className="text-foreground text-xs">Email *</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
                     placeholder="your@email.com"
-                    className="bg-secondary border-border"
+                    className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors"
                     disabled={status === 'loading'}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           <FormField
             control={form.control}
             name="company"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-foreground">Company</FormLabel>
+              <FormItem className="space-y-1">
+                <FormLabel className="text-foreground text-xs">Company</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Your company (optional)"
-                    className="bg-secondary border-border"
+                    placeholder="Optional"
+                    className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors"
                     disabled={status === 'loading'}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
@@ -193,16 +194,16 @@ export function ContactForm({ className }: ContactFormProps) {
             control={form.control}
             name="inquiry_type"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-foreground">Inquiry Type *</FormLabel>
+              <FormItem className="space-y-1">
+                <FormLabel className="text-foreground text-xs">Inquiry Type *</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                   disabled={status === 'loading'}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-secondary border-border">
-                      <SelectValue placeholder="Select inquiry type" />
+                    <SelectTrigger className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors">
+                      <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="bg-popover border-border">
@@ -210,13 +211,14 @@ export function ContactForm({ className }: ContactFormProps) {
                       <SelectItem
                         key={type.value}
                         value={type.value}
+                        className="text-sm"
                       >
                         {type.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                <FormMessage />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />
@@ -226,17 +228,17 @@ export function ContactForm({ className }: ContactFormProps) {
           control={form.control}
           name="message"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-foreground">Message *</FormLabel>
+            <FormItem className="space-y-1">
+              <FormLabel className="text-foreground text-xs">Message *</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us about your project or inquiry..."
-                  className="min-h-[150px] bg-secondary border-border"
+                  placeholder="Tell us about your project..."
+                  className="min-h-[100px] bg-transparent border-border/50 text-sm focus:border-nd-red transition-colors resize-none"
                   disabled={status === 'loading'}
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
@@ -245,29 +247,29 @@ export function ContactForm({ className }: ContactFormProps) {
           control={form.control}
           name="referral"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-foreground">How did you hear about us?</FormLabel>
+            <FormItem className="space-y-1">
+              <FormLabel className="text-foreground text-xs">How did you hear about us?</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Instagram, friend, event, etc. (optional)"
-                  className="bg-secondary border-border"
+                  placeholder="Instagram, friend, event, etc."
+                  className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors"
                   disabled={status === 'loading'}
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
 
         {status === 'error' && errorMessage && (
-          <p className="text-sm text-destructive">{errorMessage}</p>
+          <p className="text-xs text-destructive">{errorMessage}</p>
         )}
 
         <Button
           type="submit"
           disabled={status === 'loading'}
-          className="w-full bg-nd-red hover:bg-nd-red/90 text-white"
+          className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-10 text-sm font-medium"
         >
           {status === 'loading' ? 'Sending...' : 'Send Message'}
         </Button>
