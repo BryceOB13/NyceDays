@@ -49,9 +49,9 @@ export function AboutMission() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.1 }}
           >
-            We Don&apos;t Just Throw Events.
+            We Don&apos;t Do Events.
             <br />
-            <span className="text-nd-red">We Build Community.</span>
+            <span className="text-nd-red">We Build Movements.</span>
           </motion.h2>
 
           {/* Animated line */}
