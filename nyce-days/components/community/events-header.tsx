@@ -116,7 +116,7 @@ export function EventsHeader() {
                 <p className="font-sans text-xs font-medium uppercase tracking-[0.3em] text-nd-red">
                   You&apos;re Invited
                 </p>
-                <h1 className="mt-3 font-serif text-5xl md:text-6xl text-white italic">
+                <h1 className="mt-3 font-serif text-5xl md:text-6xl text-white italic whitespace-nowrap">
                   The Nyce List
                 </h1>
                 <p className="mt-4 font-serif text-base text-white/60 leading-relaxed max-w-sm mx-auto">
