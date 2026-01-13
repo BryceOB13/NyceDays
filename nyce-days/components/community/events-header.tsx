@@ -153,7 +153,7 @@ export function EventsHeader() {
                       onChange={(e) => setFirstName(e.target.value)}
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-nd-red/50 transition-colors font-serif"
                     />
-                    <div>
+                    <div className="relative">
                       <input
                         type="email"
                         placeholder="Email (optional)"
@@ -164,7 +164,7 @@ export function EventsHeader() {
                         }`}
                       />
                       {emailError && (
-                        <p className="text-red-400 text-xs mt-1 text-left">{emailError}</p>
+                        <p className="absolute left-0 top-full text-red-400 text-xs mt-1">{emailError}</p>
                       )}
                     </div>
                   </div>
