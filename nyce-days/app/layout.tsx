@@ -21,10 +21,10 @@ export const metadata: Metadata = {
   creator: 'Nyce Days',
   icons: {
     icon: [
-      { url: '/logos/stars-black.png', media: '(prefers-color-scheme: light)' },
-      { url: '/logos/stars-white.png', media: '(prefers-color-scheme: dark)' },
+      { url: '/logos/favicon-black.png', media: '(prefers-color-scheme: light)' },
+      { url: '/logos/favicon-white.png', media: '(prefers-color-scheme: dark)' },
     ],
-    apple: '/logos/stars-black.png',
+    apple: '/logos/favicon-black.png',
   },
   openGraph: {
     type: 'website',
