@@ -4,6 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Instagram, Linkedin, Twitter, ArrowUp, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { isValidEmail } from "@/lib/schemas"
 import { motion } from "framer-motion"
 import { useState } from "react"
 
@@ -26,18 +27,46 @@ interface FooterProps {
 export function Footer({ className }: FooterProps) {
   const currentYear = new Date().getFullYear()
   const [email, setEmail] = useState("")
+  const [emailError, setEmailError] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
+  const handleEmailChange = (value: string) => {
+    setEmail(value)
+    setEmailError("")
+    setIsSuccess(false)
+  }
+
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
+    
+    if (!isValidEmail(email)) {
+      setEmailError("Please enter a valid email")
+      return
+    }
+
     setIsSubmitting(true)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    setEmail("")
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'footer', email_consent: true }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setIsSuccess(true)
+        setEmail("")
+      } else {
+        setEmailError(data.message || "Something went wrong")
+      }
+    } catch {
+      setEmailError("Something went wrong")
+    }
     setIsSubmitting(false)
   }
 
@@ -140,11 +169,13 @@ export function Footer({ className }: FooterProps) {
               
               {/* Newsletter Form */}
               <form onSubmit={handleNewsletterSubmit} className="mb-8">
-                <div className="flex items-center border-b border-background/30 focus-within:border-background/60 transition-colors duration-300">
+                <div className={`flex items-center border-b transition-colors duration-300 ${
+                  emailError ? 'border-red-500' : 'border-background/30 focus-within:border-background/60'
+                }`}>
                   <input
                     type="email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => handleEmailChange(e.target.value)}
                     placeholder="Enter your email"
                     className="flex-1 bg-transparent py-3 text-sm text-background placeholder:text-background/40 focus:outline-none"
                     required
@@ -158,6 +189,12 @@ export function Footer({ className }: FooterProps) {
                     <ArrowRight className="h-5 w-5" />
                   </button>
                 </div>
+                {emailError && (
+                  <p className="text-red-400 text-xs mt-2">{emailError}</p>
+                )}
+                {isSuccess && (
+                  <p className="text-green-400 text-xs mt-2">Thanks for subscribing!</p>
+                )}
               </form>
 
               {/* Social Links */}

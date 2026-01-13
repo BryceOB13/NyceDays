@@ -1,32 +1,27 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
+import { subscribeSchema } from '@/lib/schemas'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-type SubscribeBody = {
-  phone?: string
-  email?: string
-  first_name?: string
-  source?: string
-  sms_consent?: boolean
-  email_consent?: boolean
-}
-
 export async function POST(request: NextRequest) {
   try {
-    const body: SubscribeBody = await request.json()
-    const { phone, email, first_name, source = 'modal', sms_consent, email_consent } = body
-
-    // Need at least email or phone
-    if (!email && !phone) {
+    const body = await request.json()
+    
+    // Validate with Zod schema
+    const result = subscribeSchema.safeParse(body)
+    if (!result.success) {
+      const errors = result.error.flatten()
       return NextResponse.json(
-        { success: false, message: 'Email or phone required' },
+        { success: false, message: errors.formErrors[0] || 'Invalid input', errors: errors.fieldErrors },
         { status: 400 }
       )
     }
+
+    const { phone, email, first_name, source = 'modal', sms_consent, email_consent } = result.data
 
     // If phone provided with SMS consent, add to sms_subscribers
     if (phone && sms_consent) {

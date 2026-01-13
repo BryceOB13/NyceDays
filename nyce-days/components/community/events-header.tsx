@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { VideoBackground } from "@/components/shared/video-background"
 import { FadeUp } from "@/components/shared/fade-up"
 import { videos } from "@/lib/videos"
+import { isValidEmail } from "@/lib/schemas"
 import { ChevronDown, X, ArrowRight, Check, Smartphone } from "lucide-react"
 
 const formatPhone = (value: string) => {
@@ -19,6 +20,7 @@ export function EventsHeader() {
   const [phone, setPhone] = useState("")
   const [firstName, setFirstName] = useState("")
   const [email, setEmail] = useState("")
+  const [emailError, setEmailError] = useState("")
   const [smsConsent, setSmsConsent] = useState(true)
   const [emailConsent, setEmailConsent] = useState(false)
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
@@ -33,9 +35,24 @@ export function EventsHeader() {
     }
   }
 
+  const handleEmailChange = (value: string) => {
+    setEmail(value)
+    if (value && !isValidEmail(value)) {
+      setEmailError("Please enter a valid email")
+    } else {
+      setEmailError("")
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!smsConsent || !phone) return
+    
+    // Validate email if provided
+    if (email && !isValidEmail(email)) {
+      setEmailError("Please enter a valid email")
+      return
+    }
 
     setStatus("loading")
     try {
@@ -136,13 +153,20 @@ export function EventsHeader() {
                       onChange={(e) => setFirstName(e.target.value)}
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-nd-red/50 transition-colors font-serif"
                     />
-                    <input
-                      type="email"
-                      placeholder="Email (optional)"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-nd-red/50 transition-colors font-serif"
-                    />
+                    <div>
+                      <input
+                        type="email"
+                        placeholder="Email (optional)"
+                        value={email}
+                        onChange={(e) => handleEmailChange(e.target.value)}
+                        className={`w-full px-4 py-3 bg-white/5 border rounded-lg text-white text-sm placeholder:text-white/30 focus:outline-none transition-colors font-serif ${
+                          emailError ? 'border-red-500' : 'border-white/10 focus:border-nd-red/50'
+                        }`}
+                      />
+                      {emailError && (
+                        <p className="text-red-400 text-xs mt-1 text-left">{emailError}</p>
+                      )}
+                    </div>
                   </div>
 
                   {/* Consent Checkboxes */}
