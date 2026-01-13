@@ -49,21 +49,27 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto text-center mb-12">
           <FadeUp>
             <p className="font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
-              Our Story
+              The Movement
             </p>
             <h2 className="mt-3 font-serif text-3xl font-bold text-foreground md:text-4xl">
-              From Small Gatherings to Cultural Movement
+              We Don&apos;t Build Audiences. We Build Communities.
             </h2>
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Nyce Days started with a simple idea: create spaces where people feel welcome, 
-                inspired, and connected. What began as small gatherings among friends has grown 
-                into a full-service creative agency.
+                The best marketing doesn&apos;t feel like marketing. It feels like belonging.
               </p>
               <p>
-                We believe in the power of community to drive culture forward. Through event 
-                curation, content creation, and strategic partnerships, we help brands connect 
-                with audiences in meaningful ways.
+                Nyce Days started in living rooms and rooftops. Friends inviting friends. No flyers, 
+                no ads. Just word of mouth and a simple promise: you&apos;ll leave knowing more people 
+                than you came with.
+              </p>
+              <p>
+                That&apos;s still how we operate. We don&apos;t chase algorithms or impressions. We create 
+                spaces where strangers become regulars, where regulars become family, and where your 
+                brand becomes part of someone&apos;s story.
+              </p>
+              <p className="font-serif text-foreground italic">
+                Have A Nyce Day.
               </p>
             </div>
           </FadeUp>

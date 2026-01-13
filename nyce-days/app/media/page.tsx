@@ -1,6 +1,4 @@
-import { Section } from "@/components/shared/section"
 import { MediaGallery } from "@/components/media"
-import { MediaHeader } from "@/components/media/media-header"
 import { getRandomMedia } from "@/lib/queries"
 
 export const metadata = {
@@ -12,16 +10,11 @@ export const metadata = {
 export const dynamic = 'force-dynamic'
 
 export default async function MediaPage() {
-  const media = await getRandomMedia(24)
+  const media = await getRandomMedia(60)
 
   return (
-    <main>
-      {/* Video Header */}
-      <MediaHeader />
-
-      <Section className="bg-background">
-        <MediaGallery media={media} enableShuffle />
-      </Section>
+    <main className="bg-background min-h-screen pt-16">
+      <MediaGallery media={media} enableShuffle />
     </main>
   )
 }

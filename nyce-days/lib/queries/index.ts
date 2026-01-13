@@ -244,27 +244,75 @@ export async function getMediaByCategory(category?: string): Promise<Media[]> {
   return data
 }
 
-export async function getRandomMedia(count: number = 12): Promise<Media[]> {
-  const supabase = await createClient()
+export async function getRandomMedia(count: number = 24): Promise<Media[]> {
+  // Use service role key for storage access (bypasses RLS)
+  const { createClient: createSupabaseClient } = await import('@supabase/supabase-js')
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
   
-  // Fetch all images then shuffle client-side (Supabase doesn't have native random)
-  const { data, error } = await supabase
+  // List files from storage bucket
+  const { data: files, error } = await supabase
+    .storage
     .from('media')
-    .select('*')
-    .eq('type', 'image')
-    .not('public_url', 'is', null)
+    .list('images', {
+      limit: 500,
+    })
 
-  if (error) throw error
-  if (!data || data.length === 0) return []
+  if (error) {
+    console.error('Storage list error:', error)
+    return []
+  }
+  if (!files || files.length === 0) return []
+  
+  // Filter out folders and non-image files
+  const imageFiles = files.filter(file => 
+    file.name && 
+    !file.name.startsWith('.') &&
+    (file.name.toLowerCase().endsWith('.jpg') || 
+     file.name.toLowerCase().endsWith('.jpeg') || 
+     file.name.toLowerCase().endsWith('.png') || 
+     file.name.toLowerCase().endsWith('.webp') ||
+     file.name.toLowerCase().endsWith('.gif') ||
+     file.name.toLowerCase().endsWith('.heic'))
+  )
   
   // Fisher-Yates shuffle
-  const shuffled = [...data]
+  const shuffled = [...imageFiles]
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
   }
   
-  return shuffled.slice(0, count)
+  // Get public URLs for the selected images
+  const selectedFiles = shuffled.slice(0, count)
+  const mediaItems: Media[] = selectedFiles.map(file => {
+    const { data: { publicUrl } } = supabase
+      .storage
+      .from('media')
+      .getPublicUrl(`images/${file.name}`)
+    
+    return {
+      id: file.id || file.name,
+      filename: file.name,
+      storage_path: `images/${file.name}`,
+      public_url: publicUrl,
+      type: 'image',
+      alt_text: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+      created_at: file.created_at || new Date().toISOString(),
+      mime_type: null,
+      width: null,
+      height: null,
+      size_bytes: null,
+      caption: null,
+      category: null,
+      project_id: null,
+      sort_order: 0
+    }
+  })
+  
+  return mediaItems
 }
 
 // ============================================

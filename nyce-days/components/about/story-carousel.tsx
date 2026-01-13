@@ -1,38 +1,21 @@
 "use client"
 
-import { useRef, useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useRef } from "react"
 import Image from "next/image"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion } from "framer-motion"
 import { RefreshCw } from "lucide-react"
 import type { Media } from "@/types/database"
-
-// Fallback images if no media in database
-const fallbackImages = [
-  { src: "/images/story/story-1.jpg", alt: "Nyce Days event" },
-  { src: "/images/story/story-2.jpg", alt: "Community gathering" },
-  { src: "/images/story/story-3.jpg", alt: "Behind the scenes" },
-  { src: "/images/story/story-4.jpg", alt: "Team moment" },
-  { src: "/images/story/story-5.jpg", alt: "Event production" },
-  { src: "/images/story/story-6.jpg", alt: "Community vibes" },
-]
 
 interface StoryCarouselProps {
   initialMedia?: Media[]
 }
 
 export function StoryCarousel({ initialMedia }: StoryCarouselProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
   const [images, setImages] = useState<{ src: string; alt: string }[]>([])
   const [isShuffling, setIsShuffling] = useState(false)
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  })
+  const [scrollOffset, setScrollOffset] = useState(0)
+  const containerRef = useRef<HTMLDivElement>(null)
 
-  const x = useTransform(scrollYProgress, [0, 1], [0, -200])
-
-  // Initialize images from props or fetch
   useEffect(() => {
     if (initialMedia && initialMedia.length > 0) {
       setImages(initialMedia.map(m => ({
@@ -40,15 +23,32 @@ export function StoryCarousel({ initialMedia }: StoryCarouselProps) {
         alt: m.alt_text || m.filename
       })))
     } else {
-      // Fetch random media on mount
       fetchRandomMedia()
     }
   }, [initialMedia])
 
+  // Parallax scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect()
+        const windowHeight = window.innerHeight
+        const elementCenter = rect.top + rect.height / 2
+        const viewportCenter = windowHeight / 2
+        const offset = (viewportCenter - elementCenter) * 0.08
+        setScrollOffset(offset)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   const fetchRandomMedia = useCallback(async () => {
     setIsShuffling(true)
     try {
-      const res = await fetch('/api/media/random?count=8')
+      const res = await fetch('/api/media/random?count=24')
       if (res.ok) {
         const data: Media[] = await res.json()
         if (data.length > 0) {
@@ -56,173 +56,108 @@ export function StoryCarousel({ initialMedia }: StoryCarouselProps) {
             src: m.public_url!,
             alt: m.alt_text || m.filename
           })))
-        } else {
-          setImages(fallbackImages)
         }
-      } else {
-        setImages(fallbackImages)
       }
     } catch {
-      setImages(fallbackImages)
+      // Silent fail
     } finally {
       setIsShuffling(false)
     }
   }, [])
 
-  // Use fallback if no images loaded yet
-  const displayImages = images.length > 0 ? images : fallbackImages
+  if (images.length === 0) {
+    return (
+      <div className="h-96 flex items-center justify-center">
+        <RefreshCw className="w-8 h-8 animate-spin text-muted-foreground" />
+      </div>
+    )
+  }
+
+  // Split images into 6 columns for denser coverage
+  const cols = [
+    images.filter((_, i) => i % 6 === 0),
+    images.filter((_, i) => i % 6 === 1),
+    images.filter((_, i) => i % 6 === 2),
+    images.filter((_, i) => i % 6 === 3),
+    images.filter((_, i) => i % 6 === 4),
+    images.filter((_, i) => i % 6 === 5),
+  ]
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.03 }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { 
+      opacity: 1, 
+      scale: 1,
+      transition: { duration: 0.4, ease: "easeOut" }
+    }
+  }
+
+  // Stagger offsets for visual interest
+  const offsets = [0, 20, 8, 24, 4, 16]
 
   return (
-    <div ref={containerRef} className="relative overflow-hidden">
+    <div 
+      ref={containerRef} 
+      className="relative overflow-hidden"
+      style={{ 
+        marginLeft: 'calc(-50vw + 50%)', 
+        marginRight: 'calc(-50vw + 50%)',
+        width: '100vw'
+      }}
+    >
       {/* Shuffle Button */}
       <div className="absolute top-4 right-8 z-20">
         <button
           onClick={fetchRandomMedia}
           disabled={isShuffling}
-          className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-foreground/60 hover:text-foreground bg-secondary/80 backdrop-blur-sm border border-border rounded-full transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-foreground/60 hover:text-foreground bg-background/80 backdrop-blur-sm border border-border rounded-full transition-colors disabled:opacity-50"
         >
           <RefreshCw className={`w-3 h-3 ${isShuffling ? 'animate-spin' : ''}`} />
           Shuffle
         </button>
       </div>
 
-      {/* Patchwork Grid */}
+      {/* Full-width masonry grid with parallax */}
       <motion.div 
-        className="flex gap-3 md:gap-4"
-        style={{ x }}
+        className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6"
+        style={{ transform: `translateX(${scrollOffset}px)` }}
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
       >
-        {/* First column - tall + square */}
-        <div className="flex flex-col gap-3 md:gap-4 shrink-0">
-          <motion.div 
-            className="relative w-48 md:w-64 h-72 md:h-96 rounded-lg overflow-hidden bg-muted"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
+        {cols.map((col, colIndex) => (
+          <div 
+            key={`col-${colIndex}`} 
+            className="flex flex-col"
+            style={{ marginTop: `${offsets[colIndex]}px` }}
           >
-            {displayImages[0] && (
-              <Image
-                src={displayImages[0].src}
-                alt={displayImages[0].alt}
-                fill
-                className="object-cover"
-              />
-            )}
-          </motion.div>
-          <motion.div 
-            className="relative w-48 md:w-64 h-48 md:h-64 rounded-lg overflow-hidden bg-muted"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            {displayImages[2] && (
-              <Image
-                src={displayImages[2].src}
-                alt={displayImages[2].alt}
-                fill
-                className="object-cover"
-              />
-            )}
-          </motion.div>
-        </div>
-
-        {/* Second column - wide + tall */}
-        <div className="flex flex-col gap-3 md:gap-4 shrink-0">
-          <motion.div 
-            className="relative w-64 md:w-80 h-40 md:h-52 rounded-lg overflow-hidden bg-muted"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            {displayImages[1] && (
-              <Image
-                src={displayImages[1].src}
-                alt={displayImages[1].alt}
-                fill
-                className="object-cover"
-              />
-            )}
-          </motion.div>
-          <motion.div 
-            className="relative w-64 md:w-80 h-80 md:h-[26rem] rounded-lg overflow-hidden bg-muted"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            {displayImages[4 % displayImages.length] && (
-              <Image
-                src={displayImages[4 % displayImages.length].src}
-                alt={displayImages[4 % displayImages.length].alt}
-                fill
-                className="object-cover"
-              />
-            )}
-          </motion.div>
-        </div>
-
-        {/* Third column - square + wide */}
-        <div className="flex flex-col gap-3 md:gap-4 shrink-0">
-          <motion.div 
-            className="relative w-48 md:w-64 h-48 md:h-64 rounded-lg overflow-hidden bg-muted"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            {displayImages[3 % displayImages.length] && (
-              <Image
-                src={displayImages[3 % displayImages.length].src}
-                alt={displayImages[3 % displayImages.length].alt}
-                fill
-                className="object-cover"
-              />
-            )}
-          </motion.div>
-          <motion.div 
-            className="relative w-64 md:w-80 h-40 md:h-52 rounded-lg overflow-hidden bg-muted"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            {displayImages[5 % displayImages.length] && (
-              <Image
-                src={displayImages[5 % displayImages.length].src}
-                alt={displayImages[5 % displayImages.length].alt}
-                fill
-                className="object-cover"
-              />
-            )}
-          </motion.div>
-        </div>
-
-        {/* Fourth column - repeat pattern */}
-        <div className="flex flex-col gap-3 md:gap-4 shrink-0">
-          <motion.div 
-            className="relative w-48 md:w-64 h-72 md:h-96 rounded-lg overflow-hidden bg-muted"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            {displayImages[6 % displayImages.length] && (
-              <Image
-                src={displayImages[6 % displayImages.length].src}
-                alt={displayImages[6 % displayImages.length].alt}
-                fill
-                className="object-cover"
-              />
-            )}
-          </motion.div>
-          <motion.div 
-            className="relative w-48 md:w-64 h-48 md:h-64 rounded-lg overflow-hidden bg-muted"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.3 }}
-          >
-            {displayImages[7 % displayImages.length] && (
-              <Image
-                src={displayImages[7 % displayImages.length].src}
-                alt={displayImages[7 % displayImages.length].alt}
-                fill
-                className="object-cover"
-              />
-            )}
-          </motion.div>
-        </div>
+            {col.map((img, i) => (
+              <motion.div 
+                key={`col${colIndex}-${i}`}
+                variants={itemVariants}
+                className="relative overflow-hidden group"
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  width={500}
+                  height={700}
+                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </motion.div>
+            ))}
+          </div>
+        ))}
       </motion.div>
-
-      {/* Gradient overlays for fade effect */}
-      <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-secondary to-transparent pointer-events-none z-10" />
-      <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-secondary to-transparent pointer-events-none z-10" />
     </div>
   )
 }

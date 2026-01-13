@@ -51,7 +51,7 @@ export function AboutMission() {
           >
             We Don&apos;t Just Throw Events.
             <br />
-            <span className="text-nd-red">We Build Culture.</span>
+            <span className="text-nd-red">We Build Community.</span>
           </motion.h2>
 
           {/* Animated line */}
@@ -83,7 +83,7 @@ export function AboutMission() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            This is what you were looking for.
+            Have A Nyce Day.
           </motion.p>
 
           {/* CTA Buttons */}

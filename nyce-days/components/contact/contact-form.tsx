@@ -27,6 +27,7 @@ import { cn } from '@/lib/utils'
 
 interface ContactFormProps {
   className?: string
+  variant?: 'default' | 'dark'
 }
 
 const inquiryTypes = [
@@ -36,7 +37,8 @@ const inquiryTypes = [
   { value: 'general', label: 'General' },
 ] as const
 
-export function ContactForm({ className }: ContactFormProps) {
+export function ContactForm({ className, variant = 'default' }: ContactFormProps) {
+  const isDark = variant === 'dark'
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState<string>('')
   const { track } = useAnalytics()
@@ -105,22 +107,28 @@ export function ContactForm({ className }: ContactFormProps) {
 
   if (status === 'success') {
     return (
-      <div className={cn('rounded-lg bg-secondary/50 p-6 text-center', className)}>
-        <h3 className="font-serif text-xl text-foreground mb-2">Message Sent!</h3>
-        <p className="text-muted-foreground text-sm">
+      <div className={cn('rounded-lg p-6 text-center', isDark ? 'bg-white/10 backdrop-blur-sm' : 'bg-secondary/50', className)}>
+        <h3 className={cn('font-serif text-xl mb-2', isDark ? 'text-white' : 'text-foreground')}>Message Sent!</h3>
+        <p className={cn('text-sm', isDark ? 'text-white/70' : 'text-muted-foreground')}>
           Thanks for reaching out. We&apos;ll get back to you soon.
         </p>
         <Button
           onClick={() => setStatus('idle')}
           variant="outline"
           size="sm"
-          className="mt-4"
+          className={cn('mt-4', isDark && 'border-white/30 text-white hover:bg-white/10')}
         >
           Send Another
         </Button>
       </div>
     )
   }
+
+  const inputClasses = isDark 
+    ? 'bg-white/5 border-white/30 text-white placeholder:text-white/40 h-10 text-sm focus:border-nd-red focus:bg-white/10 transition-all'
+    : 'bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors'
+  
+  const labelClasses = isDark ? 'text-white text-xs font-medium' : 'text-foreground text-xs'
 
   return (
     <Form {...form}>
@@ -135,11 +143,11 @@ export function ContactForm({ className }: ContactFormProps) {
             name="name"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel className="text-foreground text-xs">Name *</FormLabel>
+                <FormLabel className={labelClasses}>Name *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Your name"
-                    className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors"
+                    className={inputClasses}
                     disabled={status === 'loading'}
                     {...field}
                   />
@@ -154,12 +162,12 @@ export function ContactForm({ className }: ContactFormProps) {
             name="email"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel className="text-foreground text-xs">Email *</FormLabel>
+                <FormLabel className={labelClasses}>Email *</FormLabel>
                 <FormControl>
                   <Input
                     type="email"
                     placeholder="your@email.com"
-                    className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors"
+                    className={inputClasses}
                     disabled={status === 'loading'}
                     {...field}
                   />
@@ -176,11 +184,11 @@ export function ContactForm({ className }: ContactFormProps) {
             name="company"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel className="text-foreground text-xs">Company</FormLabel>
+                <FormLabel className={labelClasses}>Company</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Optional"
-                    className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors"
+                    className={inputClasses}
                     disabled={status === 'loading'}
                     {...field}
                   />
@@ -195,14 +203,17 @@ export function ContactForm({ className }: ContactFormProps) {
             name="inquiry_type"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel className="text-foreground text-xs">Inquiry Type *</FormLabel>
+                <FormLabel className={labelClasses}>Inquiry Type *</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                   disabled={status === 'loading'}
                 >
                   <FormControl>
-                    <SelectTrigger className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors">
+                    <SelectTrigger className={isDark 
+                      ? 'bg-white/5 border-white/30 text-white h-10 text-sm focus:border-nd-red focus:bg-white/10 transition-all [&>span]:text-white/40 [&[data-state=open]>span]:text-white'
+                      : 'bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors'
+                    }>
                       <SelectValue placeholder="Select type" />
                     </SelectTrigger>
                   </FormControl>
@@ -229,11 +240,14 @@ export function ContactForm({ className }: ContactFormProps) {
           name="message"
           render={({ field }) => (
             <FormItem className="space-y-1">
-              <FormLabel className="text-foreground text-xs">Message *</FormLabel>
+              <FormLabel className={labelClasses}>Message *</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Tell us about your project..."
-                  className="min-h-[100px] bg-transparent border-border/50 text-sm focus:border-nd-red transition-colors resize-none"
+                  className={isDark 
+                    ? 'min-h-[100px] bg-white/5 border-white/30 text-white placeholder:text-white/40 text-sm focus:border-nd-red focus:bg-white/10 transition-all resize-none'
+                    : 'min-h-[100px] bg-transparent border-border/50 text-sm focus:border-nd-red transition-colors resize-none'
+                  }
                   disabled={status === 'loading'}
                   {...field}
                 />
@@ -248,11 +262,11 @@ export function ContactForm({ className }: ContactFormProps) {
           name="referral"
           render={({ field }) => (
             <FormItem className="space-y-1">
-              <FormLabel className="text-foreground text-xs">How did you hear about us?</FormLabel>
+              <FormLabel className={labelClasses}>How did you hear about us?</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Instagram, friend, event, etc."
-                  className="bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors"
+                  className={inputClasses}
                   disabled={status === 'loading'}
                   {...field}
                 />

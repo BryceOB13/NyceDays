@@ -36,7 +36,7 @@ export function Hero() {
   }
 
   return (
-    <section className="relative h-screen w-full overflow-visible">
+    <section className="relative h-screen w-full">
       <VideoBackground
         desktopSrc={videos.hero.desktop}
         mobileSrc={videos.hero.mobile}
@@ -44,7 +44,7 @@ export function Hero() {
         overlay="bg-black/40"
       />
       
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center pb-32">
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
         {/* Full Logo */}
         <FadeUp>
           <Image
@@ -59,7 +59,7 @@ export function Hero() {
         
         <FadeUp delay={0.2}>
           <p className="mt-6 font-serif text-lg md:text-xl text-white/80 italic tracking-wide">
-            Building culture, one experience at a time.
+            Building community, one experience at a time.
           </p>
         </FadeUp>
         
@@ -80,23 +80,24 @@ export function Hero() {
             </Link>
           </div>
         </FadeUp>
-
-        {/* Learn More - Scroll Down */}
-        <FadeUp delay={0.5}>
-          <button
-            onClick={scrollToContent}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/70 hover:text-white transition-colors"
-          >
-            <span className="text-sm uppercase tracking-widest font-medium">Learn More</span>
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <ChevronDown className="w-8 h-8" />
-            </motion.div>
-          </button>
-        </FadeUp>
       </div>
+
+      {/* Learn More - Scroll Down - Fixed at bottom */}
+      <motion.button
+        onClick={scrollToContent}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+        className="absolute bottom-8 left-0 right-0 mx-auto w-fit z-20 flex flex-col items-center gap-2 text-white/80 hover:text-white transition-colors"
+      >
+        <span className="text-sm uppercase tracking-widest font-medium text-center">Learn More</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <ChevronDown className="w-7 h-7" />
+        </motion.div>
+      </motion.button>
     </section>
   )
 }

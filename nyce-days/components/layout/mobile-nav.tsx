@@ -1,171 +1,167 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
-import { X, Instagram, Twitter } from "lucide-react"
+import { X, ShoppingBag, Send, HelpCircle } from "lucide-react"
+import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/community", label: "Events" },
   { href: "/media", label: "Media" },
-  { href: "/shop", label: "Shop" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
 ]
 
-const socials = [
-  { href: "https://instagram.com/nycedays", label: "IG", icon: Instagram },
-  { href: "https://twitter.com/nycedays", label: "TW", icon: Twitter },
-  { href: "https://tiktok.com/@nycedays", label: "TT" },
+const iconLinks = [
+  { href: "/shop", label: "Shop", icon: ShoppingBag },
+  { href: "/contact", label: "Contact", icon: Send },
+  { href: "/about", label: "About", icon: HelpCircle },
 ]
-
-interface FeaturedEvent {
-  title: string
-  date: string
-  location: string | null
-  slug: string
-  ticket_url: string | null
-}
 
 interface MobileNavProps {
   isOpen: boolean
   onClose: () => void
+  links?: unknown
 }
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const pathname = usePathname()
-  const [featuredEvent, setFeaturedEvent] = useState<FeaturedEvent | null>(null)
+  const { resolvedTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
-  // Fetch featured event on mount
   useEffect(() => {
-    async function fetchEvent() {
-      try {
-        const res = await fetch('/api/events/featured')
-        if (res.ok) {
-          const data = await res.json()
-          if (data) setFeaturedEvent(data)
-        }
-      } catch {
-        // Silently fail
-      }
-    }
-    if (isOpen) fetchEvent()
-  }, [isOpen])
+    setMounted(true)
+  }, [])
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/"
+    return pathname.startsWith(href)
+  }
+
+  if (!isOpen) return null
+
+  const isDark = mounted && resolvedTheme === "dark"
+  const bgColor = isDark ? "#0D0D0D" : "#FAF9F7"
+  const textColor = isDark ? "#FFFFFF" : "#0D0D0D"
+  const mutedColor = isDark ? "rgba(255,255,255,0.4)" : "rgba(13,13,13,0.4)"
+  const activeIconBg = isDark ? "rgba(255,255,255,0.1)" : "rgba(13,13,13,0.1)"
+  const ctaBg = isDark ? "#FFFFFF" : "#0D0D0D"
+  const ctaText = isDark ? "#0D0D0D" : "#FFFFFF"
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[9998]"
-          />
+        <motion.div
+          key="mobile-nav"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100vw',
+            height: '100vh',
+            zIndex: 99999,
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: bgColor,
+          }}
+        >
+          {/* Close Button */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '20px' }}>
+            <button
+              onClick={onClose}
+              style={{
+                padding: '8px',
+                color: mutedColor,
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+              }}
+              aria-label="Close menu"
+            >
+              <X size={24} />
+            </button>
+          </div>
 
-          {/* Drawer */}
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 bottom-0 w-[85vw] max-w-xs bg-nd-black z-[9999] flex flex-col shadow-2xl"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-end p-5 border-b border-white/10">
-              <button
-                onClick={onClose}
-                className="p-2 -mr-2 text-white/60 hover:text-white transition-colors"
-                aria-label="Close menu"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Featured Event Card */}
-            {featuredEvent && (
-              <div className="p-5 border-b border-white/10">
-                <Link
-                  href={featuredEvent.ticket_url || `/community`}
-                  onClick={onClose}
-                  className="block p-4 bg-nd-red rounded-lg text-white"
-                >
-                  <span className="text-[10px] uppercase tracking-wider opacity-70">
-                    Next Event
-                  </span>
-                  <h3 className="font-serif text-lg mt-0.5 leading-tight">
-                    {featuredEvent.title}
-                  </h3>
-                  <p className="text-xs opacity-70 mt-1">
-                    {new Date(featuredEvent.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                    {featuredEvent.location && ` · ${featuredEvent.location}`}
-                  </p>
-                </Link>
-              </div>
-            )}
-
-            {/* Nav Links */}
-            <nav className="flex-1 py-4 overflow-y-auto">
-              {navLinks.map((link, index) => {
-                const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href))
-                return (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 + index * 0.03 }}
+          {/* Nav Links */}
+          <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, textAlign: 'center' }}>
+              {navLinks.map((link) => (
+                <li key={link.href} style={{ marginBottom: '16px' }}>
+                  <Link
+                    href={link.href}
+                    onClick={onClose}
+                    style={{
+                      display: 'block',
+                      padding: '8px 0',
+                      fontSize: '28px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      color: isActive(link.href) ? textColor : mutedColor,
+                      textDecoration: 'none',
+                      fontWeight: isActive(link.href) ? 500 : 400,
+                    }}
                   >
-                    <Link
-                      href={link.href}
-                      onClick={onClose}
-                      className={`
-                        block px-5 py-3 text-base transition-colors
-                        ${isActive 
-                          ? "text-white font-medium bg-white/10" 
-                          : "text-white/60 hover:text-white hover:bg-white/5"
-                        }
-                      `}
-                    >
-                      {link.label}
-                    </Link>
-                  </motion.div>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            {/* Icon Links */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '32px', marginTop: '40px' }}>
+              {iconLinks.map((link) => {
+                const Icon = link.icon
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={onClose}
+                    style={{
+                      padding: '12px',
+                      borderRadius: '50%',
+                      color: isActive(link.href) ? textColor : mutedColor,
+                      backgroundColor: isActive(link.href) ? activeIconBg : 'transparent',
+                    }}
+                    aria-label={link.label}
+                  >
+                    <Icon size={28} />
+                  </Link>
                 )
               })}
-            </nav>
-
-            {/* Footer */}
-            <div className="p-5 border-t border-white/10">
-              {/* Social Links */}
-              <div className="flex items-center gap-2 mb-4">
-                {socials.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-white/60 hover:text-white hover:bg-white/20 transition-colors text-xs font-medium"
-                  >
-                    {social.label}
-                  </a>
-                ))}
-              </div>
-
-              {/* CTA */}
-              <Link
-                href="/community"
-                onClick={onClose}
-                className="block w-full py-3 text-center text-sm font-medium bg-white text-nd-black rounded-full hover:opacity-90 transition-opacity"
-              >
-                View Events
-              </Link>
             </div>
-          </motion.div>
-        </>
+          </nav>
+
+          {/* CTA */}
+          <div style={{ padding: '24px' }}>
+            <Link
+              href="/contact"
+              onClick={onClose}
+              style={{
+                display: 'block',
+                width: '100%',
+                padding: '16px',
+                textAlign: 'center',
+                fontSize: '14px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                backgroundColor: ctaBg,
+                color: ctaText,
+                borderRadius: '9999px',
+                textDecoration: 'none',
+                fontWeight: 500,
+              }}
+            >
+              Get In Touch
+            </Link>
+          </div>
+        </motion.div>
       )}
     </AnimatePresence>
   )

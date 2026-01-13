@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useEffect } from "react"
 import Image from "next/image"
+import { motion, AnimatePresence } from "framer-motion"
 import { Lightbox } from "@/components/shared/lightbox"
-import { FadeUp } from "@/components/shared/fade-up"
 import { RefreshCw } from "lucide-react"
 import type { Media } from "@/types/database"
 
@@ -17,11 +17,29 @@ export function MediaGallery({ media: initialMedia, enableShuffle = true }: Medi
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState(0)
   const [isShuffling, setIsShuffling] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [])
+
+  useEffect(() => {
+    setLoadedImages(new Set())
+    setIsLoaded(false)
+    const timer = setTimeout(() => setIsLoaded(true), 50)
+    return () => clearTimeout(timer)
+  }, [media])
+
+  const handleImageLoad = (id: string) => {
+    setLoadedImages(prev => new Set(prev).add(id))
+  }
 
   const handleShuffle = useCallback(async () => {
     setIsShuffling(true)
+    setIsLoaded(false)
     try {
-      const res = await fetch('/api/media/random?count=24')
+      const res = await fetch('/api/media/random?count=60')
       if (res.ok) {
         const data = await res.json()
         setMedia(data)
@@ -49,56 +67,81 @@ export function MediaGallery({ media: initialMedia, enableShuffle = true }: Medi
     setLightboxOpen(true)
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.3 }
+    }
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 1 },
+    visible: { opacity: 1 }
+  }
+
   return (
-    <div>
+    <div className="relative w-full">
       {enableShuffle && (
-        <FadeUp>
-          <div className="flex justify-end mb-8">
-            <button
-              onClick={handleShuffle}
-              disabled={isShuffling}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-foreground/70 hover:text-foreground border border-border rounded-full transition-colors disabled:opacity-50"
-            >
-              <RefreshCw className={`w-4 h-4 ${isShuffling ? 'animate-spin' : ''}`} />
-              Shuffle
-            </button>
-          </div>
-        </FadeUp>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="fixed top-20 right-4 z-40"
+        >
+          <button
+            onClick={handleShuffle}
+            disabled={isShuffling}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-background/80 backdrop-blur-sm text-foreground/70 hover:text-foreground border border-border rounded-full transition-all hover:bg-background disabled:opacity-50 shadow-lg"
+          >
+            <RefreshCw className={`w-4 h-4 ${isShuffling ? 'animate-spin' : ''}`} />
+            Shuffle
+          </button>
+        </motion.div>
       )}
 
       {filteredMedia.length === 0 ? (
-        <FadeUp>
-          <div className="py-12 text-center">
-            <p className="text-muted-foreground">No media found.</p>
-          </div>
-        </FadeUp>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-12 text-center">
+          <p className="text-muted-foreground">No media found.</p>
+        </motion.div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {filteredMedia.map((item, index) => (
-            <FadeUp key={item.id} delay={0.05 * (index % 12)}>
-              <button
-                onClick={() => handleImageClick(index)}
-                className="group relative aspect-square w-full overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-nd-amber focus:ring-offset-2 focus:ring-offset-background"
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={media.map(m => m.id).join('-').slice(0, 100)}
+            variants={containerVariants}
+            initial="hidden"
+            animate={isLoaded ? "visible" : "hidden"}
+            style={{
+              columnGap: 0,
+            }}
+            className="w-full [column-count:2] md:[column-count:3] lg:[column-count:4] xl:[column-count:5] 2xl:[column-count:6]"
+          >
+            {filteredMedia.map((item, index) => (
+              <motion.div 
+                key={item.id} 
+                variants={itemVariants} 
+                style={{ breakInside: 'avoid', lineHeight: 0 }}
               >
-                <Image
-                  src={item.public_url!}
-                  alt={item.alt_text || item.filename}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                />
-                <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
-                {item.caption && (
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <p className="text-sm text-white line-clamp-2">
-                      {item.caption}
-                    </p>
-                  </div>
-                )}
-              </button>
-            </FadeUp>
-          ))}
-        </div>
+                <button
+                  onClick={() => handleImageClick(index)}
+                  className="group w-full block focus:outline-none"
+                  style={{ lineHeight: 0, fontSize: 0 }}
+                >
+                  <Image
+                    src={item.public_url!}
+                    alt={item.alt_text || item.filename}
+                    width={600}
+                    height={600}
+                    className="w-full h-auto block transition-all duration-300 group-hover:brightness-110"
+                    style={{ display: 'block', width: '100%', height: 'auto' }}
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
+                    onLoad={() => handleImageLoad(item.id)}
+                    priority={index < 20}
+                  />
+                </button>
+              </motion.div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       )}
 
       <Lightbox

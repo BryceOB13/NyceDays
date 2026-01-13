@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
       page_path: page_path || null,
       referrer: request.headers.get('referer') || null,
       device_type,
-      user_agent: userAgent.substring(0, 500), // Truncate long UAs
       session_id: request.cookies.get('session_id')?.value || null,
     })
 

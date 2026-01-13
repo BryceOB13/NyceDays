@@ -1,13 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { VideoBackground } from "@/components/shared/video-background"
 import { FadeUp } from "@/components/shared/fade-up"
 import { videos } from "@/lib/videos"
 import { createClient } from "@/lib/supabase/client"
+import { ChevronDown, X } from "lucide-react"
 
 export function EventsHeader() {
+  const sectionRef = useRef<HTMLElement>(null)
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [email, setEmail] = useState("")
@@ -22,6 +24,16 @@ export function EventsHeader() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 
   const isFormFocused = firstNameFocused || lastNameFocused || emailFocused || phoneFocused
+
+  const handleDismiss = () => {
+    if (sectionRef.current) {
+      const sectionHeight = sectionRef.current.offsetHeight
+      window.scrollTo({
+        top: sectionHeight,
+        behavior: 'smooth'
+      })
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -68,7 +80,11 @@ export function EventsHeader() {
       setLastName("")
       setEmail("")
       setPhone("")
-      setTimeout(() => setStatus("idle"), 3000)
+      // Scroll down after success
+      setTimeout(() => {
+        handleDismiss()
+        setStatus("idle")
+      }, 1500)
     } catch {
       setStatus("error")
       setTimeout(() => setStatus("idle"), 3000)
@@ -76,12 +92,21 @@ export function EventsHeader() {
   }
 
   return (
-    <section className="relative min-h-[85vh] flex items-center justify-center py-20">
+    <section ref={sectionRef} className="relative min-h-[85vh] flex items-center justify-center py-20">
       <VideoBackground
         desktopSrc={videos.events.header.desktop}
         mobileSrc={videos.events.header.mobile}
         overlay="bg-black/50"
       />
+      
+      {/* Dismiss button - top right (desktop only) */}
+      <button
+        onClick={handleDismiss}
+        className="absolute top-6 right-6 z-20 p-2 text-white/50 hover:text-white transition-colors hidden md:block"
+        aria-label="Skip to events"
+      >
+        <X className="w-6 h-6" />
+      </button>
       
       {/* Focus overlay */}
       <motion.div
@@ -298,6 +323,23 @@ export function EventsHeader() {
             </p>
           </form>
         </FadeUp>
+
+        {/* Skip to events - centered */}
+        <motion.button
+          onClick={handleDismiss}
+          className="mt-8 mx-auto flex flex-col items-center gap-1 text-white/50 hover:text-white transition-colors"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <span className="text-xs uppercase tracking-widest">Skip to Events</span>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown className="w-5 h-5" />
+          </motion.div>
+        </motion.button>
       </motion.div>
     </section>
   )
