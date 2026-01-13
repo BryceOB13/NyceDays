@@ -98,14 +98,14 @@ export function AboutMission() {
               href="/community"
               className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-nd-red text-white font-medium uppercase tracking-wider text-sm rounded-full hover:bg-nd-red/90 transition-all"
             >
-              See What&apos;s Next
+              Find Your Next Night
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
-              href="/contact"
+              href="/community"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/30 text-white font-medium uppercase tracking-wider text-sm rounded-full hover:bg-white/10 hover:border-white/50 transition-all"
             >
-              Join The Movement
+              Get In
             </Link>
           </motion.div>
         </div>
