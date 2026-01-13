@@ -258,22 +258,75 @@ export interface Database {
           id: string
           created_at: string
           email: string
-          source: 'footer' | 'community' | 'shop' | 'contact' | null
+          first_name: string | null
+          last_name: string | null
+          phone: string | null
+          source: 'footer' | 'community' | 'shop' | 'contact' | 'modal' | null
+          email_consent: boolean
+          sms_consent: boolean
           subscribed: boolean
+          subscribed_at: string
         }
         Insert: {
           id?: string
           created_at?: string
           email: string
-          source?: 'footer' | 'community' | 'shop' | 'contact' | null
+          first_name?: string | null
+          last_name?: string | null
+          phone?: string | null
+          source?: 'footer' | 'community' | 'shop' | 'contact' | 'modal' | null
+          email_consent?: boolean
+          sms_consent?: boolean
           subscribed?: boolean
+          subscribed_at?: string
         }
         Update: {
           id?: string
           created_at?: string
           email?: string
-          source?: 'footer' | 'community' | 'shop' | 'contact' | null
+          first_name?: string | null
+          last_name?: string | null
+          phone?: string | null
+          source?: 'footer' | 'community' | 'shop' | 'contact' | 'modal' | null
+          email_consent?: boolean
+          sms_consent?: boolean
           subscribed?: boolean
+          subscribed_at?: string
+        }
+      }
+      sms_subscribers: {
+        Row: {
+          id: string
+          created_at: string
+          phone: string
+          first_name: string | null
+          last_name: string | null
+          email: string | null
+          source: 'footer' | 'community' | 'shop' | 'contact' | 'modal' | null
+          subscribed: boolean
+          subscribed_at: string
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          phone: string
+          first_name?: string | null
+          last_name?: string | null
+          email?: string | null
+          source?: 'footer' | 'community' | 'shop' | 'contact' | 'modal' | null
+          subscribed?: boolean
+          subscribed_at?: string
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          phone?: string
+          first_name?: string | null
+          last_name?: string | null
+          email?: string | null
+          source?: 'footer' | 'community' | 'shop' | 'contact' | 'modal' | null
+          subscribed?: boolean
+          subscribed_at?: string
         }
       }
       contact_submissions: {
@@ -386,6 +439,7 @@ export type Product = Database['public']['Tables']['products']['Row']
 export type ProductImage = Database['public']['Tables']['product_images']['Row']
 export type Event = Database['public']['Tables']['events']['Row']
 export type Subscriber = Database['public']['Tables']['subscribers']['Row']
+export type SmsSubscriber = Database['public']['Tables']['sms_subscribers']['Row']
 export type ContactSubmission = Database['public']['Tables']['contact_submissions']['Row']
 export type SiteSetting = Database['public']['Tables']['site_settings']['Row']
 
@@ -409,4 +463,21 @@ export type ProjectInsert = Database['public']['Tables']['projects']['Insert']
 export type ProductInsert = Database['public']['Tables']['products']['Insert']
 export type EventInsert = Database['public']['Tables']['events']['Insert']
 export type SubscriberInsert = Database['public']['Tables']['subscribers']['Insert']
+export type SmsSubscriberInsert = Database['public']['Tables']['sms_subscribers']['Insert']
+
+// Form data type for Nyce List modal
+export type NyceListFormData = {
+  phone?: string
+  email?: string | null
+  first_name?: string | null
+  source: 'modal' | 'community' | 'footer'
+  sms_consent?: boolean
+  email_consent?: boolean
+}
+
+export type SubscribeResponse = {
+  success: boolean
+  message: string
+  subscriber_id?: string
+}
 export type ContactSubmissionInsert = Database['public']['Tables']['contact_submissions']['Insert']

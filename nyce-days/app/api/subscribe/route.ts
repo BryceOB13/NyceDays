@@ -1,108 +1,77 @@
-import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
-import { subscribeSchema } from '@/lib/schemas'
-import { Resend } from 'resend'
+import { createClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from 'next/server'
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
 
-export async function POST(request: Request) {
+type SubscribeBody = {
+  phone?: string
+  email?: string
+  first_name?: string
+  source?: string
+  sms_consent?: boolean
+  email_consent?: boolean
+}
+
+export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
+    const body: SubscribeBody = await request.json()
+    const { phone, email, first_name, source = 'modal', sms_consent, email_consent } = body
 
-    // Validate with Zod schema
-    const result = subscribeSchema.safeParse(body)
-
-    if (!result.success) {
-      const errors = result.error.flatten()
+    // Need at least email or phone
+    if (!email && !phone) {
       return NextResponse.json(
-        {
-          success: false,
-          error: 'Validation failed',
-          details: errors.fieldErrors,
-        },
+        { success: false, message: 'Email or phone required' },
         { status: 400 }
       )
     }
 
-    const { email, source } = result.data
+    // If phone provided with SMS consent, add to sms_subscribers
+    if (phone && sms_consent) {
+      const cleanPhone = phone.replace(/\D/g, '')
+      const formattedPhone = cleanPhone.length === 10 ? `+1${cleanPhone}` : phone
 
-    const supabase = await createClient()
-
-    // Check if already subscribed
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: existing } = await (supabase as any)
-      .from('subscribers')
-      .select('id, subscribed')
-      .eq('email', email.toLowerCase().trim())
-      .single()
-
-    const isNewSubscriber = !existing
-
-    // Upsert subscriber (handle duplicates gracefully)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (supabase as any)
-      .from('subscribers')
-      .upsert(
-        {
-          email: email.toLowerCase().trim(),
-          source: source || 'footer',
+      await supabase
+        .from('sms_subscribers')
+        .upsert({
+          phone: formattedPhone,
+          first_name: first_name || null,
+          email: email || null,
+          source,
           subscribed: true,
-        },
-        {
-          onConflict: 'email',
-          ignoreDuplicates: false,
-        }
-      )
-
-    if (error) {
-      console.error('Supabase error:', error)
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Failed to save subscription. Please try again.',
-        },
-        { status: 500 }
-      )
+          subscribed_at: new Date().toISOString(),
+        }, { onConflict: 'phone' })
     }
 
-    // Send welcome email only for new subscribers
-    if (resend && isNewSubscriber) {
-      try {
-        await resend.emails.send({
-          from: 'Nyce Days <hello@nycedays.com>',
-          to: email,
-          subject: "Welcome to Nyce Days! 🎉",
-          html: `
-            <h1>You're in!</h1>
-            <p>Thanks for joining the Nyce Days community.</p>
-            <p>Here's what you can expect:</p>
-            <ul>
-              <li>First access to event announcements</li>
-              <li>Behind-the-scenes content</li>
-              <li>Exclusive drops and merch</li>
-            </ul>
-            <p>Check out our upcoming events at <a href="https://nycedays.com/community">nycedays.com/community</a></p>
-            <p>Have a Nyce Day! ✨</p>
-            <p>– The Nyce Days Team</p>
-          `,
-        })
-      } catch (emailError) {
-        console.error('Welcome email error:', emailError)
-        // Don't fail the request if email fails
-      }
+    // If email provided, add to subscribers
+    if (email) {
+      const { error } = await supabase
+        .from('subscribers')
+        .upsert({
+          email: email.toLowerCase().trim(),
+          first_name: first_name || null,
+          phone: phone || null,
+          source,
+          email_consent: email_consent ?? true,
+          sms_consent: sms_consent ?? false,
+          subscribed: true,
+          subscribed_at: new Date().toISOString(),
+        }, { onConflict: 'email' })
+
+      if (error) throw error
     }
 
     return NextResponse.json({
       success: true,
-      message: isNewSubscriber ? 'Successfully subscribed!' : 'You\'re already subscribed!',
+      message: "You're on the list!",
     })
+
   } catch (error) {
-    console.error('Subscribe API error:', error)
+    console.error('Subscribe error:', error)
     return NextResponse.json(
-      {
-        success: false,
-        error: 'An unexpected error occurred. Please try again.',
-      },
+      { success: false, message: 'Something went wrong' },
       { status: 500 }
     )
   }
