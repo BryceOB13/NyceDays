@@ -19,6 +19,13 @@ export const metadata: Metadata = {
   keywords: ['event curation', 'community marketing', 'content creation', 'DC events', 'NYC events', 'Baltimore events', 'brand partnerships'],
   authors: [{ name: 'Nyce Days' }],
   creator: 'Nyce Days',
+  icons: {
+    icon: [
+      { url: '/logos/stars-black.png', media: '(prefers-color-scheme: light)' },
+      { url: '/logos/stars-white.png', media: '(prefers-color-scheme: dark)' },
+    ],
+    apple: '/logos/stars-black.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
