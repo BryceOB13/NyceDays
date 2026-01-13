@@ -66,6 +66,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.6;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  /* Smooth theme transitions for all elements */
+  *, *::before, *::after {
+    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.3s ease;
+  }
+
+  /* Exclude elements that shouldn't transition */
+  video, img, svg path, svg circle, svg line {
+    transition: none;
   }
 
   /* Typography hierarchy */
