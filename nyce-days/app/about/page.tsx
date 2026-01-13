@@ -24,7 +24,9 @@ export default function AboutPage() {
               The Movement
             </p>
             <h2 className="mt-3 font-serif text-3xl font-bold text-foreground md:text-4xl">
-              We Don&apos;t Build Audiences. We Build Communities.
+              We Don&apos;t Build Audiences.
+              <br />
+              <span className="text-nd-red">We Build Communities.</span>
             </h2>
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
