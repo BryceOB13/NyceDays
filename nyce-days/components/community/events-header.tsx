@@ -5,19 +5,23 @@ import { motion, AnimatePresence } from "framer-motion"
 import { VideoBackground } from "@/components/shared/video-background"
 import { FadeUp } from "@/components/shared/fade-up"
 import { videos } from "@/lib/videos"
-import { createClient } from "@/lib/supabase/client"
-import { ChevronDown, X, ArrowRight, Check } from "lucide-react"
+import { ChevronDown, X, ArrowRight, Check, Smartphone } from "lucide-react"
+
+const formatPhone = (value: string) => {
+  const digits = value.replace(/\D/g, '')
+  if (digits.length <= 3) return digits
+  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`
+}
 
 export function EventsHeader() {
   const sectionRef = useRef<HTMLElement>(null)
+  const [phone, setPhone] = useState("")
   const [firstName, setFirstName] = useState("")
   const [email, setEmail] = useState("")
-  
-  const [firstNameFocused, setFirstNameFocused] = useState(false)
-  const [emailFocused, setEmailFocused] = useState(false)
+  const [smsConsent, setSmsConsent] = useState(true)
+  const [emailConsent, setEmailConsent] = useState(false)
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
-
-  const isFormFocused = firstNameFocused || emailFocused
 
   const handleDismiss = () => {
     if (sectionRef.current) {
@@ -31,26 +35,34 @@ export function EventsHeader() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email) return
+    if (!smsConsent || !phone) return
 
     setStatus("loading")
     try {
-      const supabase = createClient()
-      
-      await supabase.from("subscribers").upsert(
-        { 
-          email, 
-          first_name: firstName,
-          source: "community", 
-          email_consent: true,
-          subscribed_at: new Date().toISOString() 
-        },
-        { onConflict: "email" }
-      )
-      
-      setStatus("success")
-      setFirstName("")
-      setEmail("")
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone,
+          first_name: firstName || null,
+          email: email || null,
+          source: 'community',
+          sms_consent: smsConsent,
+          email_consent: emailConsent,
+        }),
+      })
+
+      const data = await res.json()
+
+      if (data.success) {
+        setStatus("success")
+        setPhone("")
+        setFirstName("")
+        setEmail("")
+      } else {
+        setStatus("error")
+        setTimeout(() => setStatus("idle"), 3000)
+      }
     } catch {
       setStatus("error")
       setTimeout(() => setStatus("idle"), 3000)
@@ -73,20 +85,8 @@ export function EventsHeader() {
       >
         <X className="w-6 h-6" />
       </button>
-      
-      {/* Focus overlay */}
-      <motion.div
-        className="absolute inset-0 bg-black pointer-events-none z-[1]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isFormFocused ? 0.4 : 0 }}
-        transition={{ duration: 0.3 }}
-      />
 
-      <motion.div 
-        className="relative z-10 text-center px-6 w-full max-w-lg"
-        animate={{ scale: isFormFocused ? 1.02 : 1 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-      >
+      <motion.div className="relative z-10 text-center px-6 w-full max-w-md">
         <AnimatePresence mode="wait">
           {status !== "success" ? (
             <motion.div
@@ -99,18 +99,9 @@ export function EventsHeader() {
                 <p className="font-sans text-xs font-medium uppercase tracking-[0.3em] text-nd-red">
                   You&apos;re Invited
                 </p>
-                <motion.h1 
-                  className="mt-3 font-serif text-5xl md:text-6xl text-white italic"
-                  initial={{ textShadow: "0 0 0px rgba(233, 69, 96, 0)" }}
-                  animate={{ 
-                    textShadow: isFormFocused 
-                      ? "0 0 30px rgba(233, 69, 96, 1), 0 0 60px rgba(233, 69, 96, 0.8), 0 0 90px rgba(233, 69, 96, 0.5)"
-                      : "0 0 0px rgba(233, 69, 96, 0)"
-                  }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                >
+                <h1 className="mt-3 font-serif text-5xl md:text-6xl text-white italic">
                   The Nyce List
-                </motion.h1>
+                </h1>
                 <p className="mt-4 font-serif text-base text-white/60 leading-relaxed max-w-sm mx-auto">
                   This is how you hear first. Event announcements before they&apos;re public. 
                   Drops before they sell out. The things we only tell our people.
@@ -119,75 +110,74 @@ export function EventsHeader() {
 
               <FadeUp delay={0.2}>
                 <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-                  {/* Name and Email Row */}
-                  <div className="grid grid-cols-2 gap-4">
-                    {/* First Name */}
+                  {/* Phone - PRIMARY INPUT */}
+                  <div>
                     <div className="relative">
-                      <motion.label
-                        className="absolute left-0 text-white/50 pointer-events-none origin-left text-sm font-serif"
-                        initial={false}
-                        animate={{
-                          y: firstNameFocused || firstName ? -20 : 12,
-                          scale: firstNameFocused || firstName ? 0.75 : 1,
-                          color: firstNameFocused ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)",
-                        }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                      >
-                        First Name
-                      </motion.label>
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40">
+                        <Smartphone className="w-5 h-5" />
+                      </span>
                       <input
-                        type="text"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        onFocus={() => setFirstNameFocused(true)}
-                        onBlur={() => setFirstNameFocused(false)}
-                        className="w-full bg-transparent border-b-2 border-white/30 py-3 text-white focus:outline-none transition-colors text-sm font-serif"
-                      />
-                      <motion.div
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-nd-red origin-left"
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: firstNameFocused ? 1 : 0 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                      />
-                    </div>
-
-                    {/* Email */}
-                    <div className="relative">
-                      <motion.label
-                        className="absolute left-0 text-white/50 pointer-events-none origin-left text-sm font-serif"
-                        initial={false}
-                        animate={{
-                          y: emailFocused || email ? -20 : 12,
-                          scale: emailFocused || email ? 0.75 : 1,
-                          color: emailFocused ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)",
-                        }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                      >
-                        Email
-                      </motion.label>
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onFocus={() => setEmailFocused(true)}
-                        onBlur={() => setEmailFocused(false)}
+                        type="tel"
+                        placeholder="(555) 123-4567"
                         required
-                        className="w-full bg-transparent border-b-2 border-white/30 py-3 text-white focus:outline-none transition-colors text-sm font-serif"
-                      />
-                      <motion.div
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-nd-red origin-left"
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: emailFocused ? 1 : 0 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        value={phone}
+                        onChange={(e) => setPhone(formatPhone(e.target.value))}
+                        className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/20 rounded-lg text-white text-lg placeholder:text-white/30 focus:outline-none focus:border-nd-red transition-colors font-serif"
                       />
                     </div>
+                  </div>
+
+                  {/* First Name + Email - Secondary row */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      placeholder="First Name"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-nd-red/50 transition-colors font-serif"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Email (optional)"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-nd-red/50 transition-colors font-serif"
+                    />
+                  </div>
+
+                  {/* Consent Checkboxes */}
+                  <div className="space-y-3 pt-2 text-left">
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={smsConsent}
+                        onChange={(e) => setSmsConsent(e.target.checked)}
+                        required
+                        className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-nd-red focus:ring-nd-red focus:ring-offset-0 accent-nd-red"
+                      />
+                      <span className="text-white/50 text-sm font-serif">
+                        Text me about events and drops
+                      </span>
+                    </label>
+
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={emailConsent}
+                        onChange={(e) => setEmailConsent(e.target.checked)}
+                        className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-nd-red focus:ring-nd-red focus:ring-offset-0 accent-nd-red"
+                      />
+                      <span className="text-white/50 text-sm font-serif">
+                        Email me too
+                      </span>
+                    </label>
                   </div>
 
                   {/* Submit Button */}
                   <motion.button
                     type="submit"
-                    disabled={status === "loading" || !email}
-                    className="w-full mt-6 py-4 bg-nd-red text-white font-medium uppercase tracking-wider text-sm disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden relative flex items-center justify-center gap-2 hover:bg-[#B83D3D] transition-colors"
+                    disabled={status === "loading" || !smsConsent || !phone}
+                    className="w-full mt-2 py-4 bg-nd-red text-white font-medium uppercase tracking-wider text-sm rounded-lg disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden relative flex items-center justify-center gap-2 hover:bg-[#B83D3D] transition-colors"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ duration: 0.2 }}
@@ -211,8 +201,8 @@ export function EventsHeader() {
                     </AnimatePresence>
                   </motion.button>
 
-                  <p className="text-xs text-white/30 mt-4 font-serif">
-                    We don&apos;t spam. We barely email.
+                  <p className="text-[10px] text-white/30 mt-4 font-serif text-center">
+                    Msg & data rates may apply. Reply STOP to unsubscribe.
                   </p>
                 </form>
               </FadeUp>
@@ -232,7 +222,7 @@ export function EventsHeader() {
                 You&apos;re on the list.
               </h3>
               <p className="font-serif text-white/50">
-                We&apos;ll be in touch when something&apos;s worth your time.
+                We&apos;ll text you when something&apos;s worth your time.
               </p>
               <button
                 onClick={() => {
