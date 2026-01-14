@@ -86,7 +86,7 @@ export function MediaGallery({ media: initialMedia, enableShuffle = true }: Medi
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="absolute top-20 right-4 z-40"
+          className="fixed top-20 right-4 z-40"
         >
           <button
             onClick={handleShuffle}
