@@ -86,12 +86,12 @@ export function MediaGallery({ media: initialMedia, enableShuffle = true }: Medi
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="fixed top-20 right-4 z-40"
+          className="absolute top-20 right-4 z-40"
         >
           <button
             onClick={handleShuffle}
             disabled={isShuffling}
-            className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-background/80 backdrop-blur-sm text-foreground/70 hover:text-foreground border border-border rounded-full transition-all hover:bg-background disabled:opacity-50 shadow-lg"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-black/50 backdrop-blur-sm text-white/80 hover:text-white border border-white/20 rounded-full transition-all hover:bg-black/70 disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${isShuffling ? 'animate-spin' : ''}`} />
             Shuffle

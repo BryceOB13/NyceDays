@@ -13,7 +13,7 @@ export default async function MediaPage() {
   const media = await getRandomMedia(60)
 
   return (
-    <main className="bg-background min-h-screen pt-16">
+    <main className="bg-background min-h-screen">
       <MediaGallery media={media} enableShuffle />
     </main>
   )
