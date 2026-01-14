@@ -1,6 +1,7 @@
 import { Section } from "@/components/shared/section"
 import { FadeUp } from "@/components/shared/fade-up"
 import { EventCard, NewsletterForm, EventsHeader } from "@/components/community"
+import { PoshFollowSection } from "@/components/community/posh-follow-section"
 import { getUpcomingEvents } from "@/lib/queries"
 
 export const metadata = {
@@ -65,6 +66,9 @@ export default async function CommunityPage() {
           </FadeUp>
         </div>
       </Section>
+
+      {/* Posh Follow Section */}
+      <PoshFollowSection />
     </main>
   )
 }
