@@ -10,7 +10,6 @@ import { Instagram, Twitter } from "lucide-react"
 const pages = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
-  { href: '/portfolio', label: 'Portfolio' },
   { href: '/media', label: 'Media' },
   { href: '/community', label: 'Events' },
   { href: '/shop', label: 'Shop' },
