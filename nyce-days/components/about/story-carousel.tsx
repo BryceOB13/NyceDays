@@ -9,6 +9,8 @@ import type { Media } from '@/types/database'
 interface GalleryImage {
   src: string
   alt: string
+  width?: number | null
+  height?: number | null
 }
 
 interface StoryCarouselProps {
@@ -30,6 +32,12 @@ const tapeStyles = [
 
 const getRandomTape = () => tapeStyles[Math.floor(Math.random() * tapeStyles.length)]
 
+// Determine if image is portrait based on dimensions
+const isPortrait = (width?: number | null, height?: number | null) => {
+  if (!width || !height) return false
+  return height > width
+}
+
 export function StoryCarousel({ initialMedia }: StoryCarouselProps) {
   const [displayImages, setDisplayImages] = useState<GalleryImage[]>([])
   const [rotations, setRotations] = useState<number[]>([])
@@ -49,7 +57,9 @@ export function StoryCarousel({ initialMedia }: StoryCarouselProps) {
           if (data.length > 0) {
             imagesToUse = data.map(m => ({
               src: m.public_url!,
-              alt: m.alt_text || m.filename
+              alt: m.alt_text || m.filename,
+              width: m.width,
+              height: m.height
             }))
           }
         }
@@ -72,7 +82,9 @@ export function StoryCarousel({ initialMedia }: StoryCarouselProps) {
     if (initialMedia && initialMedia.length > 0) {
       const images = initialMedia.map(m => ({
         src: m.public_url!,
-        alt: m.alt_text || m.filename
+        alt: m.alt_text || m.filename,
+        width: m.width,
+        height: m.height
       }))
       shuffleGallery(images)
     } else {
@@ -108,90 +120,96 @@ export function StoryCarousel({ initialMedia }: StoryCarouselProps) {
         </div>
 
         {/* Scrapbook Grid - Desktop */}
-        <div className="hidden md:grid grid-cols-4 gap-4 lg:gap-6">
+        <div className="hidden md:grid grid-cols-4 gap-4 lg:gap-6 items-start">
           <AnimatePresence mode="popLayout">
-            {displayImages.map((image, index) => (
-              <motion.div
-                key={`${image.src}-${index}-${rotations[index]}`}
-                initial={{ opacity: 0, scale: 0.8, rotate: rotations[index] - 10 }}
-                animate={{ opacity: 1, scale: 1, rotate: rotations[index] }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className={`
-                  relative group
-                  ${index % 3 === 0 ? 'mt-8' : ''}
-                  ${index % 4 === 1 ? '-mt-4' : ''}
-                  ${index % 5 === 2 ? 'mt-12' : ''}
-                `}
-                style={{ zIndex: index }}
-              >
-                {/* Polaroid Frame */}
-                <div className="bg-white dark:bg-gray-100 p-2 pb-10 shadow-lg hover:shadow-xl transition-shadow">
-                  
-                  {/* Tape */}
-                  <div 
-                    className={`absolute ${tapes[index]} w-12 h-4 z-10`}
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(232, 220, 196, 0.9) 0%, rgba(232, 220, 196, 0.7) 50%, rgba(232, 220, 196, 0.9) 100%)',
-                      boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
-                    }}
-                  />
-                  
-                  {/* Image */}
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
+            {displayImages.map((image, index) => {
+              const portrait = isPortrait(image.width, image.height)
+              return (
+                <motion.div
+                  key={`${image.src}-${index}-${rotations[index]}`}
+                  initial={{ opacity: 0, scale: 0.8, rotate: rotations[index] - 10 }}
+                  animate={{ opacity: 1, scale: 1, rotate: rotations[index] }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  className={`
+                    relative group
+                    ${index % 3 === 0 ? 'mt-8' : ''}
+                    ${index % 4 === 1 ? '-mt-4' : ''}
+                    ${index % 5 === 2 ? 'mt-12' : ''}
+                  `}
+                  style={{ zIndex: index }}
+                >
+                  {/* Polaroid Frame */}
+                  <div className="bg-white dark:bg-gray-100 p-2 pb-10 shadow-lg hover:shadow-xl transition-shadow">
+                    
+                    {/* Tape */}
+                    <div 
+                      className={`absolute ${tapes[index]} w-12 h-4 z-10`}
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(232, 220, 196, 0.9) 0%, rgba(232, 220, 196, 0.7) 50%, rgba(232, 220, 196, 0.9) 100%)',
+                        boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
+                      }}
                     />
+                    
+                    {/* Image - aspect ratio based on orientation */}
+                    <div className={`relative overflow-hidden ${portrait ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
+                      />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              )
+            })}
           </AnimatePresence>
         </div>
 
         {/* Scrapbook - Mobile: Stacked polaroids */}
         <div className="md:hidden space-y-6">
           <AnimatePresence mode="popLayout">
-            {displayImages.slice(0, 6).map((image, index) => (
-              <motion.div
-                key={`mobile-${image.src}-${index}-${rotations[index]}`}
-                initial={{ opacity: 0, y: 20, rotate: rotations[index] }}
-                animate={{ opacity: 1, y: 0, rotate: rotations[index] }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                className={`
-                  relative mx-auto
-                  ${index % 2 === 0 ? 'ml-4' : 'mr-4'}
-                `}
-                style={{ maxWidth: '85%' }}
-              >
-                {/* Polaroid Frame */}
-                <div className="bg-white dark:bg-gray-100 p-2 pb-8 shadow-lg">
-                  
-                  {/* Tape */}
-                  <div 
-                    className={`absolute ${tapes[index]} w-10 h-3 z-10`}
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(232, 220, 196, 0.9) 0%, rgba(232, 220, 196, 0.7) 50%, rgba(232, 220, 196, 0.9) 100%)',
-                      boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
-                    }}
-                  />
-                  
-                  {/* Image */}
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover"
+            {displayImages.slice(0, 6).map((image, index) => {
+              const portrait = isPortrait(image.width, image.height)
+              return (
+                <motion.div
+                  key={`mobile-${image.src}-${index}-${rotations[index]}`}
+                  initial={{ opacity: 0, y: 20, rotate: rotations[index] }}
+                  animate={{ opacity: 1, y: 0, rotate: rotations[index] }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className={`
+                    relative mx-auto
+                    ${index % 2 === 0 ? 'ml-4' : 'mr-4'}
+                  `}
+                  style={{ maxWidth: '85%' }}
+                >
+                  {/* Polaroid Frame */}
+                  <div className="bg-white dark:bg-gray-100 p-2 pb-8 shadow-lg">
+                    
+                    {/* Tape */}
+                    <div 
+                      className={`absolute ${tapes[index]} w-10 h-3 z-10`}
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(232, 220, 196, 0.9) 0%, rgba(232, 220, 196, 0.7) 50%, rgba(232, 220, 196, 0.9) 100%)',
+                        boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
+                      }}
                     />
+                    
+                    {/* Image - aspect ratio based on orientation */}
+                    <div className={`relative overflow-hidden ${portrait ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              )
+            })}
           </AnimatePresence>
         </div>
 
