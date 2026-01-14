@@ -87,10 +87,10 @@ export function Footer() {
         <div className="container mx-auto px-6 lg:px-8 max-w-7xl">
           
           {/* Main Grid */}
-          <div className="grid md:grid-cols-3 gap-12 lg:gap-16 mb-12">
+          <div className="grid md:grid-cols-3 gap-12 lg:gap-16 mb-12 text-center md:text-left">
             
             {/* Brand Column */}
-            <div>
+            <div className="flex flex-col items-center md:items-start">
               <Link href="/" className="inline-block mb-4">
                 <Image
                   src="/logos/full-black.png"
@@ -117,7 +117,7 @@ export function Footer() {
             </div>
 
             {/* Pages Column */}
-            <div>
+            <div className="flex flex-col items-center md:items-start">
               <h4 className="font-sans text-xs uppercase tracking-[0.2em] text-foreground/40 mb-4">
                 Pages
               </h4>
@@ -135,13 +135,13 @@ export function Footer() {
             </div>
 
             {/* Connect Column */}
-            <div>
+            <div className="flex flex-col items-center md:items-start">
               <h4 className="font-sans text-xs uppercase tracking-[0.2em] text-foreground/40 mb-4">
                 Get On The List
               </h4>
 
               {/* Phone Input */}
-              <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
+              <form onSubmit={handleSubmit} className="flex gap-2 mb-6 w-full max-w-xs">
                 <input
                   type="tel"
                   placeholder="(555) 123-4567"
@@ -164,7 +164,7 @@ export function Footer() {
               )}
 
               {/* Socials */}
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
                 {socials.map((social) => (
                   <a
                     key={social.label}
