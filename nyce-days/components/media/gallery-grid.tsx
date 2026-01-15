@@ -37,19 +37,18 @@ export function GalleryGrid({ category }: GalleryGridProps) {
   return (
     <>
       <div className="space-y-8">
-        {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-1">
+        {/* Masonry Grid */}
+        <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-1">
           {items.map((item, index) => (
             <button
               key={item.id}
               onClick={() => handleImageClick(item, index)}
-              className="group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-nd-red"
+              className="group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-nd-red mb-1 block w-full"
             >
               <OptimizedImage
                 variant={item.variants.grid}
                 alt={item.alt || `Gallery image ${item.position + 1}`}
                 priority={index < 12}
-                aspectRatio="square"
               />
               
               {/* Hover overlay */}
@@ -63,7 +62,7 @@ export function GalleryGrid({ category }: GalleryGridProps) {
               {Array.from({ length: 18 }).map((_, i) => (
                 <div
                   key={`skeleton-${i}`}
-                  className="aspect-square bg-foreground/10 animate-pulse"
+                  className="aspect-[3/4] bg-foreground/10 animate-pulse mb-1"
                 />
               ))}
             </>
