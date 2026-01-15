@@ -79,14 +79,13 @@ export function MediaLightbox({ item, onClose, onNext, onPrev }: MediaLightboxPr
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.95 }}
-            className="max-w-[90vw] max-h-[90vh] flex items-center justify-center"
+            className="relative w-[90vw] h-[90vh] flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <OptimizedImage
-              variant={item.variants.full}
-              alt={item.alt}
-              priority
-              className="max-w-full max-h-[90vh] w-auto h-auto"
+            <img
+              src={item.variants.full.url}
+              alt={item.alt || ''}
+              className="max-w-full max-h-full w-auto h-auto object-contain"
             />
           </motion.div>
 
