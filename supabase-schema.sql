@@ -354,3 +354,42 @@ LEFT JOIN product_images pi ON p.id = pi.product_id AND pi.is_primary = true
 LEFT JOIN media m ON pi.media_id = m.id
 WHERE p.published = true
 ORDER BY p.sort_order;
+
+
+-- ============================================
+-- MEDIA ITEMS TABLE (Optimized Pipeline)
+-- ============================================
+-- Stores pre-processed WebP variants for gallery
+
+CREATE TABLE media_items (
+  id TEXT PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  position INT NOT NULL DEFAULT 0,
+  alt_text TEXT,
+  caption TEXT,
+  category TEXT,
+  
+  -- Thumb variant (400px)
+  thumb_url TEXT NOT NULL,
+  thumb_width INT NOT NULL,
+  thumb_height INT NOT NULL,
+  
+  -- Grid variant (1600px)
+  grid_url TEXT NOT NULL,
+  grid_width INT NOT NULL,
+  grid_height INT NOT NULL,
+  
+  -- Full variant (3000px)
+  full_url TEXT NOT NULL,
+  full_width INT NOT NULL,
+  full_height INT NOT NULL
+);
+
+CREATE INDEX idx_media_items_position ON media_items(position);
+CREATE INDEX idx_media_items_category ON media_items(category);
+
+-- RLS
+ALTER TABLE media_items ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public can view media items" ON media_items
+  FOR SELECT USING (true);
