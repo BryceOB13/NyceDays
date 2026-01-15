@@ -77,10 +77,10 @@ export default function AboutPage() {
                 Get In Touch
               </a>
               <a 
-                href="/community"
+                href="/services"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/50 text-white font-medium uppercase tracking-wider text-sm rounded-full hover:bg-white/10 hover:border-white transition-all"
               >
-                View Events
+                Why Nyce Days
               </a>
             </div>
           </FadeUp>
