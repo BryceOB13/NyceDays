@@ -2,7 +2,6 @@ import { Section } from "@/components/shared/section"
 import { FadeUp } from "@/components/shared/fade-up"
 import { AboutHeader } from "@/components/about/about-header"
 import { AboutMission } from "@/components/about/about-mission"
-import { StoryCarousel } from "@/components/about/story-carousel"
 import { ValuesSection } from "@/components/about/values-section"
 
 export const metadata = {
@@ -18,7 +17,7 @@ export default function AboutPage() {
 
       {/* Origin Story Section */}
       <Section className="bg-secondary overflow-hidden">
-        <div className="max-w-3xl mx-auto text-center mb-12">
+        <div className="max-w-3xl mx-auto text-center">
           <FadeUp>
             <p className="font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
               The Movement
@@ -48,11 +47,6 @@ export default function AboutPage() {
             </div>
           </FadeUp>
         </div>
-
-        {/* Patchwork Image Carousel */}
-        <FadeUp delay={0.3}>
-          <StoryCarousel />
-        </FadeUp>
       </Section>
 
       {/* Mission Section with Video */}
