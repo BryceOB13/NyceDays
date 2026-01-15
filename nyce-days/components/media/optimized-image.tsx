@@ -11,6 +11,7 @@ interface OptimizedImageProps {
   className?: string
   priority?: boolean
   onLoad?: () => void
+  aspectRatio?: 'square' | 'original'
 }
 
 export function OptimizedImage({
@@ -19,6 +20,7 @@ export function OptimizedImage({
   className,
   priority = false,
   onLoad,
+  aspectRatio = 'original',
 }: OptimizedImageProps) {
   const [loaded, setLoaded] = useState(false)
   const [error, setError] = useState(false)
@@ -55,11 +57,15 @@ export function OptimizedImage({
     setError(true)
   }
 
+  const aspectStyle = aspectRatio === 'square' 
+    ? { aspectRatio: '1 / 1' }
+    : { aspectRatio: `${variant.width} / ${variant.height}` }
+
   return (
     <div
       ref={ref}
       className={cn('relative overflow-hidden bg-foreground/5', className)}
-      style={{ aspectRatio: `${variant.width} / ${variant.height}` }}
+      style={aspectStyle}
     >
       {/* Skeleton */}
       {!loaded && !error && (
@@ -80,7 +86,7 @@ export function OptimizedImage({
           onLoad={handleLoad}
           onError={handleError}
           priority={priority}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
         />
       )}
 

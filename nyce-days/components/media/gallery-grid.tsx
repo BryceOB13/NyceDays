@@ -48,7 +48,8 @@ export function GalleryGrid({ category }: GalleryGridProps) {
               <OptimizedImage
                 variant={item.variants.grid}
                 alt={item.alt || `Gallery image ${item.position + 1}`}
-                priority={index < 2}
+                priority={index < 12}
+                aspectRatio="square"
               />
               
               {/* Hover overlay */}
