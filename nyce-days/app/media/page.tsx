@@ -1,14 +1,20 @@
-import { GalleryGrid } from "@/components/media/gallery-grid"
+import { MediaGallery } from "@/components/media"
+import { getRandomMedia } from "@/lib/queries"
 
 export const metadata = {
   title: "Media | Nyce Days",
   description: "Browse photos and videos from Nyce Days events, behind the scenes, and community moments.",
 }
 
-export default function MediaPage() {
+// Disable caching to get fresh random results
+export const dynamic = 'force-dynamic'
+
+export default async function MediaPage() {
+  const media = await getRandomMedia(60)
+
   return (
     <main className="bg-background min-h-screen">
-      <GalleryGrid />
+      <MediaGallery media={media} enableShuffle />
     </main>
   )
 }
