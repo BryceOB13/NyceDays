@@ -1,6 +1,8 @@
 import type { MediaItem, Manifest } from '@/types/media'
 
-const BASE_MEDIA_URL = process.env.NEXT_PUBLIC_MEDIA_URL || ''
+// Default to images bucket if NEXT_PUBLIC_MEDIA_URL not set
+const BASE_MEDIA_URL = process.env.NEXT_PUBLIC_MEDIA_URL || 
+  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images`
 
 export function parseManifest(manifest: Manifest): MediaItem[] {
   return manifest.items.map((item, index) => {
