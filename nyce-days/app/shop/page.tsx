@@ -42,10 +42,7 @@ export default async function ShopPage() {
 
         <div className="mt-12">
           {products.length === 0 ? (
-            <EmptyState 
-              title="Coming Soon"
-              description="New drops loading. Stay tuned."
-            />
+            <EmptyState />
           ) : (
             <ProductGrid products={products} />
           )}

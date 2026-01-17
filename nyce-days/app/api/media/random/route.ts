@@ -68,7 +68,8 @@ export async function GET(request: Request) {
   }
 }
 
-function processFiles(supabase: ReturnType<typeof createSupabaseClient>, files: { name: string; id?: string }[], prefix: string, count: number) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function processFiles(supabase: any, files: { name: string; id?: string }[], prefix: string, count: number) {
   // Filter for image files only
   const imageFiles = files.filter(file => 
     file.name && 

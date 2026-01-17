@@ -231,7 +231,7 @@ describe('Property 9: API Validation Error Response (contact)', () => {
           name: validName,
           email: zodCompatibleEmail,
           inquiry_type: fc.string().filter(s => 
-            s.length > 0 && !validInquiryTypes.includes(s as any)
+            s.length > 0 && !(validInquiryTypes as readonly string[]).includes(s)
           ),
           message: validMessage
         }),
@@ -333,7 +333,7 @@ describe('Property 9: API Validation Error Response (contact)', () => {
           fc.record({
             name: validName,
             email: zodCompatibleEmail,
-            inquiry_type: fc.string().filter(s => s.length > 0 && !validInquiryTypes.includes(s as any)),
+            inquiry_type: fc.string().filter(s => s.length > 0 && !(validInquiryTypes as readonly string[]).includes(s)),
             message: validMessage
           }),
           // Message too short

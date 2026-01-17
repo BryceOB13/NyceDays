@@ -3,7 +3,6 @@
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
-import { OptimizedImage } from './optimized-image'
 import type { MediaItem } from '@/types/media'
 
 interface MediaLightboxProps {

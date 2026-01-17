@@ -1,15 +1,7 @@
 import { NewsletterForm } from "@/components/community/newsletter-form"
 import { FadeUp } from "@/components/shared/fade-up"
 
-interface EmptyStateProps {
-  title?: string
-  description?: string
-}
-
-export function EmptyState({
-  title = "Coming Soon",
-  description = "New drops loading. Stay tuned.",
-}: EmptyStateProps) {
+export function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center py-8 text-center">
       <FadeUp>

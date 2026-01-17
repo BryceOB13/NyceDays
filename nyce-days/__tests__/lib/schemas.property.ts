@@ -182,7 +182,7 @@ describe('Property 6: Contact Form Validation', () => {
         fc.record({
           name: validName,
           email: zodCompatibleEmail,
-          inquiry_type: fc.string().filter(s => !validInquiryTypes.includes(s as any) && s.length > 0),
+          inquiry_type: fc.string().filter(s => !(validInquiryTypes as readonly string[]).includes(s) && s.length > 0),
           message: validMessage
         }),
         (formData) => {

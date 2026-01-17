@@ -78,36 +78,7 @@ function AnimatedCounter({ value, suffix, inView }: { value: number; suffix: str
 }
 
 
-function MagneticButton({ children, className }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLButtonElement>(null)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-  const prefersReducedMotion = useReducedMotion()
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (prefersReducedMotion || !ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    const x = e.clientX - rect.left - rect.width / 2
-    const y = e.clientY - rect.top - rect.height / 2
-    setPosition({ x: x * 0.15, y: y * 0.15 })
-  }
-
-  const handleMouseLeave = () => {
-    setPosition({ x: 0, y: 0 })
-  }
-
-  return (
-    <motion.button
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 150, damping: 15 }}
-      className={className}
-    >
-      {children}
-    </motion.button>
-  )
-}
+// MagneticButton removed - not currently used in this component
 
 export function ImpactSectionPremium() {
   const sectionRef = useRef<HTMLElement>(null)

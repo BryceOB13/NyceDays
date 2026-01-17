@@ -255,8 +255,8 @@ describe('Property 2: Project Category Filter', () => {
     hero_media: mediaGenerator
   })
 
-  // Filter categories including 'all'
-  const filterCategoryGenerator = fc.constantFrom('all', ...projectCategories)
+  // Filter categories including 'all' - available for future use
+  // const filterCategoryGenerator = fc.constantFrom('all', ...projectCategories)
 
   // The filter predicate that should match the getAllProjects query logic
   const filterByCategory = (projects: ProjectWithMedia[], category: string): ProjectWithMedia[] => {

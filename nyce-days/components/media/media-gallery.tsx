@@ -18,22 +18,16 @@ export function MediaGallery({ media: initialMedia, enableShuffle = true }: Medi
   const [lightboxIndex, setLightboxIndex] = useState(0)
   const [isShuffling, setIsShuffling] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     setIsLoaded(true)
   }, [])
 
   useEffect(() => {
-    setLoadedImages(new Set())
     setIsLoaded(false)
     const timer = setTimeout(() => setIsLoaded(true), 50)
     return () => clearTimeout(timer)
   }, [media])
-
-  const handleImageLoad = (id: string) => {
-    setLoadedImages(prev => new Set(prev).add(id))
-  }
 
   const handleShuffle = useCallback(async () => {
     setIsShuffling(true)
@@ -134,7 +128,6 @@ export function MediaGallery({ media: initialMedia, enableShuffle = true }: Medi
                     className="w-full h-auto block transition-all duration-300 group-hover:brightness-110"
                     style={{ display: 'block', width: '100%', height: 'auto' }}
                     sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
-                    onLoad={() => handleImageLoad(item.id)}
                     priority={index < 20}
                   />
                 </button>

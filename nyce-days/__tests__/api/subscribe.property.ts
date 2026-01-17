@@ -152,7 +152,7 @@ describe('Property 9: API Validation Error Response (subscribe)', () => {
         fc.record({
           email: zodCompatibleEmail,
           source: fc.string().filter(s => 
-            s.length > 0 && !validSources.includes(s as any)
+            s.length > 0 && !(validSources as readonly string[]).includes(s)
           )
         }),
         (data) => {
@@ -180,7 +180,7 @@ describe('Property 9: API Validation Error Response (subscribe)', () => {
           // Invalid source with valid email
           fc.record({
             email: zodCompatibleEmail,
-            source: fc.string().filter(s => s.length > 0 && !validSources.includes(s as any))
+            source: fc.string().filter(s => s.length > 0 && !(validSources as readonly string[]).includes(s))
           }),
           // Empty object
           fc.constant({})
