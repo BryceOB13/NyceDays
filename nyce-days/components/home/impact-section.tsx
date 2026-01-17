@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react"
 import { motion, useInView, useScroll, useTransform, useReducedMotion } from "framer-motion"
+import { videos } from "@/lib/videos"
 
 interface Stat {
   value: number
@@ -149,11 +150,10 @@ export function ImpactSectionPremium() {
           muted
           loop
           playsInline
-          poster="/images/founder.jpg"
+          poster={videos.midPage.poster}
           className="h-full w-full object-cover opacity-40"
         >
-          <source src="/videos/events-reel.webm" type="video/webm" />
-          <source src="/videos/events-reel.mp4" type="video/mp4" />
+          <source src={videos.midPage.desktop} type="video/mp4" />
         </video>
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-nd-black/60 via-nd-black/40 to-nd-black" />
