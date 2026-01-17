@@ -226,14 +226,13 @@ export function ImpactSectionPremium() {
             <h3 className="heading-md text-nd-cream">The Story</h3>
             <div className="space-y-4 text-nd-cream/80">
               <p className="body-lg">
-                What started as local events in the DMV has grown into a creative platform 
-                spanning three markets. We don&apos;t just throw parties — we build moments that 
-                people carry with them.
+                It started in studios and basements. Just hanging out. Making things. Making friends. No networking, no angle. Just genuine connection.
               </p>
               <p className="body-md">
-                From intimate gatherings to large-scale activations, every Nyce Days experience 
-                is crafted with intention. Our community-first approach has helped us build 
-                authentic connections with brands and audiences alike.
+                That turned into something bigger. Relationships that span the country, built on actually showing up for each other.
+              </p>
+              <p className="body-md">
+                Now we&apos;re putting that energy into events. DMV and nationwide. Spaces where real connection and letting loose isn&apos;t the exception. It&apos;s the point.
               </p>
             </div>
 
