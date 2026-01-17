@@ -303,20 +303,20 @@ export function ImpactSectionPremium() {
         >
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
             <div>
-              <span className="label-caps mb-2 block text-nd-red">Don&apos;t Miss Out</span>
-              <h3 className="heading-md text-nd-cream">Get On The List</h3>
+              <span className="label-caps mb-2 block text-nd-red">Stay In The Loop</span>
+              <h3 className="heading-md text-nd-cream">Never Miss A Nyce Day</h3>
               <p className="mt-2 max-w-xl text-nd-cream/70">
-                Be the first to know about upcoming events, exclusive drops, and experiences before they sell out.
+                Events drop here first. One follow. No algorithm in the way.
               </p>
             </div>
             <a 
               href="https://posh.vip/nycedays" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="shrink-0 inline-flex items-center gap-2 rounded-full bg-nd-red px-6 py-3 font-sans text-sm font-medium text-white transition-all hover:bg-nd-red/90 hover:scale-105"
+              className="shrink-0 inline-flex items-center justify-center rounded-full bg-nd-red p-4 transition-all hover:bg-nd-red/90 hover:scale-105"
+              aria-label="Follow on Posh"
             >
-              <img src="/logos/posh-logo.png" alt="Posh" className="w-5 h-5 object-contain" />
-              Follow on Posh
+              <img src="/logos/posh-logo.png" alt="Posh" className="w-6 h-6 object-contain" />
             </a>
           </div>
         </motion.div>
