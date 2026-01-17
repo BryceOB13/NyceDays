@@ -310,7 +310,7 @@ export function ImpactSectionPremium() {
               </p>
             </div>
             <a 
-              href="https://posh.vip/nycedays" 
+              href="https://posh.vip/g/nyce-days" 
               target="_blank" 
               rel="noopener noreferrer"
               className="shrink-0 inline-flex items-center justify-center rounded-full bg-nd-red p-4 lg:p-5 transition-all hover:bg-nd-red/90 hover:scale-105"
