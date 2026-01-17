@@ -5,7 +5,6 @@ import { Footer } from "@/components/layout/footer"
 import { ThemeProvider } from "@/components/shared/theme-provider"
 import { AnalyticsProvider } from "@/components/shared/analytics-provider"
 import { AudioController } from "@/components/shared/audio-controller"
-import { NewsletterModal } from "@/components/shared/newsletter-modal"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nycedays.com'
 
@@ -87,7 +86,6 @@ export default function RootLayout({
             </main>
             <Footer />
             <AudioController />
-            <NewsletterModal />
           </AnalyticsProvider>
         </ThemeProvider>
       </body>
