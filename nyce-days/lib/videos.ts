@@ -12,7 +12,7 @@ export const videos = {
     desktop: `${VIDEO_CDN}/hero/desktop.mp4`,
     mobile: `${VIDEO_CDN}/hero/mobile.mp4`,
     square: `${VIDEO_CDN}/hero/square.mp4`,
-    poster: `${VIDEO_CDN}/hero/poster.webp`,
+    poster: `${VIDEO_CDN}/hero/desktop-poster.webp`,
   },
   about: {
     header: {

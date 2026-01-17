@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { cn } from "@/lib/utils"
 
 interface VideoBackgroundProps {
@@ -44,34 +44,60 @@ export function VideoBackground({
     return () => window.removeEventListener('resize', updateSource)
   }, [desktopSrc, mobileSrc, tabletSrc])
 
-  // Handle video playback
+  const attemptPlay = useCallback(async () => {
+    const video = videoRef.current
+    if (!video) return
+
+    try {
+      // Reset video to start
+      video.currentTime = 0
+      await video.play()
+      setIsLoaded(true)
+    } catch {
+      // Autoplay blocked - show poster fallback
+      setShowFallback(true)
+    }
+  }, [])
+
+  // Handle video playback on mount and source change
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    const playVideo = async () => {
-      try {
-        await video.play()
-      } catch {
-        // Autoplay blocked - show poster fallback
-        setShowFallback(true)
-      }
+    // Try to play when video can play
+    const handleCanPlay = () => attemptPlay()
+    
+    // Also try on loadeddata for faster response
+    const handleLoadedData = () => {
+      setIsLoaded(true)
+      attemptPlay()
     }
 
-    if (video.readyState >= 3) {
-      playVideo()
-    } else {
-      video.addEventListener('canplay', playVideo, { once: true })
+    video.addEventListener('canplay', handleCanPlay)
+    video.addEventListener('loadeddata', handleLoadedData)
+
+    // If video is already ready, play immediately
+    if (video.readyState >= 2) {
+      attemptPlay()
     }
 
     return () => {
-      video.removeEventListener('canplay', playVideo)
+      video.removeEventListener('canplay', handleCanPlay)
+      video.removeEventListener('loadeddata', handleLoadedData)
     }
-  }, [videoSrc])
+  }, [videoSrc, attemptPlay])
 
-  const handleLoadedData = () => {
-    setIsLoaded(true)
-  }
+  // Retry play on visibility change (tab switch back)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        attemptPlay()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
+  }, [attemptPlay])
 
   return (
     <div className={cn("absolute inset-0 overflow-hidden", className)}>
@@ -95,8 +121,8 @@ export function VideoBackground({
           muted
           loop
           playsInline
+          preload="auto"
           poster={poster}
-          onLoadedData={handleLoadedData}
           className={cn(
             "absolute inset-0 w-full h-full object-cover transition-opacity duration-500",
             isLoaded ? "opacity-100" : "opacity-0"
