@@ -28,7 +28,7 @@ const values = [
 
 export function ValuesSection() {
   return (
-    <section className="py-24 lg:py-32 bg-[#0A0A0A]">
+    <section className="py-24 lg:py-32 bg-white">
       <div className="container mx-auto px-6">
         
         {/* Header */}
@@ -47,7 +47,7 @@ export function ValuesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-serif text-3xl md:text-4xl lg:text-5xl text-white mt-4 mb-6"
+            className="font-serif text-3xl md:text-4xl lg:text-5xl text-black mt-4 mb-6"
           >
             The Principles That Guide Us
           </motion.h2>
@@ -57,7 +57,7 @@ export function ValuesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="font-serif text-lg text-white/50 max-w-xl mx-auto"
+            className="font-serif text-lg text-black/50 max-w-xl mx-auto"
           >
             These aren&apos;t corporate values we put on a wall. 
             They&apos;re the reasons people keep coming back.
@@ -73,10 +73,10 @@ export function ValuesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group relative p-8 lg:p-10 border border-white/10 rounded-lg hover:border-nd-red/50 hover:bg-nd-red/5 transition-all duration-300"
+              className="group relative p-8 lg:p-10 border border-black/10 rounded-lg hover:border-nd-red/50 hover:bg-nd-red/5 transition-all duration-300"
             >
               {/* Number - Large background */}
-              <span className="absolute top-6 right-6 font-sans text-6xl lg:text-7xl font-bold text-white/5 group-hover:text-nd-red/20 transition-colors duration-300">
+              <span className="absolute top-6 right-6 font-sans text-6xl lg:text-7xl font-bold text-black/5 group-hover:text-nd-red/20 transition-colors duration-300">
                 {value.number}
               </span>
               
@@ -85,10 +85,10 @@ export function ValuesSection() {
                 <span className="font-sans text-xs text-nd-red uppercase tracking-wider">
                   {value.number}
                 </span>
-                <h3 className="font-sans text-xl lg:text-2xl uppercase tracking-wide text-white mt-2 mb-4">
+                <h3 className="font-sans text-xl lg:text-2xl uppercase tracking-wide text-black mt-2 mb-4">
                   {value.title}
                 </h3>
-                <p className="font-serif text-white/60 leading-relaxed">
+                <p className="font-serif text-black/60 leading-relaxed">
                   {value.description}
                 </p>
               </div>
@@ -107,9 +107,9 @@ export function ValuesSection() {
           className="text-center"
         >
           {/* Divider */}
-          <div className="w-16 h-[1px] bg-white/20 mx-auto mb-8" />
+          <div className="w-16 h-[1px] bg-black/20 mx-auto mb-8" />
           
-          <p className="font-serif text-white/40 mb-4">
+          <p className="font-serif text-black/40 mb-4">
             See it in action.
           </p>
           
@@ -120,15 +120,15 @@ export function ValuesSection() {
             className="group inline-flex items-center gap-3"
           >
             {/* Instagram Icon */}
-            <div className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 group-hover:border-nd-red group-hover:bg-nd-red transition-all duration-300">
-              <Instagram className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
+            <div className="w-10 h-10 flex items-center justify-center rounded-full border border-black/20 group-hover:border-nd-red group-hover:bg-nd-red transition-all duration-300">
+              <Instagram className="w-5 h-5 text-black/60 group-hover:text-white transition-colors" />
             </div>
             
-            <span className="font-sans text-lg uppercase tracking-wide text-white/60 group-hover:text-white transition-colors">
+            <span className="font-sans text-lg uppercase tracking-wide text-black/60 group-hover:text-black transition-colors">
               @nycedays
             </span>
             
-            <svg className="w-4 h-4 text-white/40 group-hover:text-nd-red group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-4 h-4 text-black/40 group-hover:text-nd-red group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </a>
