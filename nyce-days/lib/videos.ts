@@ -1,4 +1,4 @@
-const VIDEO_CDN = 'https://pub-4acc10508d2b4472a5ef31d7322ce9af.r2.dev/nyce-days-videos'
+const VIDEO_CDN = 'https://pub-4acc10508d2b4472a5ef31d7322ce9af.r2.dev'
 
 export type VideoSource = {
   desktop: string
