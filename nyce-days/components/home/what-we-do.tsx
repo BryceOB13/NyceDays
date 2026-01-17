@@ -10,7 +10,7 @@ export async function WhatWeDo() {
   const displayEvents = events.slice(0, 3) // Show max 3
 
   return (
-    <Section className="bg-background">
+    <Section className="bg-background relative z-10">
       <FadeUp>
         <p className="text-center font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
           Upcoming

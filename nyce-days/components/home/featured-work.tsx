@@ -13,7 +13,7 @@ export function FeaturedWork({ projects }: FeaturedWorkProps) {
   }
 
   return (
-    <Section className="bg-secondary">
+    <Section className="bg-secondary relative z-10">
       <FadeUp>
         <p className="text-center font-sans text-xs font-medium uppercase tracking-widest text-nd-red">
           Our Work
