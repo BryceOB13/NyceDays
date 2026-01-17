@@ -68,7 +68,7 @@ export function VideoBackground({
   }, [videoSrc])
 
   return (
-    <div className={cn("absolute inset-0 overflow-hidden", className)}>
+    <div className={cn("absolute inset-0 overflow-hidden bg-black", className)}>
       {/* Poster fallback */}
       {poster && !isPlaying && (
         <div
