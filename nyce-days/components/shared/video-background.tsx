@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
+import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 
 interface VideoBackgroundProps {
@@ -24,9 +24,9 @@ export function VideoBackground({
 }: VideoBackgroundProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [videoSrc, setVideoSrc] = useState(desktopSrc)
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [showFallback, setShowFallback] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
 
+  // Set video source based on screen size
   useEffect(() => {
     const updateSource = () => {
       const width = window.innerWidth
@@ -44,93 +44,55 @@ export function VideoBackground({
     return () => window.removeEventListener('resize', updateSource)
   }, [desktopSrc, mobileSrc, tabletSrc])
 
-  const attemptPlay = useCallback(async () => {
-    const video = videoRef.current
-    if (!video) return
-
-    try {
-      // Reset video to start
-      video.currentTime = 0
-      await video.play()
-      setIsLoaded(true)
-    } catch {
-      // Autoplay blocked - show poster fallback
-      setShowFallback(true)
-    }
-  }, [])
-
-  // Handle video playback on mount and source change
+  // Simple play handler
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    // Try to play when video can play
-    const handleCanPlay = () => attemptPlay()
+    const tryPlay = () => {
+      video.play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          // Autoplay blocked, poster will show
+        })
+    }
+
+    video.addEventListener('loadeddata', tryPlay)
     
-    // Also try on loadeddata for faster response
-    const handleLoadedData = () => {
-      setIsLoaded(true)
-      attemptPlay()
-    }
-
-    video.addEventListener('canplay', handleCanPlay)
-    video.addEventListener('loadeddata', handleLoadedData)
-
-    // If video is already ready, play immediately
+    // Try immediately if already loaded
     if (video.readyState >= 2) {
-      attemptPlay()
+      tryPlay()
     }
 
-    return () => {
-      video.removeEventListener('canplay', handleCanPlay)
-      video.removeEventListener('loadeddata', handleLoadedData)
-    }
-  }, [videoSrc, attemptPlay])
-
-  // Retry play on visibility change (tab switch back)
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        attemptPlay()
-      }
-    }
-
-    document.addEventListener('visibilitychange', handleVisibilityChange)
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
-  }, [attemptPlay])
+    return () => video.removeEventListener('loadeddata', tryPlay)
+  }, [videoSrc])
 
   return (
     <div className={cn("absolute inset-0 overflow-hidden", className)}>
-      {/* Poster image (shown until video loads) */}
-      {poster && (
+      {/* Poster fallback */}
+      {poster && !isPlaying && (
         <div
-          className={cn(
-            "absolute inset-0 bg-cover bg-center transition-opacity duration-500",
-            isLoaded && !showFallback ? "opacity-0" : "opacity-100"
-          )}
+          className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${poster})` }}
         />
       )}
 
-      {/* Video element */}
-      {!showFallback && (
-        <video
-          ref={videoRef}
-          key={videoSrc}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster={poster}
-          className={cn(
-            "absolute inset-0 w-full h-full object-cover transition-opacity duration-500",
-            isLoaded ? "opacity-100" : "opacity-0"
-          )}
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
-      )}
+      {/* Video */}
+      <video
+        ref={videoRef}
+        key={videoSrc}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        className={cn(
+          "absolute inset-0 w-full h-full object-cover",
+          isPlaying ? "opacity-100" : "opacity-0"
+        )}
+      >
+        <source src={videoSrc} type="video/mp4" />
+      </video>
 
       {/* Overlay */}
       <div className={cn("absolute inset-0", overlay)} />
