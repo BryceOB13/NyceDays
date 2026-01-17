@@ -79,7 +79,7 @@ export function MediaLightbox({ item, onClose, onNext, onPrev }: MediaLightboxPr
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.95 }}
-            className="relative w-[90vw] h-[90vh] flex items-center justify-center"
+            className="relative w-[95vw] h-[95vh] flex items-center justify-center p-4"
             onClick={(e) => e.stopPropagation()}
           >
             <img
