@@ -299,9 +299,9 @@ export function ImpactSectionPremium() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-20 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-8 backdrop-blur-sm lg:mt-28 lg:p-12"
+          className="mt-20 rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent p-6 backdrop-blur-sm lg:mt-28 lg:p-12"
         >
-          <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
+          <div className="flex flex-col items-center text-center gap-6 lg:flex-row lg:items-center lg:text-left lg:justify-between">
             <div>
               <span className="label-caps mb-2 block text-nd-red">Stay In The Loop</span>
               <h3 className="heading-md text-nd-cream">Never Miss A Nyce Day</h3>
@@ -313,10 +313,10 @@ export function ImpactSectionPremium() {
               href="https://posh.vip/nycedays" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="shrink-0 inline-flex items-center justify-center rounded-full bg-nd-red p-5 transition-all hover:bg-nd-red/90 hover:scale-105"
+              className="shrink-0 inline-flex items-center justify-center rounded-full bg-nd-red p-4 lg:p-5 transition-all hover:bg-nd-red/90 hover:scale-105"
               aria-label="Follow on Posh"
             >
-              <img src="/logos/posh-logo.png" alt="Posh" className="w-10 h-10 object-contain" />
+              <img src="/logos/posh-logo.png" alt="Posh" className="w-8 h-8 lg:w-10 lg:h-10 object-contain" />
             </a>
           </div>
         </motion.div>
