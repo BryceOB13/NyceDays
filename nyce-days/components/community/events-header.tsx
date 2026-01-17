@@ -87,7 +87,7 @@ export function EventsHeader() {
   }
 
   return (
-    <section ref={sectionRef} className="relative min-h-[85vh] flex items-center justify-center py-20">
+    <section ref={sectionRef} className="relative min-h-screen md:min-h-[85vh] flex items-center justify-center py-10 md:py-20">
       <VideoBackground
         desktopSrc={videos.events.header.desktop}
         mobileSrc={videos.events.header.mobile}
