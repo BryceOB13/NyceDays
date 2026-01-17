@@ -10,6 +10,7 @@ export function ServicesHeader() {
       <VideoBackground
         desktopSrc={videos.services.desktop}
         mobileSrc={videos.services.mobile}
+        poster={videos.services.poster}
         overlay="bg-black/60"
       />
       <div className="relative z-10 text-center px-6">

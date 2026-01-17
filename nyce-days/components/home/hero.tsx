@@ -41,6 +41,7 @@ export function Hero() {
         desktopSrc={videos.hero.desktop}
         mobileSrc={videos.hero.mobile}
         tabletSrc={videos.hero.square}
+        poster={videos.hero.poster}
         overlay="bg-black/40"
       />
       

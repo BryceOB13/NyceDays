@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 
 interface VideoBackgroundProps {
@@ -22,7 +22,10 @@ export function VideoBackground({
   children,
   className,
 }: VideoBackgroundProps) {
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [videoSrc, setVideoSrc] = useState(desktopSrc)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [showFallback, setShowFallback] = useState(false)
 
   useEffect(() => {
     const updateSource = () => {
@@ -41,19 +44,67 @@ export function VideoBackground({
     return () => window.removeEventListener('resize', updateSource)
   }, [desktopSrc, mobileSrc, tabletSrc])
 
+  // Handle video playback
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const playVideo = async () => {
+      try {
+        await video.play()
+      } catch {
+        // Autoplay blocked - show poster fallback
+        setShowFallback(true)
+      }
+    }
+
+    if (video.readyState >= 3) {
+      playVideo()
+    } else {
+      video.addEventListener('canplay', playVideo, { once: true })
+    }
+
+    return () => {
+      video.removeEventListener('canplay', playVideo)
+    }
+  }, [videoSrc])
+
+  const handleLoadedData = () => {
+    setIsLoaded(true)
+  }
+
   return (
     <div className={cn("absolute inset-0 overflow-hidden", className)}>
-      <video
-        key={videoSrc}
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster={poster}
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src={videoSrc} type="video/mp4" />
-      </video>
+      {/* Poster image (shown until video loads) */}
+      {poster && (
+        <div
+          className={cn(
+            "absolute inset-0 bg-cover bg-center transition-opacity duration-500",
+            isLoaded && !showFallback ? "opacity-0" : "opacity-100"
+          )}
+          style={{ backgroundImage: `url(${poster})` }}
+        />
+      )}
+
+      {/* Video element */}
+      {!showFallback && (
+        <video
+          ref={videoRef}
+          key={videoSrc}
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={poster}
+          onLoadedData={handleLoadedData}
+          className={cn(
+            "absolute inset-0 w-full h-full object-cover transition-opacity duration-500",
+            isLoaded ? "opacity-100" : "opacity-0"
+          )}
+        >
+          <source src={videoSrc} type="video/mp4" />
+        </video>
+      )}
 
       {/* Overlay */}
       <div className={cn("absolute inset-0", overlay)} />

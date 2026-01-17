@@ -13,6 +13,7 @@ export function ContactPageContent() {
       <VideoBackground
         desktopSrc={videos.media.header.desktop}
         mobileSrc={videos.media.header.mobile}
+        poster={videos.media.header.poster}
         overlay="bg-black/40"
       />
 

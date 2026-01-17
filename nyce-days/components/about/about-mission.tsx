@@ -22,6 +22,7 @@ export function AboutMission() {
       <VideoBackground
         desktopSrc={videos.about.mission.desktop}
         mobileSrc={videos.about.mission.mobile}
+        poster={videos.about.mission.poster}
         overlay="bg-black/60"
       />
       

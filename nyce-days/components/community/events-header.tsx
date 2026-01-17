@@ -91,6 +91,7 @@ export function EventsHeader() {
       <VideoBackground
         desktopSrc={videos.events.header.desktop}
         mobileSrc={videos.events.header.mobile}
+        poster={videos.events.header.poster}
         overlay="bg-black/50"
       />
       

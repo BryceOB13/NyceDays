@@ -10,6 +10,7 @@ export function AboutHeader() {
       <VideoBackground
         desktopSrc={videos.about.header.desktop}
         mobileSrc={videos.about.header.mobile}
+        poster={videos.about.header.poster}
         overlay="bg-black/50"
       />
       <div className="relative z-10 text-center px-6">

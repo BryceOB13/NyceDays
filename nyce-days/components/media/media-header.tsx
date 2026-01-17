@@ -10,6 +10,7 @@ export function MediaHeader() {
       <VideoBackground
         desktopSrc={videos.media.header.desktop}
         mobileSrc={videos.media.header.mobile}
+        poster={videos.media.header.poster}
         overlay="bg-black/50"
       />
       <div className="relative z-10 text-center px-6">
