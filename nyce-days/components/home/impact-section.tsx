@@ -140,10 +140,10 @@ export function ImpactSectionPremium() {
       ref={sectionRef}
       className="relative min-h-screen overflow-hidden bg-nd-black"
     >
-      {/* Video Background with Parallax */}
+      {/* Video Background with Parallax + VHS Effects */}
       <motion.div
         style={{ y: prefersReducedMotion ? 0 : videoY }}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 overflow-hidden"
       >
         <video
           ref={videoRef}
@@ -157,14 +157,17 @@ export function ImpactSectionPremium() {
         </video>
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-nd-black/60 via-nd-black/40 to-nd-black" />
+        
+        {/* VHS Grain Texture - inside video container */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.03]">
+          <div
+            className="animate-grain h-[200%] w-[200%] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIvPjwvc3ZnPg==')]"
+          />
+        </div>
+        
+        {/* VHS Scanlines - inside video container */}
+        <div className="vhs-scanlines pointer-events-none absolute inset-0" />
       </motion.div>
-
-      {/* VHS Grain Texture - contained within section */}
-      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden opacity-[0.03]">
-        <div
-          className="animate-grain h-[200%] w-[200%] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIvPjwvc3ZnPg==')]"
-        />
-      </div>
 
       {/* Content */}
       <motion.div
@@ -321,9 +324,6 @@ export function ImpactSectionPremium() {
           </div>
         </motion.div>
       </motion.div>
-
-      {/* VHS Scanlines - contained within section */}
-      <div className="vhs-scanlines pointer-events-none absolute inset-0 z-30" />
     </section>
   )
 }
