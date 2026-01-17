@@ -313,10 +313,10 @@ export function ImpactSectionPremium() {
               href="https://posh.vip/nycedays" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="shrink-0 inline-flex items-center justify-center rounded-full bg-nd-red p-4 transition-all hover:bg-nd-red/90 hover:scale-105"
+              className="shrink-0 inline-flex items-center justify-center rounded-full bg-nd-red p-5 transition-all hover:bg-nd-red/90 hover:scale-105"
               aria-label="Follow on Posh"
             >
-              <img src="/logos/posh-logo.png" alt="Posh" className="w-6 h-6 object-contain" />
+              <img src="/logos/posh-logo.png" alt="Posh" className="w-10 h-10 object-contain" />
             </a>
           </div>
         </motion.div>
