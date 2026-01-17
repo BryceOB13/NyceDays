@@ -32,14 +32,10 @@ export default function AboutPage() {
                 The best marketing doesn&apos;t feel like marketing. It feels like belonging.
               </p>
               <p>
-                Nyce Days started in living rooms and rooftops. Friends inviting friends. No flyers, 
-                no ads. Just word of mouth and a simple promise: you&apos;ll leave knowing more people 
-                than you came with.
+                Nyce Days started in studios, with creatives connecting over what they cared about. Friends inviting friends. No flyers. No ads. Just word of mouth and a simple promise: you&apos;ll leave knowing more people than you came with.
               </p>
               <p>
-                That&apos;s still how we operate. We don&apos;t chase algorithms or impressions. We create 
-                spaces where strangers become regulars, where regulars become family, and where your 
-                brand becomes part of someone&apos;s story.
+                That&apos;s still how we operate. We don&apos;t chase algorithms or impressions. We create spaces where conversations happen naturally. Where collaboration feels effortless. Where strangers become regulars. Where regulars become family.
               </p>
               <p className="font-serif text-foreground italic">
                 Have A Nyce Day.
