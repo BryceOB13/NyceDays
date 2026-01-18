@@ -44,27 +44,38 @@ export function VideoBackground({
     return () => window.removeEventListener('resize', updateSource)
   }, [desktopSrc, mobileSrc, tabletSrc])
 
-  // Simple play handler
+  // Simple play handler - aggressive for mobile
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    const tryPlay = () => {
-      video.play()
-        .then(() => setIsPlaying(true))
-        .catch(() => {
-          // Autoplay blocked, poster will show
-        })
+    const tryPlay = async () => {
+      try {
+        // Reset video state for mobile
+        video.load()
+        await video.play()
+        setIsPlaying(true)
+      } catch {
+        // Autoplay blocked, poster will show
+        // Try again on any user interaction
+        const playOnInteraction = () => {
+          video.play()
+            .then(() => {
+              setIsPlaying(true)
+              document.removeEventListener('touchstart', playOnInteraction)
+              document.removeEventListener('click', playOnInteraction)
+            })
+            .catch(() => {})
+        }
+        document.addEventListener('touchstart', playOnInteraction, { once: true })
+        document.addEventListener('click', playOnInteraction, { once: true })
+      }
     }
 
-    video.addEventListener('loadeddata', tryPlay)
+    // Small delay to ensure video element is ready
+    const timer = setTimeout(tryPlay, 100)
     
-    // Try immediately if already loaded
-    if (video.readyState >= 2) {
-      tryPlay()
-    }
-
-    return () => video.removeEventListener('loadeddata', tryPlay)
+    return () => clearTimeout(timer)
   }, [videoSrc])
 
   return (

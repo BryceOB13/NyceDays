@@ -118,6 +118,7 @@ export function ImpactSectionPremium() {
       >
         <video
           ref={videoRef}
+          autoPlay
           muted
           loop
           playsInline
