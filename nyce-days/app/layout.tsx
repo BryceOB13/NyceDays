@@ -20,10 +20,25 @@ export const metadata: Metadata = {
   creator: 'Nyce Days',
   icons: {
     icon: [
-      { url: '/logos/favicon-black.png', media: '(prefers-color-scheme: light)' },
-      { url: '/logos/favicon-white.png', media: '(prefers-color-scheme: dark)' },
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/logos/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/logos/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/logos/favicon-black.png', media: '(prefers-color-scheme: light)', type: 'image/png' },
+      { url: '/logos/favicon-white.png', media: '(prefers-color-scheme: dark)', type: 'image/png' },
     ],
-    apple: '/logos/favicon-black.png',
+    apple: [
+      { url: '/logos/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+  },
+  manifest: '/site.webmanifest',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Nyce Days',
+  },
+  other: {
+    'msapplication-TileColor': '#0D0D0D',
   },
   openGraph: {
     type: 'website',
