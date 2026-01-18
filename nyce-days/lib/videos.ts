@@ -1,4 +1,15 @@
-const VIDEO_CDN = 'https://pub-4acc10508d2b4472a5ef31d7322ce9af.r2.dev'
+const VIDEO_CDN = process.env.NEXT_PUBLIC_R2_PUBLIC_BASE_URL || 'https://videos.nycedays.com'
+
+/**
+ * Get public R2 URL from object key
+ * Use this helper across the codebase to derive URLs at runtime
+ */
+export function getPublicR2Url(objectKey: string): string {
+  const baseUrl = process.env.NEXT_PUBLIC_R2_PUBLIC_BASE_URL || 'https://videos.nycedays.com'
+  // Remove leading slash if present
+  const key = objectKey.startsWith('/') ? objectKey.slice(1) : objectKey
+  return `${baseUrl}/${key}`
+}
 
 export type VideoSource = {
   desktop: string
