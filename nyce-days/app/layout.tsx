@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer"
 import { ThemeProvider } from "@/components/shared/theme-provider"
 import { AnalyticsProvider } from "@/components/shared/analytics-provider"
 import { AudioController } from "@/components/shared/audio-controller"
+import { ScrollToTop } from "@/components/shared/scroll-to-top"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nycedays.com'
 
@@ -101,6 +102,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <AudioController />
+            <ScrollToTop />
           </AnalyticsProvider>
         </ThemeProvider>
       </body>
