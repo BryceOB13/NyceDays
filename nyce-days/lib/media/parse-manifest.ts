@@ -1,8 +1,8 @@
 import type { MediaItem, Manifest } from '@/types/media'
+import { getPublicR2Url } from '@/lib/videos'
 
-// Default to media/images bucket if NEXT_PUBLIC_MEDIA_URL not set
-const BASE_MEDIA_URL = process.env.NEXT_PUBLIC_MEDIA_URL || 
-  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/images`
+// Images are served from R2 under the images/ prefix
+const IMAGES_PREFIX = 'images'
 
 export function parseManifest(manifest: Manifest): MediaItem[] {
   return manifest.items.map((item, index) => {
@@ -18,17 +18,17 @@ export function parseManifest(manifest: Manifest): MediaItem[] {
       createdAt: new Date().toISOString(),
       variants: {
         thumb: {
-          url: `${BASE_MEDIA_URL}/${item.outputs.thumb.relative_path}`,
+          url: getPublicR2Url(`${IMAGES_PREFIX}/${item.outputs.thumb.relative_path}`),
           width: item.outputs.thumb.width,
           height: item.outputs.thumb.height,
         },
         grid: {
-          url: `${BASE_MEDIA_URL}/${item.outputs.grid.relative_path}`,
+          url: getPublicR2Url(`${IMAGES_PREFIX}/${item.outputs.grid.relative_path}`),
           width: item.outputs.grid.width,
           height: item.outputs.grid.height,
         },
         full: {
-          url: `${BASE_MEDIA_URL}/${item.outputs.full.relative_path}`,
+          url: getPublicR2Url(`${IMAGES_PREFIX}/${item.outputs.full.relative_path}`),
           width: item.outputs.full.width,
           height: item.outputs.full.height,
         },

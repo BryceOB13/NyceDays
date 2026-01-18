@@ -1,12 +1,16 @@
+import { config } from 'dotenv'
 import { createClient } from '@supabase/supabase-js'
+import { randomUUID } from 'crypto'
 import * as fs from 'fs'
 import * as path from 'path'
 
-// Load manifest - check multiple locations
+// Load .env.local
+config({ path: '.env.local' })
+
+// Load manifest
 const possiblePaths = [
   './manifest.json',
   './nyce-days/manifest.json',
-  './data/manifest.json',
   path.join(__dirname, '../manifest.json'),
 ]
 
@@ -14,7 +18,6 @@ const manifestPath = possiblePaths.find(p => fs.existsSync(p))
 
 if (!manifestPath) {
   console.error('❌ manifest.json not found!')
-  console.error('Checked:', possiblePaths.join(', '))
   process.exit(1)
 }
 
@@ -25,12 +28,17 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-const BASE_MEDIA_URL = process.env.NEXT_PUBLIC_MEDIA_URL || 
-  `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/images`
+// Images served from R2 via custom domain
+const R2_BASE_URL = process.env.NEXT_PUBLIC_R2_PUBLIC_BASE_URL || 'https://videos.nycedays.com'
+const IMAGES_PREFIX = 'images'
+
+function getR2Url(relativePath: string): string {
+  return `${R2_BASE_URL}/${IMAGES_PREFIX}/${relativePath}`
+}
 
 async function seedMedia() {
   console.log(`\n📦 Seeding ${manifest.items.length} media items...`)
-  console.log(`📍 Base URL: ${BASE_MEDIA_URL}\n`)
+  console.log(`📍 R2 Base: ${R2_BASE_URL}/${IMAGES_PREFIX}/\n`)
 
   let success = 0
   let failed = 0
@@ -38,35 +46,28 @@ async function seedMedia() {
   for (let i = 0; i < manifest.items.length; i++) {
     const item = manifest.items[i]
     
-    // Generate stable ID from filename
-    const id = item.relative_source
-      .replace(/\.[^.]+$/, '')
-      .replace(/[^a-zA-Z0-9]/g, '-')
-      .toLowerCase()
-
+    // Use the grid variant as the main public_url (good balance of quality/size)
     const record = {
-      id,
-      position: i,
-      thumb_url: `${BASE_MEDIA_URL}/${item.outputs.thumb.relative_path}`,
-      thumb_width: item.outputs.thumb.width,
-      thumb_height: item.outputs.thumb.height,
-      grid_url: `${BASE_MEDIA_URL}/${item.outputs.grid.relative_path}`,
-      grid_width: item.outputs.grid.width,
-      grid_height: item.outputs.grid.height,
-      full_url: `${BASE_MEDIA_URL}/${item.outputs.full.relative_path}`,
-      full_width: item.outputs.full.width,
-      full_height: item.outputs.full.height,
+      id: randomUUID(),
+      filename: item.relative_source,
+      storage_path: `${IMAGES_PREFIX}/${item.outputs.grid.relative_path}`,
+      public_url: getR2Url(item.outputs.grid.relative_path),
+      type: 'image' as const,
+      mime_type: 'image/webp',
+      width: item.outputs.grid.width,
+      height: item.outputs.grid.height,
+      sort_order: i,
     }
 
     const { error } = await supabase
-      .from('media_items')
-      .upsert(record, { onConflict: 'id' })
+      .from('media')
+      .insert(record)
 
     if (error) {
-      console.error(`❌ ${id}: ${error.message}`)
+      console.error(`❌ ${item.relative_source}: ${error.message}`)
       failed++
     } else {
-      console.log(`✓ ${i + 1}/${manifest.items.length} - ${id}`)
+      console.log(`✓ ${i + 1}/${manifest.items.length} - ${item.relative_source}`)
       success++
     }
   }
