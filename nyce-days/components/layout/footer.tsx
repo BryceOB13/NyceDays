@@ -71,11 +71,6 @@ export function Footer() {
               />
             </Link>
 
-            {/* Tagline */}
-            <p className="font-serif text-foreground/60 text-sm italic">
-              Have A Nyce Day.
-            </p>
-
             {/* Pages Navigation */}
             <nav className="flex flex-wrap items-center justify-center gap-2 text-foreground/70">
               {pages.map((page, index) => (
