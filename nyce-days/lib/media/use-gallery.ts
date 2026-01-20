@@ -19,18 +19,28 @@ export function useGallery(category?: string) {
       setLoading(true)
       
       try {
+        console.log('Fetching manifest...')
         // Fetch the manifest and parse it
         const response = await fetch('/manifest.json')
+        if (!response.ok) {
+          throw new Error(`Failed to fetch manifest: ${response.status}`)
+        }
         const manifest = await response.json()
+        console.log('Manifest loaded:', manifest.items?.length, 'items')
+        
         const mediaItems = parseManifest(manifest)
+        console.log('Parsed media items:', mediaItems.length)
         
         // Apply category filter if specified
         const filteredItems = category 
           ? mediaItems.filter(item => item.category === category)
           : mediaItems
         
+        console.log('Filtered items:', filteredItems.length)
+        
         // Apply pagination
         const paginatedItems = filteredItems.slice(0, INITIAL_LOAD)
+        console.log('Paginated items:', paginatedItems.length)
         
         setItems(paginatedItems)
         setHasMore(filteredItems.length > INITIAL_LOAD)
