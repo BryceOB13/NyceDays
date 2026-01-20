@@ -45,7 +45,7 @@ export function Hero() {
         overlay="bg-black/40"
       />
       
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
+      <div className="relative z-30 flex h-full flex-col items-center justify-center px-6 text-center">
         {/* Full Logo */}
         <FadeUp>
           <Image
@@ -65,17 +65,17 @@ export function Hero() {
         </FadeUp>
         
         <FadeUp delay={0.3}>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
+          <div className="mt-10 flex flex-col gap-6 sm:flex-row sm:gap-4 items-center">
             <Link 
               href="/community"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black font-medium rounded-full hover:bg-white/90 hover:gap-3 hover:px-10 transition-all duration-300 shadow-lg"
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black font-medium rounded-full hover:bg-white/90 hover:gap-3 hover:px-10 transition-all duration-300 shadow-lg touch-manipulation w-full sm:w-auto"
             >
               Join The Movement
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link 
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-6 py-4 text-white/70 font-medium text-sm hover:text-white transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 text-white/70 font-medium text-base hover:text-white transition-colors touch-manipulation min-h-[48px] w-full sm:w-auto border border-white/20 rounded-full hover:border-white/40"
             >
               Get In Touch
             </Link>
@@ -89,7 +89,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.5 }}
-        className="absolute bottom-8 left-0 right-0 mx-auto w-fit z-20 flex flex-col items-center gap-2 text-white/80 hover:text-white transition-colors"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-white/80 hover:text-white transition-colors touch-manipulation min-h-[48px] min-w-[48px]"
       >
         <span className="text-sm uppercase tracking-widest font-medium text-center">Learn More</span>
         <motion.div

@@ -113,6 +113,20 @@
   :focus-visible {
     @apply outline-none ring-2 ring-nd-red ring-offset-2 ring-offset-background;
   }
+
+  /* Safari mobile touch fixes */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Ensure touch targets are large enough for mobile */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 @layer components {
