@@ -91,7 +91,7 @@ export function Footer() {
             
             {/* Brand Column */}
             <div className="flex flex-col items-center md:items-start">
-              <Link href="/" className="inline-block mb-4">
+              <Link href="/about" className="inline-block mb-4">
                 <Image
                   src="/logos/full-black.png"
                   alt="Nyce Days"
