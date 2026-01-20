@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { parseManifest } from '@/lib/media/parse-manifest'
 import type { MediaItem } from '@/types/media'
 
 const INITIAL_LOAD = 18
@@ -12,33 +13,31 @@ export function useGallery(category?: string) {
   const [loading, setLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
 
-  // Initial load
+  // Initial load - use manifest for now since we have the processed images
   useEffect(() => {
     async function fetchInitial() {
       setLoading(true)
-      const supabase = createClient()
       
-      let query = supabase
-        .from('media_items')
-        .select('*')
-        .order('position', { ascending: true })
-        .limit(INITIAL_LOAD)
-      
-      if (category) {
-        query = query.eq('category', category)
-      }
-
-      const { data, error } = await query
-
-      if (error) {
+      try {
+        // Fetch the manifest and parse it
+        const response = await fetch('/manifest.json')
+        const manifest = await response.json()
+        const mediaItems = parseManifest(manifest)
+        
+        // Apply category filter if specified
+        const filteredItems = category 
+          ? mediaItems.filter(item => item.category === category)
+          : mediaItems
+        
+        // Apply pagination
+        const paginatedItems = filteredItems.slice(0, INITIAL_LOAD)
+        
+        setItems(paginatedItems)
+        setHasMore(filteredItems.length > INITIAL_LOAD)
+      } catch (error) {
         console.error('Gallery fetch error:', error)
-        setLoading(false)
-        return
       }
-
-      const mapped = mapDbToMediaItem(data || [])
-      setItems(mapped)
-      setHasMore((data?.length || 0) >= INITIAL_LOAD)
+      
       setLoading(false)
     }
 
@@ -50,65 +49,29 @@ export function useGallery(category?: string) {
     if (!hasMore || loading) return
 
     setLoading(true)
-    const supabase = createClient()
     
-    let query = supabase
-      .from('media_items')
-      .select('*')
-      .order('position', { ascending: true })
-      .range(items.length, items.length + LOAD_MORE - 1)
-
-    if (category) {
-      query = query.eq('category', category)
-    }
-
-    const { data, error } = await query
-
-    if (error) {
+    try {
+      // Fetch the manifest and parse it
+      const response = await fetch('/manifest.json')
+      const manifest = await response.json()
+      const mediaItems = parseManifest(manifest)
+      
+      // Apply category filter if specified
+      const filteredItems = category 
+        ? mediaItems.filter(item => item.category === category)
+        : mediaItems
+      
+      // Get next batch
+      const nextItems = filteredItems.slice(items.length, items.length + LOAD_MORE)
+      
+      setItems(prev => [...prev, ...nextItems])
+      setHasMore(filteredItems.length > items.length + nextItems.length)
+    } catch (error) {
       console.error('Load more error:', error)
-      setLoading(false)
-      return
     }
-
-    const mapped = mapDbToMediaItem(data || [])
-    setItems(prev => [...prev, ...mapped])
-    setHasMore((data?.length || 0) >= LOAD_MORE)
+    
     setLoading(false)
   }, [hasMore, loading, items.length, category])
 
   return { items, loading, hasMore, loadMore }
-}
-
-interface DbMediaItem {
-  id: string
-  position: number
-  alt_text?: string
-  caption?: string
-  category?: string
-  created_at: string
-  thumb_url: string
-  thumb_width: number
-  thumb_height: number
-  grid_url: string
-  grid_width: number
-  grid_height: number
-  full_url: string
-  full_width: number
-  full_height: number
-}
-
-function mapDbToMediaItem(rows: DbMediaItem[]): MediaItem[] {
-  return rows.map(row => ({
-    id: row.id,
-    position: row.position,
-    alt: row.alt_text,
-    caption: row.caption,
-    category: row.category,
-    createdAt: row.created_at,
-    variants: {
-      thumb: { url: row.thumb_url, width: row.thumb_width, height: row.thumb_height },
-      grid: { url: row.grid_url, width: row.grid_width, height: row.grid_height },
-      full: { url: row.full_url, width: row.full_width, height: row.full_height },
-    },
-  }))
 }
