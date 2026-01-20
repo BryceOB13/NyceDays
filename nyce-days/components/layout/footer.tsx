@@ -121,7 +121,7 @@ export function Footer() {
               <h4 className="font-sans text-xs uppercase tracking-[0.2em] text-foreground/40 mb-4">
                 Pages
               </h4>
-              <nav className="grid grid-cols-2 gap-x-8 gap-y-2">
+              <nav className="flex flex-col gap-2">
                 {pages.map((page) => (
                   <Link
                     key={page.href}
