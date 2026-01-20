@@ -50,7 +50,7 @@ export function AudioController() {
         className="fixed bottom-6 right-6 z-50 group"
         aria-label={isPlaying ? 'Mute audio' : 'Play audio'}
       >
-        <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-foreground/10 backdrop-blur-sm border border-foreground/20 hover:bg-foreground/20 hover:border-foreground/30 transition-all duration-300">
+        <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-black/20 dark:bg-white/20 backdrop-blur-sm border border-black/30 dark:border-white/30 hover:bg-black/30 dark:hover:bg-white/30 hover:border-black/40 dark:hover:border-white/40 transition-all duration-300">
           
           {/* Sound wave bars animation - only visible when playing */}
           <AnimatePresence>
@@ -65,7 +65,7 @@ export function AudioController() {
                 {[1, 2, 3, 4].map((bar) => (
                   <motion.span
                     key={bar}
-                    className="w-[3px] bg-foreground/70 rounded-full"
+                    className="w-[3px] bg-black dark:bg-white rounded-full"
                     animate={{
                       height: ['4px', '16px', '8px', '14px', '4px'],
                     }}
@@ -92,7 +92,7 @@ export function AudioController() {
                 className="absolute inset-0 flex items-center justify-center"
               >
                 <svg 
-                  className="w-5 h-5 text-foreground/70" 
+                  className="w-5 h-5 text-black dark:text-white" 
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor" 
@@ -115,7 +115,7 @@ export function AudioController() {
         </div>
 
         {/* Tooltip on hover */}
-        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-medium text-foreground/70 bg-background/90 backdrop-blur-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-foreground/10">
+        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-medium text-black dark:text-white bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-black/20 dark:border-white/20">
           {isPlaying ? 'Mute' : 'Play sound'}
         </span>
       </motion.button>
