@@ -2,17 +2,16 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { useState } from "react"
 import { motion } from "framer-motion"
-import { ArrowRight, ArrowUp } from "lucide-react"
+import { ArrowUp } from "lucide-react"
 import { Instagram, Twitter } from "lucide-react"
 
 const pages = [
+  { href: '/community', label: 'Events' },
+  { href: '/media', label: 'Media' },
+  { href: '/shop', label: 'Shop' },
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
-  { href: '/media', label: 'Media' },
-  { href: '/community', label: 'Events' },
-  { href: '/shop', label: 'Shop' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -24,42 +23,7 @@ const socials = [
 
 const cities = ['Baltimore', 'NYC', 'Philly', 'Charlotte', 'LA', 'SF', 'Bos', 'SD']
 
-const formatPhone = (value: string) => {
-  const digits = value.replace(/\D/g, '')
-  if (digits.length <= 3) return digits
-  if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`
-  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`
-}
-
 export function Footer() {
-  const [phone, setPhone] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSuccess, setIsSuccess] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!phone || phone.replace(/\D/g, '').length !== 10) return
-
-    setIsSubmitting(true)
-    try {
-      await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          phone,
-          source: 'footer',
-          sms_consent: true,
-        }),
-      })
-      setIsSuccess(true)
-      setPhone("")
-      setTimeout(() => setIsSuccess(false), 3000)
-    } catch {
-      // Silent fail
-    }
-    setIsSubmitting(false)
-  }
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -107,10 +71,15 @@ export function Footer() {
               />
             </Link>
 
+            {/* Tagline */}
+            <p className="font-serif text-foreground/60 text-sm italic">
+              Have A Nyce Day.
+            </p>
+
             {/* Pages Navigation */}
-            <nav className="flex flex-wrap items-center justify-center gap-3 text-foreground/70">
+            <nav className="flex flex-wrap items-center justify-center gap-2 text-foreground/70">
               {pages.map((page, index) => (
-                <div key={page.href} className="flex items-center gap-3">
+                <div key={page.href} className="flex items-center gap-2">
                   <Link
                     href={page.href}
                     className="font-serif hover:text-foreground transition-colors text-sm lg:text-base"
@@ -124,53 +93,25 @@ export function Footer() {
               ))}
             </nav>
 
-            {/* Newsletter Signup */}
-            <div className="w-full max-w-md">
-              <form onSubmit={handleSubmit} className="flex gap-3">
-                <input
-                  type="tel"
-                  placeholder="(555) 123-4567"
-                  value={phone}
-                  onChange={(e) => setPhone(formatPhone(e.target.value))}
-                  className="flex-1 px-6 py-3 bg-background border border-foreground/10 rounded-full text-sm font-serif focus:outline-none focus:border-nd-red/50 transition-colors text-center"
-                />
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="px-5 py-3 bg-foreground text-background rounded-full hover:opacity-90 transition-opacity disabled:opacity-50"
-                  aria-label="Subscribe"
-                >
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </form>
-              
-              {isSuccess && (
-                <p className="text-nd-red text-sm mt-2 font-serif">You&apos;re on the list.</p>
-              )}
-            </div>
-
             {/* Socials */}
-            <div className="flex flex-col items-center gap-3">
-              <div className="flex items-center gap-3">
-                {socials.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-11 h-11 flex items-center justify-center rounded-full border border-foreground/20 text-foreground/50 hover:text-nd-red hover:border-nd-red transition-colors"
-                  >
-                    {social.icon ? (
-                      <social.icon className="w-5 h-5" />
-                    ) : (
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-                      </svg>
-                    )}
-                  </a>
-                ))}
-              </div>
-              <p className="font-serif text-foreground/50 text-sm">@nycedays</p>
+            <div className="flex items-center gap-4">
+              {socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground/50 hover:text-foreground transition-colors"
+                >
+                  {social.icon ? (
+                    <social.icon className="w-5 h-5" />
+                  ) : (
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                    </svg>
+                  )}
+                </a>
+              ))}
             </div>
           </div>
 
