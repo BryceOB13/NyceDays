@@ -1,49 +1,53 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { parseManifest } from '@/lib/media/parse-manifest'
 import type { MediaItem } from '@/types/media'
 
 const INITIAL_LOAD = 18
 const LOAD_MORE = 12
+
+// Test data to verify the component works
+const createTestItem = (index: number): MediaItem => ({
+  id: `test-${index}`,
+  position: index,
+  createdAt: new Date().toISOString(),
+  variants: {
+    thumb: {
+      url: `https://videos.nycedays.com/web/nyce days family-${String(index + 1).padStart(3, '0')}.thumb.webp`,
+      width: 400,
+      height: 533,
+    },
+    grid: {
+      url: `https://videos.nycedays.com/web/nyce days family-${String(index + 1).padStart(3, '0')}.grid.webp`,
+      width: 1600,
+      height: 2131,
+    },
+    full: {
+      url: `https://videos.nycedays.com/web/nyce days family-${String(index + 1).padStart(3, '0')}.full.webp`,
+      width: 3000,
+      height: 3995,
+    },
+  },
+})
 
 export function useGallery(category?: string) {
   const [items, setItems] = useState<MediaItem[]>([])
   const [loading, setLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
 
-  // Initial load - use manifest for now since we have the processed images
+  // Initial load - create test items first to verify component works
   useEffect(() => {
     async function fetchInitial() {
       setLoading(true)
+      console.log('Starting gallery load...')
       
       try {
-        console.log('Fetching manifest...')
-        // Fetch the manifest and parse it
-        const response = await fetch('/manifest.json')
-        if (!response.ok) {
-          throw new Error(`Failed to fetch manifest: ${response.status}`)
-        }
-        const manifest = await response.json()
-        console.log('Manifest loaded:', manifest.items?.length, 'items')
+        // Create test items for the first few images
+        const testItems = Array.from({ length: INITIAL_LOAD }, (_, i) => createTestItem(i))
+        console.log('Created test items:', testItems.length)
         
-        const mediaItems = parseManifest(manifest)
-        console.log('Parsed media items:', mediaItems.length)
-        
-        // Apply category filter if specified
-        const filteredItems = category 
-          ? mediaItems.filter(item => item.category === category)
-          : mediaItems
-        
-        console.log('Filtered items:', filteredItems.length)
-        
-        // Apply pagination
-        const paginatedItems = filteredItems.slice(0, INITIAL_LOAD)
-        console.log('Paginated items:', paginatedItems.length)
-        
-        setItems(paginatedItems)
-        setHasMore(filteredItems.length > INITIAL_LOAD)
+        setItems(testItems)
+        setHasMore(true)
       } catch (error) {
         console.error('Gallery fetch error:', error)
       }
@@ -59,29 +63,21 @@ export function useGallery(category?: string) {
     if (!hasMore || loading) return
 
     setLoading(true)
+    console.log('Loading more items...')
     
     try {
-      // Fetch the manifest and parse it
-      const response = await fetch('/manifest.json')
-      const manifest = await response.json()
-      const mediaItems = parseManifest(manifest)
-      
-      // Apply category filter if specified
-      const filteredItems = category 
-        ? mediaItems.filter(item => item.category === category)
-        : mediaItems
-      
-      // Get next batch
-      const nextItems = filteredItems.slice(items.length, items.length + LOAD_MORE)
+      const nextItems = Array.from({ length: LOAD_MORE }, (_, i) => 
+        createTestItem(items.length + i)
+      )
       
       setItems(prev => [...prev, ...nextItems])
-      setHasMore(filteredItems.length > items.length + nextItems.length)
+      setHasMore(items.length + nextItems.length < 50) // Limit to 50 for testing
     } catch (error) {
       console.error('Load more error:', error)
     }
     
     setLoading(false)
-  }, [hasMore, loading, items.length, category])
+  }, [hasMore, loading, items.length])
 
   return { items, loading, hasMore, loadMore }
 }

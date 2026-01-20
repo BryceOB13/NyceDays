@@ -1,4 +1,3 @@
-import { MediaHeader } from "@/components/media/media-header"
 import { GalleryGrid } from "@/components/media/gallery-grid"
 
 export const metadata = {
@@ -8,9 +7,8 @@ export const metadata = {
 
 export default function MediaPage() {
   return (
-    <main className="bg-background min-h-screen">
-      <MediaHeader />
-      <div className="container mx-auto px-6 py-16">
+    <main className="bg-background min-h-screen pt-16">
+      <div className="container mx-auto px-6 py-8">
         <GalleryGrid />
       </div>
     </main>
