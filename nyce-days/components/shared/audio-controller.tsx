@@ -50,7 +50,7 @@ export function AudioController() {
         className="fixed bottom-6 right-6 z-50 group"
         aria-label={isPlaying ? 'Mute audio' : 'Play audio'}
       >
-        <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-foreground/10 backdrop-blur-sm border border-foreground/10 hover:bg-foreground/20 hover:border-foreground/20 transition-all duration-300">
+        <div className="relative flex items-center justify-center w-12 h-12 rounded-full bg-foreground/10 backdrop-blur-sm border border-foreground/20 hover:bg-foreground/20 hover:border-foreground/30 transition-all duration-300">
           
           {/* Sound wave bars animation - only visible when playing */}
           <AnimatePresence>
@@ -92,7 +92,7 @@ export function AudioController() {
                 className="absolute inset-0 flex items-center justify-center"
               >
                 <svg 
-                  className="w-5 h-5 text-foreground/60" 
+                  className="w-5 h-5 text-foreground/70" 
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor" 
@@ -115,7 +115,7 @@ export function AudioController() {
         </div>
 
         {/* Tooltip on hover */}
-        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-medium text-foreground/60 bg-background/80 backdrop-blur-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-medium text-foreground/70 bg-background/90 backdrop-blur-sm rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap border border-foreground/10">
           {isPlaying ? 'Mute' : 'Play sound'}
         </span>
       </motion.button>
