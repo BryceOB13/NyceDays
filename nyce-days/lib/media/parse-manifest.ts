@@ -1,8 +1,8 @@
 import type { MediaItem, Manifest } from '@/types/media'
 import { getPublicR2Url } from '@/lib/videos'
 
-// Images are served from R2 under the images/ prefix
-const IMAGES_PREFIX = 'images'
+// Images are served from R2 under the web/ prefix (not images/)
+const IMAGES_PREFIX = 'web'
 
 export function parseManifest(manifest: Manifest): MediaItem[] {
   return manifest.items.map((item, index) => {
