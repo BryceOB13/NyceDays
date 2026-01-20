@@ -69,7 +69,7 @@ export function Footer() {
       <div className="h-px bg-gradient-to-r from-transparent via-foreground/10 to-transparent" />
       
       <motion.footer 
-        className="bg-secondary py-16 lg:py-20 relative"
+        className="bg-secondary py-12 lg:py-16 relative"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -87,30 +87,30 @@ export function Footer() {
         <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
           
           {/* Centered Content */}
-          <div className="flex flex-col items-center text-center space-y-8">
+          <div className="flex flex-col items-center text-center space-y-6">
             
             {/* Logo */}
             <Link href="/about" className="inline-block">
               <Image
                 src="/logos/full-black.png"
                 alt="Nyce Days"
-                width={240}
-                height={96}
-                className="dark:hidden h-20 w-auto"
+                width={320}
+                height={128}
+                className="dark:hidden h-24 lg:h-28 w-auto"
               />
               <Image
                 src="/logos/full-white.png"
                 alt="Nyce Days"
-                width={240}
-                height={96}
-                className="hidden dark:block h-20 w-auto"
+                width={320}
+                height={128}
+                className="hidden dark:block h-24 lg:h-28 w-auto"
               />
             </Link>
 
             {/* Pages Navigation */}
-            <nav className="flex flex-wrap items-center justify-center gap-4 text-foreground/70">
+            <nav className="flex flex-wrap items-center justify-center gap-3 text-foreground/70">
               {pages.map((page, index) => (
-                <div key={page.href} className="flex items-center gap-4">
+                <div key={page.href} className="flex items-center gap-3">
                   <Link
                     href={page.href}
                     className="font-serif hover:text-foreground transition-colors text-sm lg:text-base"
@@ -132,12 +132,12 @@ export function Footer() {
                   placeholder="(555) 123-4567"
                   value={phone}
                   onChange={(e) => setPhone(formatPhone(e.target.value))}
-                  className="flex-1 px-6 py-4 bg-background border border-foreground/10 rounded-full text-sm font-serif focus:outline-none focus:border-nd-red/50 transition-colors text-center"
+                  className="flex-1 px-6 py-3 bg-background border border-foreground/10 rounded-full text-sm font-serif focus:outline-none focus:border-nd-red/50 transition-colors text-center"
                 />
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-6 py-4 bg-foreground text-background rounded-full hover:opacity-90 transition-opacity disabled:opacity-50"
+                  className="px-5 py-3 bg-foreground text-background rounded-full hover:opacity-90 transition-opacity disabled:opacity-50"
                   aria-label="Subscribe"
                 >
                   <ArrowRight className="w-5 h-5" />
@@ -145,20 +145,20 @@ export function Footer() {
               </form>
               
               {isSuccess && (
-                <p className="text-nd-red text-sm mt-3 font-serif">You&apos;re on the list.</p>
+                <p className="text-nd-red text-sm mt-2 font-serif">You&apos;re on the list.</p>
               )}
             </div>
 
             {/* Socials */}
-            <div className="flex flex-col items-center gap-4">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-col items-center gap-3">
+              <div className="flex items-center gap-3">
                 {socials.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 flex items-center justify-center rounded-full border border-foreground/20 text-foreground/50 hover:text-nd-red hover:border-nd-red transition-colors"
+                    className="w-11 h-11 flex items-center justify-center rounded-full border border-foreground/20 text-foreground/50 hover:text-nd-red hover:border-nd-red transition-colors"
                   >
                     {social.icon ? (
                       <social.icon className="w-5 h-5" />
@@ -175,8 +175,8 @@ export function Footer() {
           </div>
 
           {/* Divider */}
-          <div className="border-t border-foreground/10 mt-12 pt-8">
-            <div className="text-center space-y-3">
+          <div className="border-t border-foreground/10 mt-8 pt-6">
+            <div className="text-center space-y-2">
               <p className="font-sans text-xs uppercase tracking-wider text-foreground/40">
                 Based in the DMV
               </p>
