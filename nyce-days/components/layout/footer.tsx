@@ -87,7 +87,7 @@ export function Footer() {
         <div className="container mx-auto px-6 lg:px-8 max-w-7xl">
           
           {/* Main Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mb-12 text-center md:text-left">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-16 mb-12 text-center md:text-left">
             
             {/* Brand Column */}
             <div className="flex flex-col items-center md:items-start">
@@ -116,12 +116,12 @@ export function Footer() {
               </p>
             </div>
 
-            {/* Pages & Socials Column */}
+            {/* Pages Column */}
             <div className="flex flex-col items-center md:items-start">
               <h4 className="font-sans text-xs uppercase tracking-[0.2em] text-foreground/40 mb-4">
                 Pages
               </h4>
-              <nav className="flex flex-col gap-2 mb-8">
+              <nav className="flex flex-col gap-2">
                 {pages.map((page) => (
                   <Link
                     key={page.href}
@@ -132,58 +132,60 @@ export function Footer() {
                   </Link>
                 ))}
               </nav>
-              
-              {/* Socials */}
-              <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
-                {socials.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 flex items-center justify-center rounded-full border border-foreground/20 text-foreground/50 hover:text-nd-red hover:border-nd-red transition-colors"
-                  >
-                    {social.icon ? (
-                      <social.icon className="w-4 h-4" />
-                    ) : (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-                      </svg>
-                    )}
-                  </a>
-                ))}
-              </div>
-              <p className="font-serif text-foreground/40 text-sm">@nycedays</p>
             </div>
 
-            {/* Get On The List Column */}
-            <div className="flex flex-col items-center md:items-start">
-              <h4 className="font-sans text-xs uppercase tracking-[0.2em] text-foreground/40 mb-4">
-                Get On The List
-              </h4>
+            {/* Get On The List Column - spans 2 columns */}
+            <div className="md:col-span-2 flex flex-col md:flex-row gap-8 items-start">
+              {/* Phone Input Section */}
+              <div className="flex flex-col items-center md:items-start flex-1">
+                <h4 className="font-sans text-xs uppercase tracking-[0.2em] text-foreground/40 mb-4">
+                  Get On The List
+                </h4>
+                <form onSubmit={handleSubmit} className="flex gap-2 mb-6 w-full max-w-xs">
+                  <input
+                    type="tel"
+                    placeholder="(555) 123-4567"
+                    value={phone}
+                    onChange={(e) => setPhone(formatPhone(e.target.value))}
+                    className="flex-1 px-4 py-3 bg-background border border-foreground/10 rounded-lg text-sm font-serif focus:outline-none focus:border-nd-red/50 transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="px-4 py-3 bg-foreground text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
+                    aria-label="Subscribe"
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </form>
+                {isSuccess && (
+                  <p className="text-nd-red text-xs mb-4 font-serif">You&apos;re on the list.</p>
+                )}
+              </div>
 
-              {/* Phone Input */}
-              <form onSubmit={handleSubmit} className="flex gap-2 mb-6 w-full max-w-xs">
-                <input
-                  type="tel"
-                  placeholder="(555) 123-4567"
-                  value={phone}
-                  onChange={(e) => setPhone(formatPhone(e.target.value))}
-                  className="flex-1 px-4 py-3 bg-background border border-foreground/10 rounded-lg text-sm font-serif focus:outline-none focus:border-nd-red/50 transition-colors"
-                />
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="px-4 py-3 bg-foreground text-background rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50"
-                  aria-label="Subscribe"
-                >
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </form>
-              
-              {isSuccess && (
-                <p className="text-nd-red text-xs mb-4 font-serif">You&apos;re on the list.</p>
-              )}
+              {/* Socials Section */}
+              <div className="flex flex-col items-center md:items-start">
+                <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
+                  {socials.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 flex items-center justify-center rounded-full border border-foreground/20 text-foreground/50 hover:text-nd-red hover:border-nd-red transition-colors"
+                    >
+                      {social.icon ? (
+                        <social.icon className="w-4 h-4" />
+                      ) : (
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                        </svg>
+                      )}
+                    </a>
+                  ))}
+                </div>
+                <p className="font-serif text-foreground/40 text-sm">@nycedays</p>
+              </div>
             </div>
           </div>
 
