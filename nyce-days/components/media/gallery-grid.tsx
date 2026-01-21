@@ -69,6 +69,14 @@ export function GalleryGrid({ category }: GalleryGridProps) {
           )}
         </div>
 
+        {/* Debug info */}
+        {!loading && items.length === 0 && (
+          <div className="text-center py-8 text-foreground/60">
+            <p>No images loaded. Check console for errors.</p>
+            <p>Category: {category || 'none'}</p>
+          </div>
+        )}
+
         {/* Load More */}
         {hasMore && !loading && (
           <div className="text-center py-8">
