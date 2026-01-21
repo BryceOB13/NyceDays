@@ -7,10 +7,8 @@ export const metadata = {
 
 export default function MediaPage() {
   return (
-    <main className="bg-background min-h-screen pt-16">
-      <div className="container mx-auto px-6 py-8">
-        <GalleryGrid />
-      </div>
-    </main>
+    <div className="bg-white dark:bg-black -mt-16 pt-16">
+      <GalleryGrid />
+    </div>
   )
 }
