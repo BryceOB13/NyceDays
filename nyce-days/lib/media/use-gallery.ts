@@ -28,8 +28,39 @@ export function useGallery(category?: string) {
         const manifest = await response.json()
         console.log('📦 Loaded manifest with', manifest.items?.length, 'items')
         
-        // Use validation to get only accessible images
-        const allItems = await parseManifestWithValidation(manifest)
+        // SKIP VALIDATION - Use all items directly for performance
+        const allItems = manifest.items.map((item: any, index: number) => {
+          const id = item.relative_source
+            .replace(/\.[^.]+$/, '') // Remove extension
+            .replace(/[^a-zA-Z0-9]/g, '-') // Sanitize
+            .toLowerCase()
+
+          const baseUrl = 'https://zrbmptifkuelqemzmxbm.supabase.co/storage/v1/object/public/media/web'
+          
+          return {
+            id,
+            position: index,
+            createdAt: new Date().toISOString(),
+            variants: {
+              thumb: {
+                url: `${baseUrl}/${encodeURIComponent(item.outputs.thumb.relative_path)}`,
+                width: item.outputs.thumb.width,
+                height: item.outputs.thumb.height,
+              },
+              grid: {
+                url: `${baseUrl}/${encodeURIComponent(item.outputs.grid.relative_path)}`,
+                width: item.outputs.grid.width,
+                height: item.outputs.grid.height,
+              },
+              full: {
+                url: `${baseUrl}/${encodeURIComponent(item.outputs.full.relative_path)}`,
+                width: item.outputs.full.width,
+                height: item.outputs.full.height,
+              },
+            },
+          }
+        })
+        
         setValidatedItems(allItems) // Cache for later use
         
         // Shuffle the items for variety - use a more reliable shuffle
