@@ -1,22 +1,44 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Mail, Loader2 } from 'lucide-react'
+import { Mail, Loader2, AlertCircle } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('bryce@nycedays.com') // Pre-fill for testing
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [debugInfo, setDebugInfo] = useState('')
   
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirect') || '/admin'
+  const urlError = searchParams.get('error')
+
+  useEffect(() => {
+    if (urlError) {
+      setError(`Authentication error: ${urlError}`)
+    }
+
+    // Check if user is already logged in
+    const checkAuth = async () => {
+      const supabase = createClient()
+      const { data: { session }, error } = await supabase.auth.getSession()
+      
+      setDebugInfo(`Session check: ${session ? 'Found' : 'None'}, Error: ${error?.message || 'None'}`)
+      
+      if (session && !error) {
+        router.push(redirectTo)
+      }
+    }
+
+    checkAuth()
+  }, [urlError, redirectTo, router])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,20 +48,34 @@ export default function AdminLogin() {
 
     try {
       const supabase = createClient()
-      const { error } = await supabase.auth.signInWithOtp({
+      
+      // Test connection first
+      const { data: testData, error: testError } = await supabase.from('subscribers').select('count').limit(1)
+      setDebugInfo(`DB Test: ${testError ? testError.message : 'Connected'}, Data: ${JSON.stringify(testData)}`)
+      
+      const redirectUrl = `${window.location.origin}/admin/auth/callback?redirect=${encodeURIComponent(redirectTo)}`
+      console.log('Sending magic link to:', email, 'Redirect URL:', redirectUrl)
+      
+      const { data, error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/admin/auth/callback?redirect=${encodeURIComponent(redirectTo)}`
+          emailRedirectTo: redirectUrl
         }
       })
 
+      console.log('Auth response:', { data, error })
+
       if (error) {
-        setError(error.message)
+        setError(`Login error: ${error.message}`)
+        setDebugInfo(prev => prev + ` | Auth Error: ${error.message}`)
       } else {
         setMessage('Check your email for the login link!')
+        setDebugInfo(prev => prev + ` | Magic link sent successfully`)
       }
     } catch (err) {
-      setError('An unexpected error occurred')
+      console.error('Login error:', err)
+      setError(`Unexpected error: ${err}`)
+      setDebugInfo(prev => prev + ` | Catch Error: ${err}`)
     } finally {
       setLoading(false)
     }
@@ -72,14 +108,21 @@ export default function AdminLogin() {
             </div>
 
             {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
-                {error}
+              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md flex items-start gap-2">
+                <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <span>{error}</span>
               </div>
             )}
 
             {message && (
               <div className="p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
                 {message}
+              </div>
+            )}
+
+            {debugInfo && (
+              <div className="p-2 text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-md">
+                <strong>Debug:</strong> {debugInfo}
               </div>
             )}
 
@@ -102,13 +145,21 @@ export default function AdminLogin() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center space-y-2">
             <Button 
               variant="ghost" 
               onClick={() => router.push('/')}
               className="text-sm text-muted-foreground"
             >
               ← Back to website
+            </Button>
+            
+            <Button 
+              variant="ghost" 
+              onClick={() => router.push('/admin/auth-test')}
+              className="text-xs text-muted-foreground"
+            >
+              Debug Auth
             </Button>
           </div>
         </CardContent>

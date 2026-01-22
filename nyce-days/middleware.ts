@@ -3,13 +3,15 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  // Only protect /admin routes (except login)
+  // Only protect /admin routes (except login and auth-test)
   if (!request.nextUrl.pathname.startsWith('/admin')) {
     return NextResponse.next()
   }
 
-  // Allow access to login page
-  if (request.nextUrl.pathname === '/admin/login') {
+  // Allow access to login page and auth test
+  if (request.nextUrl.pathname === '/admin/login' || 
+      request.nextUrl.pathname === '/admin/auth-test' ||
+      request.nextUrl.pathname.startsWith('/admin/auth/')) {
     return NextResponse.next()
   }
 
@@ -17,33 +19,55 @@ export async function middleware(request: NextRequest) {
     request: { headers: request.headers },
   })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
+  try {
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll()
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              response.cookies.set(name, value, options)
+            })
+          },
         },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            response.cookies.set(name, value, options)
-          })
-        },
-      },
+      }
+    )
+
+    const { data: { user }, error } = await supabase.auth.getUser()
+    
+    console.log('Middleware auth check:', { 
+      path: request.nextUrl.pathname, 
+      user: user?.email, 
+      error: error?.message 
+    })
+
+    // Redirect to login if not authenticated
+    if (!user && !error) {
+      const loginUrl = new URL('/admin/login', request.url)
+      loginUrl.searchParams.set('redirect', request.nextUrl.pathname)
+      console.log('Redirecting to login:', loginUrl.toString())
+      return NextResponse.redirect(loginUrl)
     }
-  )
 
-  const { data: { user } } = await supabase.auth.getUser()
+    // If there's an auth error, also redirect to login
+    if (error) {
+      console.log('Auth error in middleware:', error.message)
+      const loginUrl = new URL('/admin/login', request.url)
+      loginUrl.searchParams.set('error', 'auth_error')
+      return NextResponse.redirect(loginUrl)
+    }
 
-  // Redirect to login if not authenticated
-  if (!user) {
+    return response
+  } catch (err) {
+    console.error('Middleware error:', err)
     const loginUrl = new URL('/admin/login', request.url)
-    loginUrl.searchParams.set('redirect', request.nextUrl.pathname)
+    loginUrl.searchParams.set('error', 'middleware_error')
     return NextResponse.redirect(loginUrl)
   }
-
-  return response
 }
 
 export const config = {
