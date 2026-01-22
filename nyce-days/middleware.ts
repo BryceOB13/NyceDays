@@ -3,6 +3,10 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // TEMPORARILY DISABLE MIDDLEWARE FOR DEBUGGING
+  console.log('Middleware called for:', request.nextUrl.pathname)
+  return NextResponse.next()
+
   // Only protect /admin routes (except login and auth-test)
   if (!request.nextUrl.pathname.startsWith('/admin')) {
     return NextResponse.next()
