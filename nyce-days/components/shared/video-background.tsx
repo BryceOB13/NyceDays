@@ -96,7 +96,7 @@ export function VideoBackground({
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         className={cn(
           "absolute inset-0 w-full h-full object-cover",
           isPlaying ? "opacity-100" : "opacity-0"

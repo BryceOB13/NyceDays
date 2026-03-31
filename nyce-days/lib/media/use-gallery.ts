@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import type { MediaItem } from '@/types/media'
-import { parseManifestWithValidation } from './parse-manifest'
 
 const INITIAL_LOAD = 18
 const LOAD_MORE = 12
@@ -98,24 +97,56 @@ export function useGallery(category?: string) {
     setLoading(true)
     
     try {
-      // Use cached validated items if available
-      let allItems = validatedItems
+      // Use cached items directly — no re-validation
+      const allItems = validatedItems
       
       if (allItems.length === 0) {
-        // Fallback: load and validate manifest again
+        // Fallback: re-parse manifest without validation
         const response = await fetch('/manifest.json')
         const manifest = await response.json()
-        allItems = await parseManifestWithValidation(manifest)
-        setValidatedItems(allItems)
+        const baseUrl = 'https://zrbmptifkuelqemzmxbm.supabase.co/storage/v1/object/public/media/web'
+        const parsed = manifest.items.map((item: any, index: number) => {
+          const id = item.relative_source
+            .replace(/\.[^.]+$/, '')
+            .replace(/[^a-zA-Z0-9]/g, '-')
+            .toLowerCase()
+          return {
+            id,
+            position: index,
+            createdAt: new Date().toISOString(),
+            variants: {
+              thumb: {
+                url: `${baseUrl}/${encodeURIComponent(item.outputs.thumb.relative_path)}`,
+                width: item.outputs.thumb.width,
+                height: item.outputs.thumb.height,
+              },
+              grid: {
+                url: `${baseUrl}/${encodeURIComponent(item.outputs.grid.relative_path)}`,
+                width: item.outputs.grid.width,
+                height: item.outputs.grid.height,
+              },
+              full: {
+                url: `${baseUrl}/${encodeURIComponent(item.outputs.full.relative_path)}`,
+                width: item.outputs.full.width,
+                height: item.outputs.full.height,
+              },
+            },
+          }
+        })
+        setValidatedItems(parsed)
+        
+        const nextItems = parsed.slice(items.length, items.length + LOAD_MORE)
+        setItems(prev => [...prev, ...nextItems])
+        setHasMore(items.length + nextItems.length < parsed.length)
+        setLoading(false)
+        return
       }
       
-      // Apply same shuffle and filter logic
-      const shuffled = [...allItems].sort(() => Math.random() - 0.5)
+      // Get next batch from cached items (no shuffle on load-more to maintain order)
       const filtered = category 
-        ? shuffled.filter(item => item.category === category)
-        : shuffled
+        ? allItems.filter(item => item.category === category)
+        : allItems
       
-      // Get next batch
       const nextItems = filtered.slice(items.length, items.length + LOAD_MORE)
       
       setItems(prev => [...prev, ...nextItems])

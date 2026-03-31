@@ -82,7 +82,7 @@ export function MediaLightbox({ item, onClose, onNext, onPrev }: MediaLightboxPr
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={item.variants.full.url}
+              src={item.variants.grid.url}
               alt={item.alt || ''}
               className="max-w-full max-h-full w-auto h-auto object-contain"
             />
