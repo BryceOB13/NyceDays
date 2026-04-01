@@ -1,19 +1,48 @@
 'use client'
 
-import { useState } from 'react'
-import { useGallery } from '@/lib/media/use-gallery'
-import { OptimizedImage } from './optimized-image'
+import { useState, useCallback } from 'react'
 import { MediaLightbox } from './media-lightbox'
-import type { MediaItem } from '@/types/media'
+import { parseManifestItem, shuffleItems } from '@/lib/media/parse-manifest'
+import type { MediaItem, Manifest } from '@/types/media'
+
+const LOAD_MORE = 18
 
 interface GalleryGridProps {
-  category?: string
+  initialItems: MediaItem[]
+  totalCount: number
 }
 
-export function GalleryGrid({ category }: GalleryGridProps) {
-  const { items, loading, hasMore, loadMore } = useGallery(category)
+export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
+  const [items, setItems] = useState<MediaItem[]>(initialItems)
+  const [allItems, setAllItems] = useState<MediaItem[] | null>(null)
+  const [loading, setLoading] = useState(false)
   const [lightboxItem, setLightboxItem] = useState<MediaItem | null>(null)
   const [lightboxIndex, setLightboxIndex] = useState(0)
+
+  const hasMore = items.length < totalCount
+
+  const loadMore = useCallback(async () => {
+    if (loading || !hasMore) return
+    setLoading(true)
+
+    try {
+      let pool = allItems
+      if (!pool) {
+        // First load-more: fetch full manifest once, parse, shuffle, cache
+        const res = await fetch('/manifest.json')
+        const manifest: Manifest = await res.json()
+        pool = shuffleItems(manifest.items.map(parseManifestItem))
+        setAllItems(pool)
+      }
+
+      const nextItems = pool.slice(items.length, items.length + LOAD_MORE)
+      setItems(prev => [...prev, ...nextItems])
+    } catch (error) {
+      console.error('Load more error:', error)
+    }
+
+    setLoading(false)
+  }, [loading, hasMore, allItems, items.length])
 
   const handleImageClick = (item: MediaItem, index: number) => {
     setLightboxItem(item)
@@ -22,21 +51,23 @@ export function GalleryGrid({ category }: GalleryGridProps) {
 
   const handleNext = () => {
     if (lightboxIndex < items.length - 1) {
-      setLightboxIndex(lightboxIndex + 1)
-      setLightboxItem(items[lightboxIndex + 1])
+      const next = lightboxIndex + 1
+      setLightboxIndex(next)
+      setLightboxItem(items[next])
     }
   }
 
   const handlePrev = () => {
     if (lightboxIndex > 0) {
-      setLightboxIndex(lightboxIndex - 1)
-      setLightboxItem(items[lightboxIndex - 1])
+      const prev = lightboxIndex - 1
+      setLightboxIndex(prev)
+      setLightboxItem(items[prev])
     }
   }
 
   return (
     <>
-      {/* Full-bleed Masonry Grid - no gaps, touches all edges */}
+      {/* Masonry grid */}
       <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-0 w-full">
         {items.map((item, index) => (
           <button
@@ -45,41 +76,26 @@ export function GalleryGrid({ category }: GalleryGridProps) {
             className="group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-nd-red block w-full border-0 p-0 m-0"
             style={{ display: 'block', lineHeight: 0 }}
           >
-            <OptimizedImage
-              variant={item.variants.thumb}
+            {/* Direct <img> — thumbs are pre-optimized 400px webp, no proxy needed */}
+            <img
+              src={item.variants.thumb.url}
               alt={item.alt || `Gallery image ${item.position + 1}`}
-              priority={index < 4}
+              width={item.variants.thumb.width}
+              height={item.variants.thumb.height}
+              loading={index < 4 ? 'eager' : 'lazy'}
+              decoding="async"
+              className="w-full h-auto block transition-opacity duration-300"
+              style={{ aspectRatio: `${item.variants.thumb.width} / ${item.variants.thumb.height}` }}
             />
-            
-            {/* Hover overlay */}
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
           </button>
         ))}
-
-        {/* Loading skeletons */}
-        {loading && items.length === 0 && (
-          <>
-            {Array.from({ length: 18 }).map((_, i) => (
-              <div
-                key={`skeleton-${i}`}
-                className="aspect-[3/4] bg-black/10 dark:bg-white/10 animate-pulse block w-full"
-                style={{ lineHeight: 0 }}
-              />
-            ))}
-          </>
-        )}
       </div>
 
-      {/* Debug info */}
-      {!loading && items.length === 0 && (
+      {/* Empty state */}
+      {items.length === 0 && (
         <div className="text-center py-8 text-black dark:text-white">
-          <p>No validated images available.</p>
-          <p className="text-sm text-black/60 dark:text-white/60 mt-2">
-            Images are being validated against the manifest. Check console for details.
-          </p>
-          <p className="text-xs text-black/40 dark:text-white/40 mt-1">
-            Category: {category || 'all'}
-          </p>
+          <p>No images available.</p>
         </div>
       )}
 
@@ -95,21 +111,9 @@ export function GalleryGrid({ category }: GalleryGridProps) {
         </div>
       )}
 
-      {/* Loading indicator */}
-      {loading && items.length > 0 && (
+      {loading && (
         <div className="text-center py-8">
-          <span className="text-black/40 dark:text-white/40 text-sm">
-            Validating images...
-          </span>
-        </div>
-      )}
-
-      {/* Initial loading */}
-      {loading && items.length === 0 && (
-        <div className="text-center py-8">
-          <span className="text-black/40 dark:text-white/40 text-sm">
-            Loading and validating gallery...
-          </span>
+          <span className="text-black/40 dark:text-white/40 text-sm">Loading...</span>
         </div>
       )}
 
