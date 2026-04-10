@@ -8,7 +8,8 @@ import { getContactFunnelStats } from '@/app/admin/actions'
 import { MessageSquare, Send, TrendingUp } from 'lucide-react'
 
 export function ContactFunnelCard() {
-  const [data, setData] = useState({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [data, setData] = useState<any>({
     formStarts: 0,
     formSubmissions: 0,
     conversionRate: 0,

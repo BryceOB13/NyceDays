@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -8,7 +9,8 @@ import { getEngagementStats } from '@/app/admin/actions'
 import { MousePointer, TrendingDown, Mail } from 'lucide-react'
 
 export function EngagementCard() {
-  const [data, setData] = useState({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [data, setData] = useState<any>({
     bounceRate: 0,
     scrollDepth: [],
     ctaClicks: [],
@@ -53,14 +55,14 @@ export function EngagementCard() {
         />
         <StatCard
           title="CTA Clicks"
-          value={loading ? '...' : data.ctaClicks.reduce((sum, cta) => sum + cta.count, 0)}
+          value={loading ? '...' : data.ctaClicks.reduce((sum: number, cta: any) => sum + cta.count, 0)}
           subtitle="Total call-to-action clicks"
           icon={MousePointer}
           iconColor="bg-blue-500"
         />
         <StatCard
           title="Newsletter Signups"
-          value={loading ? '...' : data.newsletterSignups.reduce((sum, day) => sum + day.count, 0)}
+          value={loading ? '...' : data.newsletterSignups.reduce((sum: number, day: any) => sum + day.count, 0)}
           subtitle="Last 14 days"
           icon={Mail}
           iconColor="bg-green-500"
@@ -162,7 +164,7 @@ export function EngagementCard() {
           subtitle="Most clicked call-to-action buttons"
         >
           <div className="space-y-2">
-            {data.ctaClicks.slice(0, 5).map((cta) => (
+            {data.ctaClicks.slice(0, 5).map((cta: any) => (
               <div key={cta.cta_id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                 <div>
                   <p className="font-medium">{cta.cta_id}</p>

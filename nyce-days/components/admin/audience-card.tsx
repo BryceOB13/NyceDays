@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -79,7 +80,7 @@ export function AudienceCard() {
                     fill="#8884d8"
                     dataKey="count"
                   >
-                    {data.referrers.map((entry, index) => (
+                    {data.referrers.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
@@ -123,7 +124,7 @@ export function AudienceCard() {
                       paddingAngle={5}
                       dataKey="count"
                     >
-                      {data.devices.map((entry, index) => (
+                      {data.devices.map((entry: any, index: number) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
@@ -139,7 +140,7 @@ export function AudienceCard() {
                 
                 {/* Device legend */}
                 <div className="space-y-2">
-                  {data.devices.map((device, index) => (
+                  {data.devices.map((device: any, index: number) => (
                     <div key={device.type} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div 

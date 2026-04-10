@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Build Check Before Push",
+  "description": "Reminds the agent to run `next build` or at minimum `next lint && tsc --noEmit` before committing and pushing, to catch the same errors Vercel would catch.",
+  "version": "1",
+  "when": {
+    "type": "preToolUse",
+    "toolTypes": [
+      "shell"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "If the command being run is `git push`, first verify that `npx next lint` and `npx tsc --noEmit` have been run successfully in the nyce-days directory during this session. If not, run them before pushing. Do not push if there are lint errors or type errors."
+  }
+}

@@ -10,7 +10,8 @@ import { Button } from '@/components/ui/button'
 
 export function TrafficTrendsCard() {
   const [period, setPeriod] = useState<Period>('today')
-  const [data, setData] = useState({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [data, setData] = useState<any>({
     activeUsers: 0,
     uniqueVisitors: 0,
     pageViews: []

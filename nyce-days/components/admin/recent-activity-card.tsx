@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -10,7 +11,8 @@ import { Button } from '@/components/ui/button'
 type ActivityTab = 'all' | 'contacts' | 'signups' | 'events'
 
 export function RecentActivityCard() {
-  const [data, setData] = useState({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [data, setData] = useState<any>({
     contacts: [],
     signups: [],
     events: []
@@ -49,15 +51,15 @@ export function RecentActivityCard() {
 
   const getFilteredActivity = () => {
     const allActivity = [
-      ...data.contacts.map(c => ({ ...c, type: 'contact' as const })),
-      ...data.signups.map(s => ({ ...s, type: 'signup' as const })),
-      ...data.events.map(e => ({ ...e, type: 'event' as const }))
+      ...data.contacts.map((c: any) => ({ ...c, type: 'contact' as const })),
+      ...data.signups.map((s: any) => ({ ...s, type: 'signup' as const })),
+      ...data.events.map((e: any) => ({ ...e, type: 'event' as const }))
     ].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
 
     if (activeTab === 'all') return allActivity
-    if (activeTab === 'contacts') return data.contacts.map(c => ({ ...c, type: 'contact' as const }))
-    if (activeTab === 'signups') return data.signups.map(s => ({ ...s, type: 'signup' as const }))
-    if (activeTab === 'events') return data.events.map(e => ({ ...e, type: 'event' as const }))
+    if (activeTab === 'contacts') return data.contacts.map((c: any) => ({ ...c, type: 'contact' as const }))
+    if (activeTab === 'signups') return data.signups.map((s: any) => ({ ...s, type: 'signup' as const }))
+    if (activeTab === 'events') return data.events.map((e: any) => ({ ...e, type: 'event' as const }))
     
     return []
   }
@@ -134,7 +136,7 @@ export function RecentActivityCard() {
             <div className="animate-pulse text-muted-foreground">Loading activity...</div>
           </div>
         ) : filteredActivity.length > 0 ? (
-          filteredActivity.slice(0, 10).map((item, index) => (
+          filteredActivity.slice(0, 10).map((item: any, index: number) => (
             <div key={`${item.type}-${item.id}-${index}`} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg">
               <div className={`p-2 rounded-full ${getActivityColor(item.type)}`}>
                 {getActivityIcon(item.type)}

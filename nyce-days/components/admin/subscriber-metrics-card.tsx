@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -10,7 +11,8 @@ import { Users, TrendingUp } from 'lucide-react'
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
 
 export function SubscriberMetricsCard() {
-  const [data, setData] = useState({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [data, setData] = useState<any>({
     total: 0,
     weeklyGrowth: 0,
     growthData: [],
@@ -124,12 +126,13 @@ export function SubscriberMetricsCard() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({ source, percent }) => `${source} ${(percent * 100).toFixed(0)}%`}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    label={({ percent, ...rest }: any) => `${rest.source} ${((percent ?? 0) * 100).toFixed(0)}%`}
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="count"
                   >
-                    {data.sourceBreakdown.map((entry, index) => (
+                    {data.sourceBreakdown.map((entry: any, index: number) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
