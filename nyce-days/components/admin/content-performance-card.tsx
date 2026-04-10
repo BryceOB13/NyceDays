@@ -1,11 +1,10 @@
-// @ts-nocheck
 'use client'
 
 import { useState, useEffect } from 'react'
 import { ChartWrapper } from './chart-wrapper'
 import { StatCard } from './stat-card'
 import { getContentStats } from '@/app/admin/actions'
-import { FileText, Calendar, FolderKanban, Eye, Users } from 'lucide-react'
+import { FileText, Calendar, FolderKanban } from 'lucide-react'
 import { format } from 'date-fns'
 
 export function ContentPerformanceCard() {
@@ -80,7 +79,7 @@ export function ContentPerformanceCard() {
                 </div>
                 
                 {/* Table rows */}
-                {data.topPages.map((page, index) => (
+                {data.topPages.map((page) => (
                   <div key={page.path} className="grid grid-cols-12 gap-2 py-2 text-sm hover:bg-muted/50 rounded">
                     <div className="col-span-6 flex items-center gap-2">
                       <FileText className="h-4 w-4 text-muted-foreground flex-shrink-0" />

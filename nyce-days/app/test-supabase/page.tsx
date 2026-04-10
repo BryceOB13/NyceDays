@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 
 export default function TestSupabase() {
   const [status, setStatus] = useState('Testing...')
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [details, setDetails] = useState<any>({})
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function TestSupabase() {
 
         // Test 3: Auth methods
         const { data: authData, error: authError } = await supabase.auth.getSession()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         setDetails((prev: any) => ({
           ...prev,
           authTest: authError ? authError.message : 'Auth methods available',

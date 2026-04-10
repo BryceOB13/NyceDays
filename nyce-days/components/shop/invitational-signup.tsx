@@ -108,13 +108,13 @@ export function InvitationalSignup() {
             <CheckCircle className="h-10 w-10 text-nd-red mx-auto mb-4" />
             {successType === 'dj' ? (
               <>
-                <h3 className="font-serif text-xl mb-2">You're in the mix.</h3>
-                <p className="text-sm text-muted-foreground">We'll reach out via email or IG to confirm your slot.</p>
+                <h3 className="font-serif text-xl mb-2">You&apos;re in the mix.</h3>
+                <p className="text-sm text-muted-foreground">We&apos;ll reach out via email or IG to confirm your slot.</p>
               </>
             ) : (
               <>
-                <h3 className="font-serif text-xl mb-2">You're on the list.</h3>
-                <p className="text-sm text-muted-foreground">We'll hit you up with the details for April 12 — come vibe.</p>
+                <h3 className="font-serif text-xl mb-2">You&apos;re on the list.</h3>
+                <p className="text-sm text-muted-foreground">We&apos;ll hit you up with the details for April 12 — come vibe.</p>
               </>
             )}
           </div>

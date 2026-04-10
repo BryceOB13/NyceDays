@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -163,7 +162,7 @@ export function EngagementCard() {
           subtitle="Most clicked call-to-action buttons"
         >
           <div className="space-y-2">
-            {data.ctaClicks.slice(0, 5).map((cta, index) => (
+            {data.ctaClicks.slice(0, 5).map((cta) => (
               <div key={cta.cta_id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                 <div>
                   <p className="font-medium">{cta.cta_id}</p>

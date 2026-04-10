@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -89,6 +88,7 @@ export function RecentActivityCard() {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatActivityText = (item: any) => {
     switch (item.type) {
       case 'contact':
