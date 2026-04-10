@@ -71,8 +71,9 @@ export function AudienceCard() {
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    label={({ domain, percent }) => 
-                      percent > 0.05 ? `${domain} ${(percent * 100).toFixed(0)}%` : ''
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    label={({ percent, ...rest }: any) => 
+                      percent > 0.05 ? `${rest.domain} ${(percent * 100).toFixed(0)}%` : ''
                     }
                     outerRadius={80}
                     fill="#8884d8"
