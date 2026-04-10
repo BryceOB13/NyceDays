@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/shared/theme-provider"
 import { AnalyticsProvider } from "@/components/shared/analytics-provider"
 import { AudioController } from "@/components/shared/audio-controller"
 import { ScrollToTop } from "@/components/shared/scroll-to-top"
+import { Analytics } from "@vercel/analytics/next"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nycedays.com'
 
@@ -103,6 +104,7 @@ export default function RootLayout({
             <Footer />
             <AudioController />
             <ScrollToTop />
+            <Analytics />
           </AnalyticsProvider>
         </ThemeProvider>
       </body>
