@@ -97,7 +97,7 @@ export function InvitationalSignup() {
             <p>The Wharf, DC · 3–8 PM · 30-min sets</p>
           </div>
           <p className="mt-2 md:mt-3 text-xs md:text-sm text-foreground/60 max-w-sm mx-auto leading-snug">
-            Think you got next? Step up and show us what you're working with.
+            Think you got next? Step up and show us what you&apos;re working with.
           </p>
         </div>
       </FadeUp>
