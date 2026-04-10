@@ -1,3 +1,5 @@
+'use client'
+
 import { TrafficTrendsCard } from '@/components/admin/traffic-trends-card'
 import { SubscriberMetricsCard } from '@/components/admin/subscriber-metrics-card'
 import { EngagementCard } from '@/components/admin/engagement-card'
