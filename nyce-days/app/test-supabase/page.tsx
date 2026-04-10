@@ -35,7 +35,7 @@ export default function TestSupabase() {
 
         // Test 3: Auth methods
         const { data: authData, error: authError } = await supabase.auth.getSession()
-        setDetails(prev => ({
+        setDetails((prev: any) => ({
           ...prev,
           authTest: authError ? authError.message : 'Auth methods available',
           session: authData.session ? 'Has session' : 'No session'

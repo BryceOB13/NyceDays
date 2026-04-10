@@ -35,12 +35,12 @@ export function useGallery(category?: string) {
         console.log('📦 Loaded manifest with', manifest.items?.length, 'items')
         
         // SKIP VALIDATION - Use all items directly for performance
-        const allItems = manifest.items.map(parseManifestItem)
+        const allItems: MediaItem[] = manifest.items.map(parseManifestItem)
         
         setValidatedItems(allItems) // Cache for later use
         
         // Shuffle the items for variety
-        const shuffled = shuffleItems(allItems)
+        const shuffled: MediaItem[] = shuffleItems(allItems)
         
         // Filter by category if specified
         const filtered = category 

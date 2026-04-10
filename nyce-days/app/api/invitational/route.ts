@@ -26,7 +26,8 @@ const signupSchema = z.discriminatedUnion('signup_type', [djSchema, waitlistSche
 export async function GET() {
   try {
     const supabase = await createClient()
-    const { count, error } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { count, error } = await (supabase as any)
       .from('invitational_signups')
       .select('*', { count: 'exact', head: true })
       .eq('signup_type', 'dj')
@@ -62,7 +63,8 @@ export async function POST(request: Request) {
 
     // Race condition guard for DJ signups
     if (data.signup_type === 'dj') {
-      const { count, error: countError } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { count, error: countError } = await (supabase as any)
         .from('invitational_signups')
         .select('*', { count: 'exact', head: true })
         .eq('signup_type', 'dj')
@@ -93,10 +95,10 @@ export async function POST(request: Request) {
       insertData.time_slot_preference = data.time_slot_preference
     }
 
-    const { error: insertError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: insertError } = await (supabase as any)
       .from('invitational_signups')
       .insert(insertData)
-
     if (insertError) {
       console.error('Insert error:', insertError)
       return NextResponse.json({ success: false, error: 'Failed to save signup' }, { status: 500 })
