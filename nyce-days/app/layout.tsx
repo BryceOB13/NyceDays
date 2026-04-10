@@ -47,8 +47,8 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'Nyce Days',
-    title: 'Nyce Days | Event Curation & Community Marketing',
-    description: 'Event curation, community marketing, and content creation. Have A Nyce Day!',
+    title: 'Have A Nyce Day ✨',
+    description: 'Event curation, community marketing, and content creation. DC · NYC · Baltimore.',
     images: [
       {
         url: '/api/og',
@@ -60,8 +60,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nyce Days | Event Curation & Community Marketing',
-    description: 'Event curation, community marketing, and content creation. Have A Nyce Day!',
+    title: 'Have A Nyce Day ✨',
+    description: 'Event curation, community marketing, and content creation. DC · NYC · Baltimore.',
     creator: '@nycedays',
     images: ['/api/og'],
   },
