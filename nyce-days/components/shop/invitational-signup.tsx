@@ -27,10 +27,15 @@ const GENRES = [
 ] as const
 
 const TIME_SLOTS = [
-  '3:00–3:30', '3:30–4:00', '4:00–4:30', '4:30–5:00', '5:00–5:30',
-  '5:30–6:00', '6:00–6:30', '6:30–7:00', '7:00–7:30', '7:30–8:00',
+  '3:00 – 3:30', '3:30 – 4:00', '4:00 – 4:30', '4:30 – 5:00', '5:00 – 5:30',
+  '5:30 – 6:00', '6:00 – 6:30', '6:30 – 7:00', '7:00 – 7:30', '7:30 – 8:00',
   'No preference / any slot',
 ] as const
+
+const FILLED_SLOTS = new Set([
+  '3:30 – 4:00', '4:00 – 4:30', '4:30 – 5:00', '5:00 – 5:30',
+  '5:30 – 6:00', '6:00 – 6:30', '6:30 – 7:00', '7:00 – 7:30',
+])
 
 const djSchema = z.object({
   full_name: z.string().min(1, 'Name is required'),
@@ -90,11 +95,11 @@ export function InvitationalSignup() {
         {/* Event header */}
         <div className="text-center mb-4 md:mb-6">
           <h1 className="font-serif text-[1.65rem] sm:text-4xl md:text-5xl font-bold uppercase tracking-wide leading-none">
-            Nyce Invitational
+            Something Nyce Open Decks
           </h1>
           <div className="mt-2 md:mt-3 text-xs md:text-sm text-muted-foreground leading-relaxed">
             <p className="font-medium text-foreground/80">Sunday, April 12, 2026</p>
-            <p>The Wharf, DC · 3–8 PM · 30-min sets</p>
+            <p>The Wharf, DC · 3–8 PM · 20-min sets</p>
           </div>
           <p className="mt-2 md:mt-3 text-xs md:text-sm text-foreground/60 max-w-sm mx-auto leading-snug">
             Think you got next? Step up and show us what you&apos;re working with.
@@ -262,14 +267,21 @@ function DJForm({ status, errorMsg, onSubmit }: {
               <SheetDescription>Select all that work for you</SheetDescription>
             </SheetHeader>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 overflow-y-auto pb-4">
-              {TIME_SLOTS.map(slot => (
-                <button key={slot} type="button" onClick={() => toggleSlot(slot)}
-                  className={`px-3 py-3 text-sm rounded-lg border transition-all font-medium ${
-                    selectedSlots.includes(slot)
-                      ? 'bg-nd-red text-white border-nd-red shadow-sm shadow-nd-red/20'
-                      : 'bg-background border-border/40 text-muted-foreground hover:border-nd-red/40 hover:text-foreground'
-                  }`}>{slot}</button>
-              ))}
+              {TIME_SLOTS.map(slot => {
+                const isFilled = FILLED_SLOTS.has(slot)
+                return (
+                  <button key={slot} type="button"
+                    onClick={() => !isFilled && toggleSlot(slot)}
+                    disabled={isFilled}
+                    className={`px-3 py-3 text-sm rounded-lg border transition-all font-medium ${
+                      isFilled
+                        ? 'bg-muted/30 border-border/20 text-muted-foreground/40 cursor-not-allowed line-through'
+                        : selectedSlots.includes(slot)
+                          ? 'bg-nd-red text-white border-nd-red shadow-sm shadow-nd-red/20'
+                          : 'bg-background border-border/40 text-muted-foreground hover:border-nd-red/40 hover:text-foreground'
+                    }`}>{slot}{isFilled ? ' (filled)' : ''}</button>
+                )
+              })}
             </div>
             <SheetClose asChild>
               <Button className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-10 text-sm font-semibold rounded-lg">

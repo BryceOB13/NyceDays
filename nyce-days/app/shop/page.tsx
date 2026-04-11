@@ -1,14 +1,14 @@
 import { InvitationalSignup } from "@/components/shop/invitational-signup"
 
 export const metadata = {
-  title: "Nyce Invitational | Nyce Days",
+  title: "Something Nyce Open Decks | Nyce Days",
   description: "Open-deck DJ showcase. Sunday, April 12 at The Wharf, DC. Sign up to spin.",
   openGraph: {
-    title: "Nyce Invitational — Think You Got Next?",
+    title: "Something Nyce Open Decks — Think You Got Next?",
     description: "Open-deck DJ showcase. Sunday, April 12 at The Wharf, DC. 3–8 PM. Sign up to spin.",
   },
   twitter: {
-    title: "Nyce Invitational — Think You Got Next?",
+    title: "Something Nyce Open Decks — Think You Got Next?",
     description: "Open-deck DJ showcase. Sunday, April 12 at The Wharf, DC. 3–8 PM. Sign up to spin.",
   },
 }
