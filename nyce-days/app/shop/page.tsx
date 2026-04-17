@@ -15,7 +15,7 @@ export const metadata = {
 
 export default async function ShopPage() {
   return (
-    <div className="min-h-[calc(100svh-4rem)] w-full bg-background pt-8 pb-6 md:pt-12 md:pb-10">
+    <div className="min-h-[calc(100svh-4rem)] w-full bg-background pt-6 pb-6 md:pt-8 md:pb-10">
       <div className="w-full max-w-2xl mx-auto px-4">
         <InvitationalSignup />
       </div>

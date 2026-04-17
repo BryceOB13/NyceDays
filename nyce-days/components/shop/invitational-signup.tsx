@@ -14,9 +14,8 @@ import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from '@/components/ui/sheet'
 import { FadeUp } from '@/components/shared/fade-up'
-import { PoshFollowSection } from '@/components/community/posh-follow-section'
 import { createClient } from '@/lib/supabase/client'
-import { CheckCircle, Clock } from 'lucide-react'
+import { CheckCircle, Clock, ExternalLink } from 'lucide-react'
 
 const DJ_CAP = 20
 
@@ -52,6 +51,20 @@ function formatPhone(value: string): string {
   if (digits.length <= 3) return digits.length ? `(${digits}` : ''
   if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`
   return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`
+}
+
+function PoshCTA() {
+  return (
+    <a href="https://posh.vip/o/nyce-days" target="_blank" rel="noopener noreferrer"
+      className="flex items-center justify-between gap-3 rounded-lg bg-foreground/5 border border-border/30 px-3 py-2.5 hover:border-nd-red/30 transition-colors">
+      <p className="text-[11px] text-muted-foreground leading-snug">
+        Follow <span className="text-foreground font-medium">@nycedays</span> on Posh for first access to future events.
+      </p>
+      <span className="shrink-0 inline-flex items-center gap-1 text-[11px] font-medium text-nd-red">
+        Follow <ExternalLink className="h-3 w-3" />
+      </span>
+    </a>
+  )
 }
 
 export function InvitationalSignup() {
@@ -140,7 +153,7 @@ export function InvitationalSignup() {
                 <p className="text-sm text-muted-foreground">We&apos;ll hit you up with the details for April 19.</p>
               </>
             )}
-            <PoshFollowSection />
+            <PoshCTA />
           </div>
         </FadeUp>
       ) : (
@@ -314,7 +327,7 @@ function DJForm({ status, errorMsg, availableSlots, onSubmit }: {
           </SheetContent>
         </Sheet>
 
-        <PoshFollowSection />
+        <PoshCTA />
 
         {errorMsg && <p className="text-[10px] text-destructive text-center">{errorMsg}</p>}
 
@@ -357,7 +370,7 @@ function WaitlistForm({ status, errorMsg, onSubmit }: {
             <FormControl><Input placeholder="@handle" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
             <FormMessage className="text-[10px]" /></FormItem>
         )} />
-        <PoshFollowSection />
+        <PoshCTA />
         {errorMsg && <p className="text-[10px] text-destructive text-center">{errorMsg}</p>}
         <Button type="submit" disabled={status === 'loading'}
           className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-10 text-sm font-semibold rounded-lg">
