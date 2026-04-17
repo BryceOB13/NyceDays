@@ -14,8 +14,9 @@ import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from '@/components/ui/sheet'
 import { FadeUp } from '@/components/shared/fade-up'
+import { PoshFollowSection } from '@/components/community/posh-follow-section'
 import { createClient } from '@/lib/supabase/client'
-import { CheckCircle, Clock, ExternalLink } from 'lucide-react'
+import { CheckCircle, Clock } from 'lucide-react'
 
 const DJ_CAP = 20
 
@@ -51,20 +52,6 @@ function formatPhone(value: string): string {
   if (digits.length <= 3) return digits.length ? `(${digits}` : ''
   if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`
   return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`
-}
-
-function PoshCTA() {
-  return (
-    <div className="flex items-center justify-between gap-3 rounded-lg bg-foreground/5 border border-border/30 px-3 py-2.5">
-      <p className="text-[11px] text-muted-foreground leading-snug">
-        Follow <span className="text-foreground font-medium">@nycedays</span> on Posh for first access to future events.
-      </p>
-      <a href="https://posh.vip/o/nyce-days" target="_blank" rel="noopener noreferrer"
-        className="shrink-0 inline-flex items-center gap-1 text-[11px] font-medium text-nd-red hover:text-nd-red/80 transition-colors">
-        Follow <ExternalLink className="h-3 w-3" />
-      </a>
-    </div>
-  )
 }
 
 export function InvitationalSignup() {
@@ -129,8 +116,8 @@ export function InvitationalSignup() {
             Something Nyce Open Decks
           </h1>
           <div className="mt-2 md:mt-3 text-xs md:text-sm text-muted-foreground leading-relaxed">
-            <p className="font-medium text-foreground/80">Sunday, April 12, 2026</p>
-            <p>The Wharf, DC · 3–8 PM · 20-min sets</p>
+            <p className="font-medium text-foreground/80">Sunday, April 19, 2026</p>
+            <p>Looking Glass Lounge, DC · 7 PM–Midnight · 20-min sets</p>
           </div>
           <p className="mt-2 md:mt-3 text-xs md:text-sm text-foreground/60 max-w-sm mx-auto leading-snug">
             Think you got next? Step up and show us what you&apos;re working with.
@@ -150,10 +137,10 @@ export function InvitationalSignup() {
             ) : (
               <>
                 <h3 className="font-serif text-xl">You&apos;re on the list.</h3>
-                <p className="text-sm text-muted-foreground">We&apos;ll hit you up with the details for April 12.</p>
+                <p className="text-sm text-muted-foreground">We&apos;ll hit you up with the details for April 19.</p>
               </>
             )}
-            <PoshCTA />
+            <PoshFollowSection />
           </div>
         </FadeUp>
       ) : (
@@ -178,7 +165,7 @@ export function InvitationalSignup() {
             ) : (
               <>
                 <p className="text-center text-xs text-muted-foreground mb-4 leading-relaxed">
-                  DJ spots are filled — drop your info for the waitlist or just pull up to The Wharf on April 12.
+                  DJ spots are filled — drop your info for the waitlist or just pull up to Looking Glass Lounge on April 19.
                 </p>
                 <WaitlistForm status={status} errorMsg={errorMsg} onSubmit={async (data) => {
                   setStatus('loading'); setErrorMsg('')
@@ -327,7 +314,7 @@ function DJForm({ status, errorMsg, availableSlots, onSubmit }: {
           </SheetContent>
         </Sheet>
 
-        <PoshCTA />
+        <PoshFollowSection />
 
         {errorMsg && <p className="text-[10px] text-destructive text-center">{errorMsg}</p>}
 
@@ -370,7 +357,7 @@ function WaitlistForm({ status, errorMsg, onSubmit }: {
             <FormControl><Input placeholder="@handle" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
             <FormMessage className="text-[10px]" /></FormItem>
         )} />
-        <PoshCTA />
+        <PoshFollowSection />
         {errorMsg && <p className="text-[10px] text-destructive text-center">{errorMsg}</p>}
         <Button type="submit" disabled={status === 'loading'}
           className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-10 text-sm font-semibold rounded-lg">

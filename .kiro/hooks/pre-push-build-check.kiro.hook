@@ -1,16 +1,14 @@
 {
   "enabled": true,
-  "name": "Build Check Before Push",
-  "description": "Reminds the agent to run `next build` or at minimum `next lint && tsc --noEmit` before committing and pushing, to catch the same errors Vercel would catch.",
-  "version": "1",
+  "name": "Lint and Type Check Before Push",
+  "description": "Runs next lint and tsc --noEmit in the nyce-days directory before any git push to catch build errors before they hit Vercel.",
+  "version": "2",
   "when": {
     "type": "preToolUse",
-    "toolTypes": [
-      "shell"
-    ]
+    "toolTypes": [".*git push.*"]
   },
   "then": {
     "type": "askAgent",
-    "prompt": "If the command being run is `git push`, first verify that `npx next lint` and `npx tsc --noEmit` have been run successfully in the nyce-days directory during this session. If not, run them before pushing. Do not push if there are lint errors or type errors."
+    "prompt": "BEFORE executing this git push, you MUST run these two commands in the nyce-days directory and confirm both pass with exit code 0:\n1. npx next lint\n2. npx tsc --noEmit\n\nIf either fails, fix the errors first. Do NOT push until both pass.\nIf next lint times out, at minimum run: npx eslint components/shop/invitational-signup.tsx app/admin/page.tsx --quiet"
   }
 }
