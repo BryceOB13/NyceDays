@@ -18,6 +18,7 @@ import { createClient } from '@/lib/supabase/client'
 import { CheckCircle, Clock, ExternalLink } from 'lucide-react'
 
 const DJ_CAP = 20
+const CURRENT_EVENT_DATE = '2026-04-19'
 
 const ALL_SLOTS = [
   '7:00 – 7:30', '7:30 – 8:00', '8:00 – 8:30', '8:30 – 9:00', '9:00 – 9:30',
@@ -76,7 +77,7 @@ export function InvitationalSignup() {
 
   // Fetch initial data + subscribe to realtime
   useEffect(() => {
-    fetch('/api/invitational')
+    fetch(`/api/invitational?event_date=${CURRENT_EVENT_DATE}`)
       .then(r => r.json())
       .then(d => {
         setDjCount(d.djCount ?? 0)
@@ -94,7 +95,7 @@ export function InvitationalSignup() {
         table: 'invitational_signups',
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       }, (payload: any) => {
-        if (payload.new?.signup_type === 'dj' && Array.isArray(payload.new?.time_slot_preference)) {
+        if (payload.new?.signup_type === 'dj' && payload.new?.event_date === CURRENT_EVENT_DATE && Array.isArray(payload.new?.time_slot_preference)) {
           setClaimedSlots(prev => [...prev, ...payload.new.time_slot_preference])
           setDjCount(prev => (prev ?? 0) + 1)
         }
@@ -166,7 +167,7 @@ export function InvitationalSignup() {
                   try {
                     const res = await fetch('/api/invitational', {
                       method: 'POST', headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ ...data, signup_type: 'dj' }),
+                      body: JSON.stringify({ ...data, signup_type: 'dj', event_date: CURRENT_EVENT_DATE }),
                     })
                     const result = await res.json()
                     if (result.error === 'dj_cap_reached') { setDjCount(DJ_CAP); setStatus('idle'); setErrorMsg('DJ spots just filled — join the waitlist below.'); return }
@@ -185,7 +186,7 @@ export function InvitationalSignup() {
                   try {
                     const res = await fetch('/api/invitational', {
                       method: 'POST', headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ ...data, signup_type: 'waitlist' }),
+                      body: JSON.stringify({ ...data, signup_type: 'waitlist', event_date: CURRENT_EVENT_DATE }),
                     })
                     if (!res.ok) { const r = await res.json(); setStatus('error'); setErrorMsg(r.message || 'Something went wrong.'); return }
                     setSuccessType('waitlist'); setStatus('success')

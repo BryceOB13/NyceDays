@@ -8,12 +8,13 @@ const baseSchema = z.object({
   full_name: z.string().min(1, 'Name is required').max(100),
   email: z.string().email('Invalid email'),
   instagram_handle: z.string().min(1, 'Instagram handle is required').max(50),
+  event_date: z.string().min(1, 'Event date is required'),
 })
 
 const djSchema = baseSchema.extend({
   signup_type: z.literal('dj'),
   phone: z.string().optional(),
-  contact_preference: z.enum(['instagram', 'sms']).default('instagram'),
+  contact_preference: z.enum(['instagram', 'sms']),
   time_slot_preference: z.array(z.string()).min(1, 'Select a time slot').max(1, 'Select only one slot'),
 })
 
@@ -23,25 +24,35 @@ const waitlistSchema = baseSchema.extend({
 
 const signupSchema = z.discriminatedUnion('signup_type', [djSchema, waitlistSchema])
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url)
+    const eventDate = searchParams.get('event_date')
+
+    if (!eventDate) {
+      return NextResponse.json({ error: 'event_date is required' }, { status: 400 })
+    }
+
     const supabase = await createClient()
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { count, error } = await (supabase as any)
       .from('invitational_signups')
       .select('*', { count: 'exact', head: true })
       .eq('signup_type', 'dj')
+      .eq('event_date', eventDate)
 
     if (error) {
       return NextResponse.json({ error: 'Failed to fetch count' }, { status: 500 })
     }
 
-    // Fetch claimed slots
+    // Fetch claimed slots for this event only
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: claimedData } = await (supabase as any)
       .from('invitational_signups')
       .select('time_slot_preference')
       .eq('signup_type', 'dj')
+      .eq('event_date', eventDate)
 
     const claimedSlots: string[] = []
     if (claimedData) {
@@ -74,12 +85,10 @@ export async function POST(request: Request) {
     const data = result.data
     const supabase = await createClient()
 
-    // Normalize instagram handle
     let handle = data.instagram_handle.trim()
     if (!handle.startsWith('@')) handle = `@${handle}`
 
     if (data.signup_type === 'dj') {
-      // Validate phone is provided when contact_preference is sms
       if (data.contact_preference === 'sms' && (!data.phone || data.phone.replace(/\D/g, '').length < 10)) {
         return NextResponse.json(
           { success: false, error: 'Phone number is required when choosing text notifications' },
@@ -87,12 +96,13 @@ export async function POST(request: Request) {
         )
       }
 
-      // Race condition guard — check DJ cap
+      // Race condition guard — check DJ cap for THIS event
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { count, error: countError } = await (supabase as any)
         .from('invitational_signups')
         .select('*', { count: 'exact', head: true })
         .eq('signup_type', 'dj')
+        .eq('event_date', data.event_date)
 
       if (countError) {
         return NextResponse.json({ success: false, error: 'Failed to verify availability' }, { status: 500 })
@@ -105,7 +115,7 @@ export async function POST(request: Request) {
         }, { status: 409 })
       }
 
-      // Race condition guard — check slot not already claimed
+      // Race condition guard — check slot not already claimed for THIS event
       const chosenSlot = data.time_slot_preference[0]
       if (chosenSlot && chosenSlot !== 'No preference / any slot') {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -113,6 +123,7 @@ export async function POST(request: Request) {
           .from('invitational_signups')
           .select('id')
           .eq('signup_type', 'dj')
+          .eq('event_date', data.event_date)
           .contains('time_slot_preference', [chosenSlot])
           .limit(1)
 
@@ -130,6 +141,7 @@ export async function POST(request: Request) {
       email: data.email.toLowerCase().trim(),
       instagram_handle: handle,
       signup_type: data.signup_type,
+      event_date: data.event_date,
     }
 
     if (data.signup_type === 'dj') {
