@@ -12,9 +12,9 @@ const baseSchema = z.object({
 
 const djSchema = baseSchema.extend({
   signup_type: z.literal('dj'),
-  genre: z.string().min(1, 'Genre is required'),
-  genre_other: z.string().optional(),
-  time_slot_preference: z.array(z.string()).min(1, 'Select at least one time slot'),
+  phone: z.string().optional(),
+  contact_preference: z.enum(['instagram', 'sms']).default('instagram'),
+  time_slot_preference: z.array(z.string()).min(1, 'Select a time slot').max(1, 'Select only one slot'),
 })
 
 const waitlistSchema = baseSchema.extend({
@@ -36,7 +36,24 @@ export async function GET() {
       return NextResponse.json({ error: 'Failed to fetch count' }, { status: 500 })
     }
 
-    return NextResponse.json({ djCount: count || 0, cap: DJ_CAP })
+    // Fetch claimed slots
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: claimedData } = await (supabase as any)
+      .from('invitational_signups')
+      .select('time_slot_preference')
+      .eq('signup_type', 'dj')
+
+    const claimedSlots: string[] = []
+    if (claimedData) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      for (const row of claimedData as any[]) {
+        if (Array.isArray(row.time_slot_preference)) {
+          claimedSlots.push(...row.time_slot_preference)
+        }
+      }
+    }
+
+    return NextResponse.json({ djCount: count || 0, cap: DJ_CAP, claimedSlots })
   } catch {
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
@@ -61,8 +78,16 @@ export async function POST(request: Request) {
     let handle = data.instagram_handle.trim()
     if (!handle.startsWith('@')) handle = `@${handle}`
 
-    // Race condition guard for DJ signups
     if (data.signup_type === 'dj') {
+      // Validate phone is provided when contact_preference is sms
+      if (data.contact_preference === 'sms' && (!data.phone || data.phone.replace(/\D/g, '').length < 10)) {
+        return NextResponse.json(
+          { success: false, error: 'Phone number is required when choosing text notifications' },
+          { status: 400 }
+        )
+      }
+
+      // Race condition guard — check DJ cap
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { count, error: countError } = await (supabase as any)
         .from('invitational_signups')
@@ -75,10 +100,28 @@ export async function POST(request: Request) {
 
       if ((count || 0) >= DJ_CAP) {
         return NextResponse.json({
-          success: false,
-          error: 'dj_cap_reached',
+          success: false, error: 'dj_cap_reached',
           message: 'DJ spots are full. You can still join the waitlist.',
         }, { status: 409 })
+      }
+
+      // Race condition guard — check slot not already claimed
+      const chosenSlot = data.time_slot_preference[0]
+      if (chosenSlot && chosenSlot !== 'No preference / any slot') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data: existing } = await (supabase as any)
+          .from('invitational_signups')
+          .select('id')
+          .eq('signup_type', 'dj')
+          .contains('time_slot_preference', [chosenSlot])
+          .limit(1)
+
+        if (existing && existing.length > 0) {
+          return NextResponse.json({
+            success: false, error: 'slot_taken',
+            message: `The ${chosenSlot} slot was just claimed. Please pick a different one.`,
+          }, { status: 409 })
+        }
       }
     }
 
@@ -90,15 +133,16 @@ export async function POST(request: Request) {
     }
 
     if (data.signup_type === 'dj') {
-      insertData.genre = data.genre
-      insertData.genre_other = data.genre === 'Other' ? data.genre_other?.trim() || null : null
       insertData.time_slot_preference = data.time_slot_preference
+      insertData.phone = data.phone?.trim() || null
+      insertData.contact_preference = data.contact_preference
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error: insertError } = await (supabase as any)
       .from('invitational_signups')
       .insert(insertData)
+
     if (insertError) {
       console.error('Insert error:', insertError)
       return NextResponse.json({ success: false, error: 'Failed to save signup' }, { status: 500 })
