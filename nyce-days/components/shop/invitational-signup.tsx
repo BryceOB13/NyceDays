@@ -56,7 +56,7 @@ function formatPhone(value: string): string {
 
 function PoshCTA() {
   return (
-    <a href="https://posh.vip/o/nyce-days" target="_blank" rel="noopener noreferrer"
+    <a href="https://posh.vip/g/nyce-days" target="_blank" rel="noopener noreferrer"
       className="flex items-center justify-between gap-3 rounded-lg bg-foreground/5 border border-border/30 px-3 py-2.5 hover:border-nd-red/30 transition-colors">
       <p className="text-[11px] text-muted-foreground leading-snug">
         Follow <span className="text-foreground font-medium">@nycedays</span> on Posh for first access to future events.
