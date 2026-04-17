@@ -11,7 +11,7 @@ import {
   Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 } from '@/components/ui/form'
 import {
-  Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetClose,
+  Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from '@/components/ui/sheet'
 import { FadeUp } from '@/components/shared/fade-up'
 import { createClient } from '@/lib/supabase/client'
