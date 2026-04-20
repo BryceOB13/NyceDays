@@ -14,6 +14,7 @@ interface GalleryGridProps {
 
 export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
   const [items, setItems] = useState<MediaItem[]>(initialItems)
+  const [failedIds, setFailedIds] = useState<Set<string>>(new Set())
   const [allItems, setAllItems] = useState<MediaItem[] | null>(null)
   const [loading, setLoading] = useState(false)
   const [lightboxItem, setLightboxItem] = useState<MediaItem | null>(null)
@@ -69,14 +70,13 @@ export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
     <>
       {/* Masonry grid */}
       <div className="columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-0 w-full">
-        {items.map((item, index) => (
+        {items.filter(item => !failedIds.has(item.id)).map((item, index) => (
           <button
             key={item.id}
             onClick={() => handleImageClick(item, index)}
             className="group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-nd-red block w-full border-0 p-0 m-0"
             style={{ display: 'block', lineHeight: 0 }}
           >
-            {/* Direct <img> — thumbs are pre-optimized 400px webp, no proxy needed */}
             <img
               src={item.variants.thumb.url}
               alt={item.alt || `Gallery image ${item.position + 1}`}
@@ -86,6 +86,7 @@ export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
               decoding="async"
               className="w-full h-auto block transition-opacity duration-300"
               style={{ aspectRatio: `${item.variants.thumb.width} / ${item.variants.thumb.height}` }}
+              onError={() => setFailedIds(prev => new Set(prev).add(item.id))}
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
           </button>
