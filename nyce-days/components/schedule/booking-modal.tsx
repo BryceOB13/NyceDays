@@ -17,8 +17,8 @@ const bookingSchema = z.object({
   email: z.string().email('Invalid email'),
   phone_number: z.string().min(1, 'Phone is required'),
   instagram_handle: z.string().min(1, 'Instagram is required'),
-  media_link: z.string().url('Must be a valid URL'),
-  is_ready: z.literal(true, { message: 'You must confirm your content is ready' }),
+  media_link: z.string().url('Must be a valid link'),
+  is_ready: z.literal(true, { message: 'Confirm your audio is ready' }),
 })
 
 type BookingFormData = z.infer<typeof bookingSchema>
@@ -65,32 +65,37 @@ export function BookingModal({ bookingDate, onClose, onBooked }: BookingModalPro
     }
   }
 
-  const ic = 'bg-background/50 border-border/40 h-10 text-sm focus:border-nd-red focus:ring-1 focus:ring-nd-red/20 transition-all rounded-lg'
-  const lc = 'text-foreground/80 text-xs font-medium'
+  const ic = 'bg-background/50 border-border/30 h-10 text-sm focus:border-nd-red focus:ring-1 focus:ring-nd-red/20 transition-all rounded-lg'
+  const lc = 'text-foreground/70 text-xs font-medium'
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="w-full max-w-lg bg-background border border-border/40 rounded-xl p-6 relative" onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground" aria-label="Close">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose}>
+      <div className="w-full max-w-lg bg-background border border-border/30 rounded-2xl p-6 md:p-8 relative shadow-2xl" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors" aria-label="Close">
           <X className="h-5 w-5" />
         </button>
 
         {status === 'success' ? (
-          <div className="text-center py-6">
-            <CheckCircle className="h-10 w-10 text-green-500 mx-auto mb-4" />
-            <h3 className="font-serif text-xl mb-2">Booked!</h3>
-            <p className="text-sm text-muted-foreground">
-              Your set is scheduled for {format(date, 'EEEE, MMMM d')}. We&apos;ll be in touch.
+          <div className="text-center py-8">
+            <CheckCircle className="h-12 w-12 text-emerald-500 mx-auto mb-4" />
+            <h3 className="font-serif text-2xl mb-2">Date claimed.</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">
+              Once we confirm your audio, we&apos;ll lock your drop in for {format(date, 'MMMM d')}.
             </p>
-            <Button onClick={onClose} variant="outline" size="sm" className="mt-4">Close</Button>
+            <Button onClick={onClose} variant="outline" size="sm" className="mt-6">Done</Button>
           </div>
         ) : (
           <>
-            <h2 className="font-serif text-xl mb-1">Book Your Drop</h2>
-            <p className="text-sm text-muted-foreground mb-5">{format(date, 'EEEE, MMMM d, yyyy')}</p>
+            <div className="mb-6">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-nd-red font-semibold mb-1">Claim this drop date</p>
+              <h2 className="font-serif text-2xl">{format(date, 'EEEE, MMMM d')}</h2>
+              <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                We already have your video — choose this date, send your audio, and we&apos;ll start prepping your drop.
+              </p>
+            </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3.5">
                 <div className="grid grid-cols-2 gap-3">
                   <FormField control={form.control} name="full_name" render={({ field }) => (
                     <FormItem className="space-y-1">
@@ -125,30 +130,29 @@ export function BookingModal({ bookingDate, onClose, onBooked }: BookingModalPro
                 </div>
                 <FormField control={form.control} name="media_link" render={({ field }) => (
                   <FormItem className="space-y-1">
-                    <FormLabel className={lc}>Media Link *</FormLabel>
-                    <FormControl><Input type="url" placeholder="https://drive.google.com/..." className={ic} disabled={status === 'loading'} {...field} /></FormControl>
+                    <FormLabel className={lc}>Audio / Asset Link *</FormLabel>
+                    <FormControl><Input type="url" placeholder="Google Drive, WeTransfer, or Dropbox link" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
                     <FormMessage className="text-[10px]" />
                   </FormItem>
                 )} />
                 <FormField control={form.control} name="is_ready" render={({ field }) => (
-                  <FormItem className="flex items-start gap-2 space-y-0 pt-1">
+                  <FormItem className="flex items-start gap-2.5 space-y-0 pt-1">
                     <FormControl>
                       <input type="checkbox" checked={field.value === true} onChange={e => field.onChange(e.target.checked ? true : false)}
                         disabled={status === 'loading'}
                         className="mt-0.5 h-4 w-4 rounded border-border accent-nd-red" />
                     </FormControl>
                     <FormLabel className="text-xs text-muted-foreground leading-snug cursor-pointer">
-                      I have my audio and video ready to upload *
+                      My audio is ready *
                     </FormLabel>
-                    <FormMessage className="text-[10px]" />
                   </FormItem>
                 )} />
 
                 {errorMsg && <p className="text-xs text-destructive text-center">{errorMsg}</p>}
 
                 <Button type="submit" disabled={status === 'loading'}
-                  className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-10 text-sm font-semibold rounded-lg">
-                  {status === 'loading' ? 'Booking...' : 'Book This Date'}
+                  className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-11 text-sm font-semibold rounded-lg mt-1">
+                  {status === 'loading' ? 'Claiming...' : 'Claim This Date'}
                 </Button>
               </form>
             </Form>

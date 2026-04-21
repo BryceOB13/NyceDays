@@ -1,15 +1,16 @@
 import { cn } from '@/lib/utils'
 
-const styles = {
-  open: 'bg-zinc-200 text-zinc-700 dark:bg-zinc-700 dark:text-zinc-300',
-  pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300',
-  confirmed: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300',
+const config = {
+  open: { label: 'Open', cls: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' },
+  pending: { label: 'Claimed', cls: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' },
+  confirmed: { label: 'Locked', cls: 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/20' },
 }
 
 export function StatusBadge({ status }: { status: 'open' | 'pending' | 'confirmed' }) {
+  const { label, cls } = config[status]
   return (
-    <span className={cn('inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider', styles[status])}>
-      {status}
+    <span className={cn('inline-block px-2 py-0.5 rounded-full text-[9px] font-semibold uppercase tracking-wider border', cls)}>
+      {label}
     </span>
   )
 }
