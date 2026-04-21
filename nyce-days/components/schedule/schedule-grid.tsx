@@ -44,8 +44,6 @@ export function ScheduleGrid() {
     return map
   }, [bookings])
 
-  const openCount = bookings.filter(b => b.status === 'open').length
-
   if (loading) {
     return (
       <div className="space-y-4">
@@ -113,12 +111,6 @@ export function ScheduleGrid() {
           <span className="w-2 h-2 rounded-full bg-sky-500/40" /> Locked
         </span>
       </div>
-
-      {openCount > 0 && (
-        <p className="text-center text-[11px] text-muted-foreground/50 mt-2">
-          {openCount} open date{openCount !== 1 ? 's' : ''} remaining
-        </p>
-      )}
 
       {selectedDate && (
         <BookingModal

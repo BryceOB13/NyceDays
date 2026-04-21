@@ -1,9 +1,10 @@
+import Image from 'next/image'
 import { ScheduleGrid } from '@/components/schedule/schedule-grid'
 import { FadeUp } from '@/components/shared/fade-up'
 
 export const metadata = {
   title: 'Drop Schedule | Nyce Days',
-  description: 'Schedule your drop date. We already have the video — just have your audio ready.',
+  description: 'When do you want us to post? Your video on Instagram.',
 }
 
 export default function SchedulePage() {
@@ -19,11 +20,17 @@ export default function SchedulePage() {
               Schedule Your Drop
             </h1>
             <p className="mt-3 text-sm text-muted-foreground max-w-md mx-auto">
-              Pick the week you want us to start syncing your audio with your set.
+              When do you want us to post? Your video on Instagram.
             </p>
-            <p className="mt-1.5 text-[11px] text-muted-foreground/50 italic max-w-sm mx-auto">
-              We already have the video — just make sure your audio is ready before you claim a date.
-            </p>
+          </div>
+        </FadeUp>
+
+        <FadeUp delay={0.05}>
+          <div className="flex justify-center mb-6">
+            <Image src="/logos/stars-white.png" alt="Nyce Days" width={280} height={84}
+              className="hidden dark:block object-contain h-16 md:h-20 w-auto" />
+            <Image src="/logos/stars-black.png" alt="Nyce Days" width={280} height={84}
+              className="dark:hidden object-contain h-16 md:h-20 w-auto" />
           </div>
         </FadeUp>
 
