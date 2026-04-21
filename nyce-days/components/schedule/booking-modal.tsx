@@ -13,11 +13,8 @@ import {
 import { X, CheckCircle } from 'lucide-react'
 
 const bookingSchema = z.object({
-  full_name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email'),
-  phone_number: z.string().min(1, 'Phone is required'),
   instagram_handle: z.string().min(1, 'Instagram is required'),
-  media_link: z.string().url('Must be a valid link'),
+  phone_number: z.string().min(1, 'Phone is required'),
   is_ready: z.literal(true, { message: 'Confirm your audio is ready' }),
 })
 
@@ -37,7 +34,7 @@ export function BookingModal({ bookingDate, onClose, onBooked }: BookingModalPro
   const form = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
-      full_name: '', email: '', phone_number: '', instagram_handle: '', media_link: '',
+      instagram_handle: '', phone_number: '',
       is_ready: false as unknown as true,
     },
   })
@@ -49,7 +46,14 @@ export function BookingModal({ bookingDate, onClose, onBooked }: BookingModalPro
       const res = await fetch('/api/schedule/book', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, booking_date: bookingDate }),
+        body: JSON.stringify({
+          ...data,
+          booking_date: bookingDate,
+          // Send IG as name/email placeholders since the API expects them
+          full_name: data.instagram_handle,
+          email: `${data.instagram_handle.replace('@', '')}@placeholder.nycedays.com`,
+          media_link: 'https://nycedays.com',
+        }),
       })
       const result = await res.json()
       if (!res.ok) {
@@ -70,7 +74,7 @@ export function BookingModal({ bookingDate, onClose, onBooked }: BookingModalPro
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="w-full max-w-lg bg-background border border-border/30 rounded-2xl p-6 md:p-8 relative shadow-2xl" onClick={e => e.stopPropagation()}>
+      <div className="w-full max-w-md bg-background border border-border/30 rounded-2xl p-6 md:p-8 relative shadow-2xl" onClick={e => e.stopPropagation()}>
         <button onClick={onClose} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors" aria-label="Close">
           <X className="h-5 w-5" />
         </button>
@@ -80,7 +84,7 @@ export function BookingModal({ bookingDate, onClose, onBooked }: BookingModalPro
             <CheckCircle className="h-12 w-12 text-emerald-500 mx-auto mb-4" />
             <h3 className="font-serif text-2xl mb-2">Date claimed.</h3>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs mx-auto">
-              Once we confirm your audio, we&apos;ll lock your drop in for {format(date, 'MMMM d')}.
+              We&apos;ll reach out to confirm for {format(date, 'MMMM d')}.
             </p>
             <Button onClick={onClose} variant="outline" size="sm" className="mt-6">Done</Button>
           </div>
@@ -89,49 +93,21 @@ export function BookingModal({ bookingDate, onClose, onBooked }: BookingModalPro
             <div className="mb-6">
               <p className="text-[10px] uppercase tracking-[0.2em] text-nd-red font-semibold mb-1">Claim this drop date</p>
               <h2 className="font-serif text-2xl">{format(date, 'EEEE, MMMM d')}</h2>
-              <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                We already have your video — choose this date, send your audio, and we&apos;ll start prepping your drop.
-              </p>
             </div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3.5">
-                <div className="grid grid-cols-2 gap-3">
-                  <FormField control={form.control} name="full_name" render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel className={lc}>Full Name *</FormLabel>
-                      <FormControl><Input placeholder="Your name" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
-                      <FormMessage className="text-[10px]" />
-                    </FormItem>
-                  )} />
-                  <FormField control={form.control} name="email" render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel className={lc}>Email *</FormLabel>
-                      <FormControl><Input type="email" placeholder="you@email.com" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
-                      <FormMessage className="text-[10px]" />
-                    </FormItem>
-                  )} />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <FormField control={form.control} name="phone_number" render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel className={lc}>Phone *</FormLabel>
-                      <FormControl><Input type="tel" placeholder="(555) 123-4567" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
-                      <FormMessage className="text-[10px]" />
-                    </FormItem>
-                  )} />
-                  <FormField control={form.control} name="instagram_handle" render={({ field }) => (
-                    <FormItem className="space-y-1">
-                      <FormLabel className={lc}>Instagram *</FormLabel>
-                      <FormControl><Input placeholder="@handle" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
-                      <FormMessage className="text-[10px]" />
-                    </FormItem>
-                  )} />
-                </div>
-                <FormField control={form.control} name="media_link" render={({ field }) => (
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField control={form.control} name="instagram_handle" render={({ field }) => (
                   <FormItem className="space-y-1">
-                    <FormLabel className={lc}>Audio / Asset Link *</FormLabel>
-                    <FormControl><Input type="url" placeholder="Google Drive, WeTransfer, or Dropbox link" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
+                    <FormLabel className={lc}>Instagram *</FormLabel>
+                    <FormControl><Input placeholder="@handle" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
+                    <FormMessage className="text-[10px]" />
+                  </FormItem>
+                )} />
+                <FormField control={form.control} name="phone_number" render={({ field }) => (
+                  <FormItem className="space-y-1">
+                    <FormLabel className={lc}>Phone *</FormLabel>
+                    <FormControl><Input type="tel" placeholder="(555) 123-4567" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
                     <FormMessage className="text-[10px]" />
                   </FormItem>
                 )} />

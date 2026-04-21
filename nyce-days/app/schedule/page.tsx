@@ -4,7 +4,7 @@ import { FadeUp } from '@/components/shared/fade-up'
 
 export const metadata = {
   title: 'Drop Schedule | Nyce Days',
-  description: 'When do you want us to post? Your video on Instagram.',
+  description: 'When do you want us to post your video on Instagram.',
 }
 
 export default function SchedulePage() {
@@ -12,7 +12,7 @@ export default function SchedulePage() {
     <div className="min-h-[calc(100svh-4rem)] w-full bg-background pt-8 pb-10 md:pt-12">
       <div className="w-full max-w-5xl mx-auto px-4">
         <FadeUp>
-          {/* Stars logo */}
+          {/* Stars above title */}
           <div className="flex justify-center mb-4">
             <Image src="/logos/stars-white.png" alt="Nyce Days" width={280} height={84}
               className="hidden dark:block object-contain h-16 md:h-20 w-auto" />
