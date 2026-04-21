@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { startOfWeek, endOfWeek, addWeeks, subWeeks, eachDayOfInterval, format } from 'date-fns'
+import { startOfWeek, endOfWeek, addWeeks, eachDayOfInterval, format } from 'date-fns'
 import { CalendarDayCard, type Booking } from './day-card'
 import { WeekNavigator } from './week-navigator'
 import { BookingModal } from './booking-modal'
