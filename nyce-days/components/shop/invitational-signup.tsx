@@ -17,7 +17,7 @@ import { FadeUp } from '@/components/shared/fade-up'
 import { createClient } from '@/lib/supabase/client'
 import { CheckCircle, Clock, ExternalLink } from 'lucide-react'
 
-const DJ_CAP = 14
+const DJ_CAP = 7
 const CURRENT_EVENT_DATE = '2026-05-17'
 
 const ALL_SLOTS = [
@@ -38,14 +38,7 @@ const djSchema = z.object({
   path: ['phone'],
 })
 
-const waitlistSchema = z.object({
-  full_name: z.string().min(1, 'Name is required'),
-  email: z.string().email('Invalid email'),
-  instagram_handle: z.string().min(1, 'IG handle is required'),
-})
-
 type DJFormData = z.infer<typeof djSchema>
-type WaitlistFormData = z.infer<typeof waitlistSchema>
 
 function formatPhone(value: string): string {
   const digits = value.replace(/\D/g, '').slice(0, 10)
@@ -72,7 +65,6 @@ export function InvitationalSignup() {
   const [djCount, setDjCount] = useState<number | null>(null)
   const [claimedSlots, setClaimedSlots] = useState<string[]>([])
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
-  const [successType, setSuccessType] = useState<'dj' | 'waitlist'>('dj')
   const [errorMsg, setErrorMsg] = useState('')
 
   // Fetch initial data + subscribe to realtime
@@ -151,6 +143,14 @@ export function InvitationalSignup() {
             <li>Comp entry to Royalties on May 17</li>
             <li>Press and content creators will be in the room</li>
           </ul>
+          <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mt-3">What to bring</p>
+          <p>Bring a deck. That&apos;s it.</p>
+          <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mt-3">House rules</p>
+          <ul className="space-y-1 list-disc list-inside">
+            <li>Show up 20 min before your slot to soundcheck and hand off cleanly</li>
+            <li>One hour, hard out. The next DJ is up.</li>
+            <li>Read the energy based on your slot. 3pm is warmup. 8pm is peak.</li>
+          </ul>
         </div>
       </FadeUp>
 
@@ -158,17 +158,8 @@ export function InvitationalSignup() {
         <FadeUp>
           <div className="rounded-xl border border-nd-red/20 bg-nd-red/5 p-8 text-center space-y-4">
             <CheckCircle className="h-10 w-10 text-nd-red mx-auto" />
-            {successType === 'dj' ? (
-              <>
-                <h3 className="font-serif text-xl">You&apos;re in the mix.</h3>
-                <p className="text-sm text-muted-foreground">We&apos;ll reach out to confirm your slot.</p>
-              </>
-            ) : (
-              <>
-                <h3 className="font-serif text-xl">You&apos;re on the list.</h3>
-                <p className="text-sm text-muted-foreground">We&apos;ll hit you up with the details for April 19.</p>
-              </>
-            )}
+            <h3 className="font-serif text-xl">You&apos;re locked in.</h3>
+            <p className="text-sm text-muted-foreground">We&apos;ll reach out to confirm. Show up 20 min early on May 17. Need to cancel? DM @_thisbryce.</p>
             <PoshCTA />
           </div>
         </FadeUp>
@@ -185,29 +176,20 @@ export function InvitationalSignup() {
                       body: JSON.stringify({ ...data, signup_type: 'dj', event_date: CURRENT_EVENT_DATE }),
                     })
                     const result = await res.json()
-                    if (result.error === 'dj_cap_reached') { setDjCount(DJ_CAP); setStatus('idle'); setErrorMsg('DJ spots just filled — join the waitlist below.'); return }
+                    if (result.error === 'dj_cap_reached') { setDjCount(DJ_CAP); setStatus('idle'); setErrorMsg('All slots are filled.'); return }
                     if (result.error === 'slot_taken') { setClaimedSlots(prev => [...prev, data.time_slot_preference[0]]); setStatus('idle'); setErrorMsg(result.message); return }
                     if (!res.ok) { setStatus('error'); setErrorMsg(result.message || 'Something went wrong.'); return }
-                    setSuccessType('dj'); setStatus('success')
+                    setStatus('success')
                   } catch { setStatus('error'); setErrorMsg('Network error. Try again.') }
                 }} />
             ) : (
-              <>
-                <p className="text-center text-xs text-muted-foreground mb-4 leading-relaxed">
-                  DJ spots are filled — drop your info for the waitlist or just pull up to Looking Glass Lounge on April 19.
+              <div className="text-center py-6">
+                <p className="font-serif text-xl text-foreground mb-2">Lineup full.</p>
+                <p className="text-xs text-muted-foreground leading-relaxed max-w-sm mx-auto">
+                  All 7 slots are locked. Pull up to Royalties on May 17 — doors at 3 PM.
+                  Need to cancel? DM @_thisbryce.
                 </p>
-                <WaitlistForm status={status} errorMsg={errorMsg} onSubmit={async (data) => {
-                  setStatus('loading'); setErrorMsg('')
-                  try {
-                    const res = await fetch('/api/invitational', {
-                      method: 'POST', headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ ...data, signup_type: 'waitlist', event_date: CURRENT_EVENT_DATE }),
-                    })
-                    if (!res.ok) { const r = await res.json(); setStatus('error'); setErrorMsg(r.message || 'Something went wrong.'); return }
-                    setSuccessType('waitlist'); setStatus('success')
-                  } catch { setStatus('error'); setErrorMsg('Network error. Try again.') }
-                }} />
-              </>
+              </div>
             )}
           </div>
         </FadeUp>
@@ -350,47 +332,6 @@ function DJForm({ status, errorMsg, availableSlots, onSubmit }: {
         <Button type="submit" disabled={status === 'loading'}
           className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-10 text-sm font-semibold rounded-lg">
           {status === 'loading' ? 'Submitting...' : 'Sign Up to Spin'}
-        </Button>
-      </form>
-    </Form>
-  )
-}
-
-// --- Waitlist Form ---
-
-function WaitlistForm({ status, errorMsg, onSubmit }: {
-  status: string; errorMsg: string; onSubmit: (data: WaitlistFormData) => void
-}) {
-  const form = useForm<WaitlistFormData>({
-    resolver: zodResolver(waitlistSchema),
-    defaultValues: { full_name: '', email: '', instagram_handle: '' },
-  })
-  const ic = 'bg-background/50 border-border/40 h-9 text-sm focus:border-nd-red focus:ring-1 focus:ring-nd-red/20 transition-all rounded-lg'
-  const lc = 'text-foreground/80 text-[11px] font-medium'
-
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-        <FormField control={form.control} name="full_name" render={({ field }) => (
-          <FormItem className="space-y-1"><FormLabel className={lc}>Full Name *</FormLabel>
-            <FormControl><Input placeholder="Your name" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
-            <FormMessage className="text-[10px]" /></FormItem>
-        )} />
-        <FormField control={form.control} name="email" render={({ field }) => (
-          <FormItem className="space-y-1"><FormLabel className={lc}>Email *</FormLabel>
-            <FormControl><Input type="email" placeholder="you@email.com" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
-            <FormMessage className="text-[10px]" /></FormItem>
-        )} />
-        <FormField control={form.control} name="instagram_handle" render={({ field }) => (
-          <FormItem className="space-y-1"><FormLabel className={lc}>Instagram *</FormLabel>
-            <FormControl><Input placeholder="@handle" className={ic} disabled={status === 'loading'} {...field} /></FormControl>
-            <FormMessage className="text-[10px]" /></FormItem>
-        )} />
-        <PoshCTA />
-        {errorMsg && <p className="text-[10px] text-destructive text-center">{errorMsg}</p>}
-        <Button type="submit" disabled={status === 'loading'}
-          className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-10 text-sm font-semibold rounded-lg">
-          {status === 'loading' ? 'Submitting...' : 'Join the Waitlist'}
         </Button>
       </form>
     </Form>
