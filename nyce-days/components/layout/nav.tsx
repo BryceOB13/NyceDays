@@ -4,7 +4,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 import { usePathname } from "next/navigation"
-import { Menu, Send, ShoppingBag, HelpCircle } from "lucide-react"
+import { Menu, Send, ShoppingBag, HelpCircle, Heart } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/shared/theme-toggle"
 import { MobileNav } from "./mobile-nav"
@@ -15,6 +15,7 @@ const navLinks = [
   { href: "/community", label: "Events", emphasized: true },
   { href: "/media", label: "Media" },
   { href: "/shop", label: "shop", isIcon: true, iconType: "shop" },
+  { href: "/donate", label: "donate", isIcon: true, iconType: "donate" },
   { href: "/contact", label: "contact", isIcon: true, iconType: "contact" },
   { href: "/about", label: "about", isIcon: true, iconType: "about" },
 ]
@@ -95,6 +96,8 @@ export function Nav({ className }: NavProps) {
                   {isIcon ? (
                     iconType === "shop" ? (
                       <ShoppingBag className="w-5 h-5 hover:scale-110 transition-transform" />
+                    ) : iconType === "donate" ? (
+                      <Heart className="w-5 h-5 hover:scale-110 transition-transform" />
                     ) : iconType === "about" ? (
                       <HelpCircle className="w-5 h-5 hover:scale-110 transition-transform" />
                     ) : (
