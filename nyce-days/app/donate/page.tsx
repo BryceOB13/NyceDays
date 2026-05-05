@@ -34,7 +34,7 @@ export default async function DonatePage() {
 
       {/* Content */}
       <div className="relative z-10 min-h-[100dvh] flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-6 py-24 md:py-16">
-        <EventPoster src="/events/the-yard-may-24/flyer.jpg" />
+        <EventPoster src="https://zrbmptifkuelqemzmxbm.supabase.co/storage/v1/object/public/media/web/TheYard_NyceDays_Updated.jpeg" />
         <DonatePanel totalCents={totalCents} />
       </div>
     </main>
