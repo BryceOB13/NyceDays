@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -13,7 +12,6 @@ import {
 import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from '@/components/ui/sheet'
-import { FadeUp } from '@/components/shared/fade-up'
 import { createClient } from '@/lib/supabase/client'
 import { CheckCircle, Clock, ExternalLink } from 'lucide-react'
 
@@ -61,11 +59,52 @@ function PoshCTA() {
   )
 }
 
+// --- Benefits Modal ---
+
+function BenefitsModal({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
+  return (
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="rounded-t-xl max-h-[80svh] overflow-y-auto">
+        <SheetHeader className="text-center mb-4">
+          <SheetTitle>What You Get</SheetTitle>
+          <SheetDescription>Benefits, expectations, and house rules</SheetDescription>
+        </SheetHeader>
+        <div className="space-y-5 pb-6 text-sm text-muted-foreground max-w-md mx-auto">
+          <div>
+            <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mb-2">Benefits</p>
+            <ul className="space-y-1.5 list-disc list-inside text-xs">
+              <li>2 free tickets to New Money on Saturday May 30 at Seta Oasis</li>
+              <li>Potential booking at New Money. If your set hits, you get the call.</li>
+              <li>Comp entry to Royalties on May 17</li>
+              <li>Press and content creators will be in the room</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mb-2">What to bring</p>
+            <p className="text-xs">Bring a deck. That&apos;s it.</p>
+          </div>
+          <div>
+            <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mb-2">House rules</p>
+            <ul className="space-y-1.5 list-disc list-inside text-xs">
+              <li>Show up 20 min before your slot to soundcheck and hand off cleanly</li>
+              <li>One hour, hard out. The next DJ is up.</li>
+              <li>Read the energy based on your slot. 3pm is warmup. 8pm is peak.</li>
+            </ul>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  )
+}
+
+// --- Main Component ---
+
 export function InvitationalSignup() {
   const [djCount, setDjCount] = useState<number | null>(null)
   const [claimedSlots, setClaimedSlots] = useState<string[]>([])
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [benefitsOpen, setBenefitsOpen] = useState(false)
 
   // Fetch initial data + subscribe to realtime
   useEffect(() => {
@@ -102,101 +141,84 @@ export function InvitationalSignup() {
 
   if (djCount === null) {
     return (
-      <div className="text-center py-12">
-        <div className="animate-pulse text-muted-foreground text-sm">Loading...</div>
+      <div className="w-full max-w-[480px] flex items-center justify-center py-12">
+        <div className="animate-pulse text-[#E8E4DD]/60 text-sm">Loading...</div>
       </div>
     )
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <FadeUp>
-        <div className="flex justify-center mb-3 md:mb-4">
-          <Image src="/logos/stars-white.png" alt="Nyce Days" width={320} height={96}
-            className="hidden dark:block object-contain h-24 md:h-28 w-auto" />
-          <Image src="/logos/stars-black.png" alt="Nyce Days" width={320} height={96}
-            className="dark:hidden object-contain h-24 md:h-28 w-auto" />
-        </div>
-        <div className="text-center mb-4 md:mb-6">
-          <h1 className="font-serif text-[1.65rem] sm:text-4xl md:text-5xl font-bold uppercase tracking-wide leading-none">
+    <div className="w-full max-w-[480px]">
+      <div className="md:bg-[rgba(232,228,221,0.06)] md:backdrop-blur-[12px] md:border md:border-[rgba(232,228,221,0.12)] md:rounded-lg md:p-8 space-y-4">
+        {/* Event header */}
+        <div>
+          <p className="text-[11px] uppercase tracking-[0.15em] text-nd-red/80 font-medium">
+            the creative day party
+          </p>
+          <h1 className="font-serif text-3xl md:text-4xl text-[#E8E4DD] mt-1 leading-tight uppercase tracking-wide">
             Royalties
           </h1>
-          <p className="text-xs text-nd-red/80 uppercase tracking-[0.15em] font-medium mt-1">the creative day party</p>
-          <div className="mt-2 md:mt-3 text-xs md:text-sm text-muted-foreground leading-relaxed">
-            <p className="font-medium text-foreground/80">Sunday, May 17, 2026</p>
-            <p>Upstairs at Seta Oasis · 3 PM–10 PM · 1-hour sets</p>
-            <p className="text-[11px] text-muted-foreground/60 mt-1">@nycedays + @official.royaltalks</p>
+          <div className="mt-2 text-xs md:text-sm text-[#E8E4DD]/70 leading-relaxed space-y-0.5">
+            <p className="font-medium text-[#E8E4DD]/90">Sunday, May 17, 2026</p>
+            <p>Upstairs at Seta Oasis · 3 PM – 10 PM · 1-hour sets</p>
+            <p className="text-[11px] text-[#E8E4DD]/50">@nycedays + @official.royaltalks</p>
           </div>
-          <p className="mt-2 md:mt-3 text-xs md:text-sm text-foreground/60 max-w-sm mx-auto leading-snug">
-            Think you got next? Step up and show us what you&apos;re working with.
-          </p>
         </div>
-      </FadeUp>
 
-      {/* Benefits */}
-      <FadeUp delay={0.05}>
-        <div className="rounded-lg border border-border/30 bg-card/30 p-4 mb-4 text-xs text-muted-foreground space-y-2">
-          <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider">What you get</p>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>2 free tickets to New Money on Saturday May 30 at Seta Oasis</li>
-            <li>Potential booking at New Money. If your set hits, you get the call.</li>
-            <li>Comp entry to Royalties on May 17</li>
-            <li>Press and content creators will be in the room</li>
-          </ul>
-          <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mt-3">What to bring</p>
-          <p>Bring a deck. That&apos;s it.</p>
-          <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mt-3">House rules</p>
-          <ul className="space-y-1 list-disc list-inside">
-            <li>Show up 20 min before your slot to soundcheck and hand off cleanly</li>
-            <li>One hour, hard out. The next DJ is up.</li>
-            <li>Read the energy based on your slot. 3pm is warmup. 8pm is peak.</li>
-          </ul>
-        </div>
-      </FadeUp>
+        {/* Benefits link */}
+        <button
+          type="button"
+          onClick={() => setBenefitsOpen(true)}
+          className="text-[11px] text-nd-red hover:text-nd-red/80 font-medium transition-colors"
+        >
+          what you get →
+        </button>
 
-      {status === 'success' ? (
-        <FadeUp>
-          <div className="rounded-xl border border-nd-red/20 bg-nd-red/5 p-8 text-center space-y-4">
+        {/* Form / States */}
+        {status === 'success' ? (
+          <div className="rounded-xl border border-nd-red/20 bg-nd-red/5 p-6 text-center space-y-3">
             <CheckCircle className="h-10 w-10 text-nd-red mx-auto" />
-            <h3 className="font-serif text-xl">You&apos;re locked in.</h3>
-            <p className="text-sm text-muted-foreground">We&apos;ll reach out to confirm. Show up 20 min early on May 17. Need to cancel? DM @_thisbryce.</p>
+            <h3 className="font-serif text-xl text-[#E8E4DD]">You&apos;re locked in.</h3>
+            <p className="text-xs text-[#E8E4DD]/60">We&apos;ll reach out to confirm. Show up 20 min early on May 17. Need to cancel? DM @_thisbryce.</p>
             <PoshCTA />
           </div>
-        </FadeUp>
-      ) : (
-        <FadeUp delay={0.1}>
-          <div className="rounded-xl border border-border/40 bg-card/50 p-4 md:p-5 space-y-3.5">
-            {isDJPhase ? (
-              <DJForm status={status} errorMsg={errorMsg} availableSlots={availableSlots}
-                onSubmit={async (data) => {
-                  setStatus('loading'); setErrorMsg('')
-                  try {
-                    const res = await fetch('/api/invitational', {
-                      method: 'POST', headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ ...data, signup_type: 'dj', event_date: CURRENT_EVENT_DATE }),
-                    })
-                    const result = await res.json()
-                    if (result.error === 'dj_cap_reached') { setDjCount(DJ_CAP); setStatus('idle'); setErrorMsg('All slots are filled.'); return }
-                    if (result.error === 'slot_taken') { setClaimedSlots(prev => [...prev, data.time_slot_preference[0]]); setStatus('idle'); setErrorMsg(result.message); return }
-                    if (!res.ok) { setStatus('error'); setErrorMsg(result.message || 'Something went wrong.'); return }
-                    setStatus('success')
-                  } catch { setStatus('error'); setErrorMsg('Network error. Try again.') }
-                }} />
-            ) : (
-              <div className="text-center py-6">
-                <p className="font-serif text-xl text-foreground mb-2">Lineup full.</p>
-                <p className="text-xs text-muted-foreground leading-relaxed max-w-sm mx-auto">
-                  All 7 slots are locked. Pull up to Royalties on May 17 — doors at 3 PM.
-                  Need to cancel? DM @_thisbryce.
-                </p>
-              </div>
-            )}
+        ) : isDJPhase ? (
+          <DJForm
+            status={status}
+            errorMsg={errorMsg}
+            availableSlots={availableSlots}
+            onSubmit={async (data) => {
+              setStatus('loading'); setErrorMsg('')
+              try {
+                const res = await fetch('/api/invitational', {
+                  method: 'POST', headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ ...data, signup_type: 'dj', event_date: CURRENT_EVENT_DATE }),
+                })
+                const result = await res.json()
+                if (result.error === 'dj_cap_reached') { setDjCount(DJ_CAP); setStatus('idle'); setErrorMsg('All slots are filled.'); return }
+                if (result.error === 'slot_taken') { setClaimedSlots(prev => [...prev, data.time_slot_preference[0]]); setStatus('idle'); setErrorMsg(result.message); return }
+                if (!res.ok) { setStatus('error'); setErrorMsg(result.message || 'Something went wrong.'); return }
+                setStatus('success')
+              } catch { setStatus('error'); setErrorMsg('Network error. Try again.') }
+            }}
+          />
+        ) : (
+          <div className="text-center py-6">
+            <p className="font-serif text-xl text-[#E8E4DD] mb-2">Lineup full.</p>
+            <p className="text-xs text-[#E8E4DD]/60 leading-relaxed max-w-sm mx-auto">
+              All 7 slots are locked. Pull up to Royalties on May 17 — doors at 3 PM.
+              Need to cancel? DM @_thisbryce.
+            </p>
           </div>
-        </FadeUp>
-      )}
+        )}
+      </div>
+
+      {/* Benefits modal */}
+      <BenefitsModal open={benefitsOpen} onOpenChange={setBenefitsOpen} />
     </div>
   )
 }
+
 
 // --- DJ Form ---
 
@@ -222,7 +244,7 @@ function DJForm({ status, errorMsg, availableSlots, onSubmit }: {
   }, [])
 
   const ic = 'bg-background/50 border-border/40 h-10 text-sm focus:border-nd-red focus:ring-1 focus:ring-nd-red/20 transition-all rounded-lg'
-  const lc = 'text-foreground/80 text-xs font-medium'
+  const lc = 'text-[#E8E4DD]/80 text-xs font-medium'
 
   return (
     <Form {...form}>
@@ -280,7 +302,7 @@ function DJForm({ status, errorMsg, availableSlots, onSubmit }: {
                 </button>
               ))}
             </div>
-            <p className="text-[10px] text-muted-foreground/70">
+            <p className="text-[10px] text-[#E8E4DD]/50">
               {field.value === 'instagram'
                 ? "We\u2019ll slide into your DMs to confirm your slot and send day-of info."
                 : "We\u2019ll text you to confirm your slot and send day-of info."}
