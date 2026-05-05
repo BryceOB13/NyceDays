@@ -31,7 +31,7 @@ export default async function ShopPage() {
       />
 
       {/* Content — two-pane on desktop, stacked on mobile */}
-      <div className="relative z-10 min-h-[100dvh] flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-4 sm:px-6 py-24 md:py-16">
+      <div className="relative z-10 min-h-[100dvh] flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-4 sm:px-6 pt-28 pb-8 md:py-16">
         {/* Flyer */}
         <div className="w-full max-w-[260px] md:max-w-[360px] shrink-0">
           <div className="w-full rounded-md overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.5)]">

@@ -169,7 +169,7 @@ export function InvitationalSignup() {
         <button
           type="button"
           onClick={() => setBenefitsOpen(true)}
-          className="text-[11px] text-nd-red hover:text-nd-red/80 font-medium transition-colors"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-nd-red/30 bg-nd-red/10 text-xs text-nd-red font-medium hover:bg-nd-red/20 transition-colors"
         >
           what you get →
         </button>
