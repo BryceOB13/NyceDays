@@ -17,12 +17,12 @@ import { FadeUp } from '@/components/shared/fade-up'
 import { createClient } from '@/lib/supabase/client'
 import { CheckCircle, Clock, ExternalLink } from 'lucide-react'
 
-const DJ_CAP = 20
-const CURRENT_EVENT_DATE = '2026-04-19'
+const DJ_CAP = 14
+const CURRENT_EVENT_DATE = '2026-05-17'
 
 const ALL_SLOTS = [
-  '7:00 – 7:30', '7:30 – 8:00', '8:00 – 8:30', '8:30 – 9:00', '9:00 – 9:30',
-  '9:30 – 10:00', '10:00 – 10:30', '10:30 – 11:00', '11:00 – 11:30', '11:30 – 12:00',
+  '3:00 – 4:00', '4:00 – 5:00', '5:00 – 6:00', '6:00 – 7:00',
+  '7:00 – 8:00', '8:00 – 9:00', '9:00 – 10:00',
   'No preference / any slot',
 ] as const
 
@@ -127,15 +127,30 @@ export function InvitationalSignup() {
         </div>
         <div className="text-center mb-4 md:mb-6">
           <h1 className="font-serif text-[1.65rem] sm:text-4xl md:text-5xl font-bold uppercase tracking-wide leading-none">
-            Something Nyce Open Decks
+            Royalties
           </h1>
+          <p className="text-xs text-nd-red/80 uppercase tracking-[0.15em] font-medium mt-1">the creative day party</p>
           <div className="mt-2 md:mt-3 text-xs md:text-sm text-muted-foreground leading-relaxed">
-            <p className="font-medium text-foreground/80">Sunday, April 19, 2026</p>
-            <p>Looking Glass Lounge, DC · 7 PM–Midnight · 20-min sets</p>
+            <p className="font-medium text-foreground/80">Sunday, May 17, 2026</p>
+            <p>Upstairs at Seta Oasis · 3 PM–10 PM · 1-hour sets</p>
+            <p className="text-[11px] text-muted-foreground/60 mt-1">@nycedays + @official.royaltalks</p>
           </div>
           <p className="mt-2 md:mt-3 text-xs md:text-sm text-foreground/60 max-w-sm mx-auto leading-snug">
             Think you got next? Step up and show us what you&apos;re working with.
           </p>
+        </div>
+      </FadeUp>
+
+      {/* Benefits */}
+      <FadeUp delay={0.05}>
+        <div className="rounded-lg border border-border/30 bg-card/30 p-4 mb-4 text-xs text-muted-foreground space-y-2">
+          <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider">What you get</p>
+          <ul className="space-y-1 list-disc list-inside">
+            <li>2 free tickets to New Money on Saturday May 30 at Seta Oasis</li>
+            <li>Potential booking at New Money. If your set hits, you get the call.</li>
+            <li>Comp entry to Royalties on May 17</li>
+            <li>Press and content creators will be in the room</li>
+          </ul>
         </div>
       </FadeUp>
 

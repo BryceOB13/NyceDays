@@ -1,15 +1,15 @@
 import { InvitationalSignup } from "@/components/shop/invitational-signup"
 
 export const metadata = {
-  title: "Something Nyce Open Decks | Nyce Days",
-  description: "Open-deck DJ showcase. Sunday, April 19 at Looking Glass Lounge, DC. Sign up to spin.",
+  title: "Royalties DJ Signup | Nyce Days",
+  description: "Sign up to spin at Royalties — the creative day party. Sunday, May 17 at Seta Oasis, DC.",
   openGraph: {
-    title: "Something Nyce Open Decks — Think You Got Next?",
-    description: "Open-deck DJ showcase. Sunday, April 19 at Looking Glass Lounge, DC. 7 PM–Midnight. Sign up to spin.",
+    title: "Royalties — Think You Got Next?",
+    description: "The creative day party. Sunday, May 17 at Seta Oasis, DC. 3–10 PM. 1-hour sets.",
   },
   twitter: {
-    title: "Something Nyce Open Decks — Think You Got Next?",
-    description: "Open-deck DJ showcase. Sunday, April 19 at Looking Glass Lounge, DC. 7 PM–Midnight. Sign up to spin.",
+    title: "Royalties — Think You Got Next?",
+    description: "The creative day party. Sunday, May 17 at Seta Oasis, DC. 3–10 PM. 1-hour sets.",
   },
 }
 
