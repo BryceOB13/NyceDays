@@ -31,9 +31,9 @@ export default async function ShopPage() {
       />
 
       {/* Content — two-pane on desktop, stacked on mobile */}
-      <div className="relative z-10 h-[calc(100dvh-4rem)] flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-4 sm:px-6 py-4 md:py-8">
-        {/* Flyer */}
-        <div className="w-full max-w-[260px] md:max-w-[360px] shrink-0">
+      <div className="relative z-10 h-[calc(100dvh-4rem)] flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-4 sm:px-6 py-6 md:py-8 overflow-y-auto">
+        {/* Flyer — hidden on mobile, shown on desktop */}
+        <div className="hidden md:block w-full max-w-[360px] shrink-0">
           <div className="w-full rounded-md overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.5)]">
             <Image
               src={FLYER_URL}
@@ -42,7 +42,7 @@ export default async function ShopPage() {
               height={1000}
               priority
               className="w-full h-auto"
-              sizes="(max-width: 768px) 260px, 360px"
+              sizes="360px"
             />
           </div>
         </div>
