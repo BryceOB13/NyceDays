@@ -15,12 +15,11 @@ import {
 import { createClient } from '@/lib/supabase/client'
 import { CheckCircle, Clock, ExternalLink } from 'lucide-react'
 
-const DJ_CAP = 7
-const CURRENT_EVENT_DATE = '2026-05-17'
+const DJ_CAP = 4
+const CURRENT_EVENT_DATE = '2026-05-24'
 
 const ALL_SLOTS = [
   '3:00 – 4:00', '4:00 – 5:00', '5:00 – 6:00', '6:00 – 7:00',
-  '7:00 – 8:00', '8:00 – 9:00', '9:00 – 10:00',
   'No preference / any slot',
 ] as const
 
@@ -61,42 +60,6 @@ function PoshCTA() {
 
 // --- Benefits Modal ---
 
-function BenefitsModal({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
-  return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="rounded-t-xl max-h-[80svh] overflow-y-auto">
-        <SheetHeader className="text-center mb-4">
-          <SheetTitle>What You Get</SheetTitle>
-          <SheetDescription>Benefits, expectations, and house rules</SheetDescription>
-        </SheetHeader>
-        <div className="space-y-5 pb-6 text-sm text-muted-foreground max-w-md mx-auto">
-          <div>
-            <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mb-2">Benefits</p>
-            <ul className="space-y-1.5 list-disc list-inside text-xs">
-              <li>2 free tickets to New Money on Saturday May 30 at Seta Oasis</li>
-              <li>Potential booking at New Money. If your set hits, you get the call.</li>
-              <li>Comp entry to Royalties on May 17</li>
-              <li>Press and content creators will be in the room</li>
-            </ul>
-          </div>
-          <div>
-            <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mb-2">What to bring</p>
-            <p className="text-xs">Bring a deck. That&apos;s it.</p>
-          </div>
-          <div>
-            <p className="text-foreground/80 font-medium text-[11px] uppercase tracking-wider mb-2">House rules</p>
-            <ul className="space-y-1.5 list-disc list-inside text-xs">
-              <li>Show up 20 min before your slot to soundcheck and hand off cleanly</li>
-              <li>One hour, hard out. The next DJ is up.</li>
-              <li>Read the energy based on your slot. 3pm is warmup. 8pm is peak.</li>
-            </ul>
-          </div>
-        </div>
-      </SheetContent>
-    </Sheet>
-  )
-}
-
 // --- Main Component ---
 
 export function InvitationalSignup() {
@@ -104,7 +67,6 @@ export function InvitationalSignup() {
   const [claimedSlots, setClaimedSlots] = useState<string[]>([])
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
-  const [benefitsOpen, setBenefitsOpen] = useState(false)
 
   // Fetch initial data + subscribe to realtime
   useEffect(() => {
@@ -153,33 +115,24 @@ export function InvitationalSignup() {
         {/* Event header */}
         <div>
           <p className="text-[11px] uppercase tracking-[0.15em] text-nd-red/80 font-medium">
-            the creative day party
+            a nyce days cookout
           </p>
           <h1 className="font-serif text-3xl md:text-4xl text-[#E8E4DD] mt-1 leading-tight uppercase tracking-wide">
-            Royalties
+            The Yard
           </h1>
           <div className="mt-2 text-xs md:text-sm text-[#E8E4DD]/70 leading-relaxed space-y-0.5">
-            <p className="font-medium text-[#E8E4DD]/90">Sunday, May 17, 2026</p>
-            <p>Upstairs at Seta Oasis · 3 PM – 10 PM · 1-hour sets</p>
-            <p className="text-[11px] text-[#E8E4DD]/50">@nycedays + @official.royaltalks</p>
+            <p className="font-medium text-[#E8E4DD]/90">Sunday, May 24, 2026</p>
+            <p>Rock Creek Park · 3 PM – 7 PM · 1-hour sets</p>
+            <p className="text-[11px] text-[#E8E4DD]/50">@nycedays</p>
           </div>
         </div>
-
-        {/* Benefits link */}
-        <button
-          type="button"
-          onClick={() => setBenefitsOpen(true)}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-nd-red/30 bg-nd-red/10 text-xs text-nd-red font-medium hover:bg-nd-red/20 transition-colors"
-        >
-          what you get →
-        </button>
 
         {/* Form / States */}
         {status === 'success' ? (
           <div className="rounded-xl border border-nd-red/20 bg-nd-red/5 p-6 text-center space-y-3">
             <CheckCircle className="h-10 w-10 text-nd-red mx-auto" />
             <h3 className="font-serif text-xl text-[#E8E4DD]">You&apos;re locked in.</h3>
-            <p className="text-xs text-[#E8E4DD]/60">We&apos;ll reach out to confirm. Show up 20 min early on May 17. Need to cancel? DM @_thisbryce.</p>
+            <p className="text-xs text-[#E8E4DD]/60">We&apos;ll reach out to confirm. Show up 20 min early on May 24. Need to cancel? DM @_thisbryce.</p>
             <PoshCTA />
           </div>
         ) : isDJPhase ? (
@@ -206,15 +159,12 @@ export function InvitationalSignup() {
           <div className="text-center py-6">
             <p className="font-serif text-xl text-[#E8E4DD] mb-2">Lineup full.</p>
             <p className="text-xs text-[#E8E4DD]/60 leading-relaxed max-w-sm mx-auto">
-              All 7 slots are locked. Pull up to Royalties on May 17 — doors at 3 PM.
+              All slots are locked. Pull up to The Yard on May 24 — 3 PM at Rock Creek Park.
               Need to cancel? DM @_thisbryce.
             </p>
           </div>
         )}
       </div>
-
-      {/* Benefits modal */}
-      <BenefitsModal open={benefitsOpen} onOpenChange={setBenefitsOpen} />
     </div>
   )
 }

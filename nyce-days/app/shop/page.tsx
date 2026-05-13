@@ -4,20 +4,20 @@ import { videos } from "@/lib/videos"
 import Image from "next/image"
 
 export const metadata = {
-  title: "Royalties DJ Signup | Nyce Days",
-  description: "Sign up to spin at Royalties — the creative day party. Sunday, May 17 at Seta Oasis, DC.",
+  title: "The Yard DJ Signup | Nyce Days",
+  description: "Sign up to spin at The Yard — a Nyce Days cookout. Sunday, May 24 at Rock Creek Park.",
   openGraph: {
-    title: "Royalties — Think You Got Next?",
-    description: "The creative day party. Sunday, May 17 at Seta Oasis, DC. 3–10 PM. 1-hour sets.",
+    title: "The Yard — Think You Got Next?",
+    description: "A Nyce Days cookout. Sunday, May 24 at Rock Creek Park. 3–7 PM. 1-hour sets.",
   },
   twitter: {
-    title: "Royalties — Think You Got Next?",
-    description: "The creative day party. Sunday, May 17 at Seta Oasis, DC. 3–10 PM. 1-hour sets.",
+    title: "The Yard — Think You Got Next?",
+    description: "A Nyce Days cookout. Sunday, May 24 at Rock Creek Park. 3–7 PM. 1-hour sets.",
   },
 }
 
 const FLYER_URL =
-  "https://zrbmptifkuelqemzmxbm.supabase.co/storage/v1/object/public/media/web/royalties_nycedays_v5.jpeg"
+  "https://zrbmptifkuelqemzmxbm.supabase.co/storage/v1/object/public/media/web/TheYard_NyceDays_Updated.jpeg"
 
 export default async function ShopPage() {
   return (
@@ -37,7 +37,7 @@ export default async function ShopPage() {
           <div className="w-full rounded-md overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.5)]">
             <Image
               src={FLYER_URL}
-              alt="Royalties — the creative day party. Sunday, May 17 at Seta Oasis."
+              alt="The Yard — a Nyce Days cookout. Sunday, May 24 at Rock Creek Park."
               width={800}
               height={1000}
               priority
