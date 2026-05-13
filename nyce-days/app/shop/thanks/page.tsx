@@ -23,11 +23,28 @@ export default function VendorThanksPage() {
           A Nyce Days rep will reach back within 48 hours to lock in logistics.
         </p>
 
+        {/* Hurricane relief commitment */}
+        <div className="border border-nd-red/25 bg-nd-red/5 rounded-md px-5 py-5 text-left space-y-3">
+          <p className="text-[11px] uppercase tracking-[0.18em] text-nd-red font-medium">
+            Optional: pledge to relief
+          </p>
+          <p className="text-sm text-foreground/90 leading-relaxed">
+            100% of donations from THE YARD go to Jamaica hurricane relief.
+            If you&rsquo;re moved to, commit a portion of your plate sales,
+            round up tips, or donate directly. Every plate counts.
+          </p>
+          <Link href="/donate" className="block">
+            <Button className="w-full bg-nd-red hover:bg-nd-red/90 text-white">
+              Pledge or donate
+            </Button>
+          </Link>
+        </div>
+
         <p className="font-serif text-lg text-foreground/90 italic pt-2">
           Have a nyce day.
         </p>
 
-        <div className="pt-4">
+        <div>
           <Link href="/">
             <Button variant="outline" className="px-6">
               Back to home
