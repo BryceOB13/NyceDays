@@ -139,7 +139,7 @@ export function VendorSignup() {
   return (
     <div className="w-full max-w-[640px] mx-auto">
       {/* Page header */}
-      <div className="mb-8 space-y-2">
+      <div className="mb-8 space-y-3">
         <h1 className="font-serif text-3xl sm:text-4xl text-foreground leading-tight">
           Sell plates at THE YARD.
         </h1>
@@ -147,6 +147,11 @@ export function VendorSignup() {
           Fill this out so we can lock in your spot, feature your menu on our drop next Monday (5.18),
           and coordinate setup.
         </p>
+        <div className="text-xs text-foreground/80 leading-relaxed bg-nd-red/5 border border-nd-red/20 rounded-md px-3 py-2">
+          <span className="text-nd-red font-medium">Hard cap:</span> the park is limited to{' '}
+          <span className="font-medium">75 people</span>. Size your prep so you can sell out
+          without over-cooking.
+        </div>
       </div>
 
       <Form {...form}>
@@ -219,7 +224,11 @@ export function VendorSignup() {
             <FormField control={form.control} name="quantity_estimate" render={({ field }) => (
               <FormItem className="space-y-1.5">
                 <FormLabel className={labelClasses}>Quantity estimate *</FormLabel>
-                <FormControl><Input placeholder="e.g. 50 plates, 100 servings" className={inputClasses} {...field} /></FormControl>
+                <FormControl><Input placeholder="e.g. 30 plates" className={inputClasses} {...field} /></FormControl>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  Heads up: the park has a hard cap of <span className="text-foreground font-medium">75 people</span>.
+                  Plan your portions and prep so you can sell out without over-cooking.
+                </p>
                 <FormMessage className="text-[11px]" />
               </FormItem>
             )} />
