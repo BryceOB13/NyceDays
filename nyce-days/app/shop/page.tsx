@@ -30,8 +30,8 @@ export default async function ShopPage() {
         overlay="bg-gradient-to-b from-[rgba(10,10,10,0.55)] to-[rgba(10,10,10,0.85)]"
       />
 
-      {/* Content — two-pane on desktop, stacked on mobile */}
-      <div className="relative z-10 h-[calc(100dvh-4rem)] flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-4 sm:px-6 py-6 md:py-8 overflow-y-auto">
+      {/* Content — two-pane on desktop, form-only on mobile */}
+      <div className="relative z-10 h-[calc(100dvh-4rem)] flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-4 sm:px-6 py-4 md:py-8">
         {/* Flyer — hidden on mobile, shown on desktop */}
         <div className="hidden md:block w-full max-w-[360px] shrink-0">
           <div className="w-full rounded-md overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.5)]">
@@ -47,8 +47,10 @@ export default async function ShopPage() {
           </div>
         </div>
 
-        {/* Form panel */}
-        <InvitationalSignup />
+        {/* Form panel — scrollable on mobile */}
+        <div className="w-full md:w-auto overflow-y-auto max-h-[calc(100dvh-5rem)] md:max-h-none">
+          <InvitationalSignup />
+        </div>
       </div>
     </main>
   )
