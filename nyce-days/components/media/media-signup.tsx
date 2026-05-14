@@ -136,57 +136,70 @@ export function MediaSignup({ event, fellBack }: MediaSignupProps) {
   )
 
   return (
-    <div className="w-full max-w-[640px] mx-auto">
-      {/* Header */}
-      <div className="mb-8 space-y-5">
-        {/* Press-pass-style credential strip */}
-        <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-nd-red font-medium">
-          <ShieldCheck className="h-3.5 w-3.5" />
-          <span>Nyce Days Media Credentials</span>
-        </div>
+    <div className="w-full max-w-[1080px] mx-auto">
+      {/* Mobile-only credential strip (desktop has it inside the left column) */}
+      <div className="lg:hidden flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-nd-red font-medium mb-4">
+        <ShieldCheck className="h-3.5 w-3.5" />
+        <span>Nyce Days Media Credentials</span>
+      </div>
 
-        <h1 className="font-serif text-3xl sm:text-4xl text-foreground leading-tight">
-          Apply for media credentials at {event.name}.
-        </h1>
+      <div className="lg:grid lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-12">
+        {/* === LEFT COLUMN — Flyer + event card (sticky on desktop) === */}
+        <aside className="mb-8 lg:mb-0 lg:sticky lg:top-24 lg:self-start space-y-4">
+          {/* Desktop credential strip */}
+          <div className="hidden lg:flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-nd-red font-medium">
+            <ShieldCheck className="h-3.5 w-3.5" />
+            <span>Nyce Days Media Credentials</span>
+          </div>
 
-        {/* Flyer + event card stacked */}
-        <div className="space-y-3">
+          {/* Flyer */}
           {event.flyer_url && (
-            <div className="relative w-full rounded-md overflow-hidden border border-border/50 bg-background/40 shadow-sm">
+            <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-none mx-auto rounded-md overflow-hidden border border-border/50 bg-background/40 shadow-sm">
               <Image
                 src={event.flyer_url}
                 alt={`${event.name} flyer`}
                 width={1200}
                 height={1500}
                 priority
-                sizes="(max-width: 640px) 100vw, 640px"
+                sizes="(max-width: 640px) 280px, (max-width: 1024px) 320px, 340px"
                 className="w-full h-auto"
               />
             </div>
           )}
 
-          <div className="border border-border/40 rounded-md px-4 py-3 bg-background/40 space-y-1">
+          {/* Event card */}
+          <div className="border border-border/40 rounded-md px-4 py-3 bg-background/40 space-y-1 max-w-[320px] lg:max-w-none mx-auto lg:mx-0">
             <p className="font-serif italic text-foreground/80 text-sm">{event.tagline}</p>
-            <p className="text-[12px] uppercase tracking-[0.16em] text-foreground font-medium">
-              {event.name} <span className="text-muted-foreground">·</span> {event.date}{' '}
-              <span className="text-muted-foreground">·</span> {event.venue}{' '}
-              <span className="text-muted-foreground">·</span> {event.time}
+            <p className="text-[12px] uppercase tracking-[0.16em] text-foreground font-medium leading-relaxed">
+              {event.name}
+              <br className="lg:hidden" />
+              <span className="hidden lg:inline"> <span className="text-muted-foreground">·</span> </span>
+              {event.date}
+              <br />
+              {event.venue} <span className="text-muted-foreground">·</span> {event.time}
             </p>
           </div>
-        </div>
 
-        {fellBack && (
-          <p className="text-xs text-amber-600 dark:text-amber-400">
-            Event not found. Showing the next Nyce Days event.
-          </p>
-        )}
+          {fellBack && (
+            <p className="text-xs text-amber-600 dark:text-amber-400 max-w-[320px] lg:max-w-none mx-auto lg:mx-0">
+              Event not found. Showing the next Nyce Days event.
+            </p>
+          )}
+        </aside>
 
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          This is a credentialed media application. We review every submission, vet capabilities,
-          and issue check-in passes to approved press, photo, video, and interview personnel.
-          Expect a decision within 48 hours.
-        </p>
-      </div>
+        {/* === RIGHT COLUMN — Form === */}
+        <div>
+          {/* Form header */}
+          <div className="mb-8 space-y-3">
+            <h1 className="font-serif text-3xl sm:text-4xl text-foreground leading-tight">
+              Apply for media credentials at {event.name}.
+            </h1>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              This is a credentialed media application. We review every submission, vet capabilities,
+              and issue check-in passes to approved press, photo, video, and interview personnel.
+              Expect a decision within 48 hours.
+            </p>
+          </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -362,6 +375,8 @@ export function MediaSignup({ event, fellBack }: MediaSignupProps) {
           </Button>
         </form>
       </Form>
+        </div>
+      </div>
     </div>
   )
 }

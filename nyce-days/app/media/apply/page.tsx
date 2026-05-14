@@ -16,7 +16,7 @@ export default async function MediaApplyPage({ searchParams }: PageProps) {
   const { event, fellBack } = resolveEvent(params.event)
 
   return (
-    <main className="min-h-[calc(100dvh-4rem)] px-4 sm:px-6 py-10 sm:py-14">
+    <main className="min-h-[calc(100dvh-4rem)] px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
       <MediaSignup event={event} fellBack={fellBack} />
     </main>
   )
