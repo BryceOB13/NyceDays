@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import { createClient } from '@/lib/supabase/server'
 import { supabaseAdmin } from '@/lib/supabase/admin'
 import { Resend } from 'resend'
 
@@ -160,7 +159,7 @@ export async function POST(request: Request) {
       // event_slug uses column default
     }
 
-    const supabase = await createClient()
+    const supabase = supabaseAdmin
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: inserted, error } = await (supabase as any)
       .from('vendor_submissions')
