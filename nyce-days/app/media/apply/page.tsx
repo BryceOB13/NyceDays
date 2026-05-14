@@ -2,8 +2,8 @@ import { MediaSignup } from '@/components/media/media-signup'
 import { resolveEvent } from '@/lib/media-events'
 
 export const metadata = {
-  title: 'Cover Nyce Days · Media Signup',
-  description: 'Apply to cover Nyce Days events as a photographer, videographer, or interviewer.',
+  title: 'Media Credentials · Nyce Days',
+  description: 'Apply for credentialed media access at Nyce Days events. Photo, video, and press personnel reviewed within 48 hours.',
   robots: { index: false, follow: false },
 }
 

@@ -9,6 +9,7 @@ export type MediaEvent = {
   iso_date: string // YYYY-MM-DD for sorting + comparison
   venue: string
   time: string
+  flyer_url: string
 }
 
 export const MEDIA_EVENTS: Record<string, MediaEvent> = {
@@ -20,6 +21,7 @@ export const MEDIA_EVENTS: Record<string, MediaEvent> = {
     iso_date: '2026-05-17',
     venue: 'Seta Oasis, DC',
     time: '3-10pm',
+    flyer_url: 'https://zrbmptifkuelqemzmxbm.supabase.co/storage/v1/object/public/media/web/royalties_nycedays_v5.jpeg',
   },
   'the-yard-2026-05-24': {
     slug: 'the-yard-2026-05-24',
@@ -29,6 +31,7 @@ export const MEDIA_EVENTS: Record<string, MediaEvent> = {
     iso_date: '2026-05-24',
     venue: 'Rock Creek Park',
     time: '3-7pm',
+    flyer_url: 'https://zrbmptifkuelqemzmxbm.supabase.co/storage/v1/object/public/media/web/TheYard_NyceDays_Updated.jpeg',
   },
 }
 

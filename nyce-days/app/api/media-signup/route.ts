@@ -139,7 +139,7 @@ export async function POST(request: Request) {
         await resend.emails.send({
           from: 'Nyce Days <notifications@nycedays.com>',
           to: process.env.CONTACT_EMAIL,
-          subject: `[Media Signup] ${eventMeta.name} - ${row.name}`,
+          subject: `[Media Credentials] ${eventMeta.name} - ${row.name}`,
           html: `
             <h2>New Media Signup</h2>
             <p><strong>Event:</strong> ${escapeHtml(eventMeta.name)} (${escapeHtml(eventMeta.date)})</p>

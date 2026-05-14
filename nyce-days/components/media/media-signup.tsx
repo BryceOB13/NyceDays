@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import { ShieldCheck } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -136,19 +138,41 @@ export function MediaSignup({ event, fellBack }: MediaSignupProps) {
   return (
     <div className="w-full max-w-[640px] mx-auto">
       {/* Header */}
-      <div className="mb-8 space-y-4">
+      <div className="mb-8 space-y-5">
+        {/* Press-pass-style credential strip */}
+        <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-nd-red font-medium">
+          <ShieldCheck className="h-3.5 w-3.5" />
+          <span>Nyce Days Media Credentials</span>
+        </div>
+
         <h1 className="font-serif text-3xl sm:text-4xl text-foreground leading-tight">
-          Cover {event.name} for Nyce Days.
+          Apply for media credentials at {event.name}.
         </h1>
 
-        {/* Event card */}
-        <div className="border border-border/40 rounded-md px-4 py-3 bg-background/40 space-y-1">
-          <p className="font-serif italic text-foreground/80 text-sm">{event.tagline}</p>
-          <p className="text-[12px] uppercase tracking-[0.16em] text-foreground font-medium">
-            {event.name} <span className="text-muted-foreground">·</span> {event.date}{' '}
-            <span className="text-muted-foreground">·</span> {event.venue}{' '}
-            <span className="text-muted-foreground">·</span> {event.time}
-          </p>
+        {/* Flyer + event card stacked */}
+        <div className="space-y-3">
+          {event.flyer_url && (
+            <div className="relative w-full rounded-md overflow-hidden border border-border/50 bg-background/40 shadow-sm">
+              <Image
+                src={event.flyer_url}
+                alt={`${event.name} flyer`}
+                width={1200}
+                height={1500}
+                priority
+                sizes="(max-width: 640px) 100vw, 640px"
+                className="w-full h-auto"
+              />
+            </div>
+          )}
+
+          <div className="border border-border/40 rounded-md px-4 py-3 bg-background/40 space-y-1">
+            <p className="font-serif italic text-foreground/80 text-sm">{event.tagline}</p>
+            <p className="text-[12px] uppercase tracking-[0.16em] text-foreground font-medium">
+              {event.name} <span className="text-muted-foreground">·</span> {event.date}{' '}
+              <span className="text-muted-foreground">·</span> {event.venue}{' '}
+              <span className="text-muted-foreground">·</span> {event.time}
+            </p>
+          </div>
         </div>
 
         {fellBack && (
@@ -158,8 +182,9 @@ export function MediaSignup({ event, fellBack }: MediaSignupProps) {
         )}
 
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Fill this out so we can review your application, lock in your check-in, and coordinate
-          the day. We&rsquo;ll reach back within 48 hours of submission.
+          This is a credentialed media application. We review every submission, vet capabilities,
+          and issue check-in passes to approved press, photo, video, and interview personnel.
+          Expect a decision within 48 hours.
         </p>
       </div>
 
@@ -293,8 +318,8 @@ export function MediaSignup({ event, fellBack }: MediaSignupProps) {
           {/* === ACKNOWLEDGMENTS (commitments, tinted) === */}
           <section className="space-y-4 border border-nd-red/20 bg-nd-red/5 rounded-md px-4 py-5">
             <div className="space-y-1">
-              <h2 className={sectionHeader}>Acknowledgments</h2>
-              <p className="text-[11px] text-muted-foreground">All four are required to apply.</p>
+              <h2 className={sectionHeader}>Press Code of Conduct</h2>
+              <p className="text-[11px] text-muted-foreground">All four are required to be issued credentials.</p>
             </div>
 
             <div className="space-y-3">
@@ -333,7 +358,7 @@ export function MediaSignup({ event, fellBack }: MediaSignupProps) {
             disabled={status === 'loading'}
             className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-11 text-sm font-semibold rounded-md"
           >
-            {status === 'loading' ? 'Submitting...' : 'Apply for media access.'}
+            {status === 'loading' ? 'Submitting...' : 'Submit credentials request.'}
           </Button>
         </form>
       </Form>
