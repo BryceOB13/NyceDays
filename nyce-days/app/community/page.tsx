@@ -15,10 +15,10 @@ export default async function CommunityPage() {
   return (
     <main>
       {/* Video Header */}
-      <EventsHeader />
+      <EventsHeader activeEvents={events} />
 
       {/* Events Section */}
-      <Section className="bg-background">
+      <Section id="events-grid" className="bg-background">
         <FadeUp>
           <h2 className="font-serif text-2xl font-semibold text-foreground md:text-3xl">
             Upcoming Events

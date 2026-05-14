@@ -2,11 +2,13 @@
 
 import { useState, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import Link from "next/link"
 import { VideoBackground } from "@/components/shared/video-background"
 import { FadeUp } from "@/components/shared/fade-up"
 import { videos } from "@/lib/videos"
 import { isValidEmail } from "@/lib/schemas"
 import { ChevronDown, X, ArrowRight, Check, Smartphone } from "lucide-react"
+import type { EventWithFlyer } from "@/types/database"
 
 const formatPhone = (value: string) => {
   const digits = value.replace(/\D/g, '')
@@ -15,7 +17,16 @@ const formatPhone = (value: string) => {
   return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`
 }
 
-export function EventsHeader() {
+function formatEventDate(date: string): string {
+  const d = new Date(date + 'T00:00:00')
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
+interface EventsHeaderProps {
+  activeEvents?: EventWithFlyer[]
+}
+
+export function EventsHeader({ activeEvents = [] }: EventsHeaderProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const [phone, setPhone] = useState("")
   const [firstName, setFirstName] = useState("")
@@ -281,6 +292,49 @@ export function EventsHeader() {
           </motion.button>
         )}
       </motion.div>
+
+      {/* Active events strip - bottom of hero, always visible */}
+      {activeEvents.length > 0 && (
+        <div className="absolute bottom-0 left-0 right-0 z-10 px-4 pb-6 md:pb-8">
+          <div className="mx-auto max-w-5xl">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-white/60 font-medium mb-3 text-center">
+              Active Events
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {activeEvents.slice(0, 3).map((evt) => (
+                <Link
+                  key={evt.id}
+                  href={evt.ticket_url || '#events-grid'}
+                  target={evt.ticket_url ? '_blank' : undefined}
+                  rel={evt.ticket_url ? 'noopener noreferrer' : undefined}
+                  className="group flex items-center gap-3 bg-black/55 backdrop-blur-md border border-white/15 hover:border-nd-red/60 rounded-full pl-1.5 pr-4 py-1.5 transition-all"
+                >
+                  {evt.flyer?.public_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={evt.flyer.public_url}
+                      alt={evt.flyer.alt_text || evt.title}
+                      className="h-9 w-9 rounded-full object-cover border border-white/20"
+                    />
+                  ) : (
+                    <div className="h-9 w-9 rounded-full bg-nd-red/30" />
+                  )}
+                  <div className="flex flex-col leading-tight">
+                    <span className="text-white text-sm font-semibold tracking-wide">
+                      {evt.title}
+                    </span>
+                    <span className="text-[10px] uppercase tracking-[0.16em] text-white/60">
+                      {formatEventDate(evt.date)}
+                      {evt.location ? ` · ${evt.location.split(',')[0]}` : ''}
+                    </span>
+                  </div>
+                  <ArrowRight className="w-3.5 h-3.5 text-white/50 group-hover:text-nd-red group-hover:translate-x-0.5 transition-all" />
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
