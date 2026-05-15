@@ -1,12 +1,12 @@
 import { Section } from "@/components/shared/section"
 import { FadeUp } from "@/components/shared/fade-up"
-import { EventCard, NewsletterForm, EventsHeader } from "@/components/community"
+import { EventCard, EventsHeader, NyceListSection } from "@/components/community"
 import { PoshFollowSection } from "@/components/community/posh-follow-section"
 import { getUpcomingEvents } from "@/lib/queries"
 
 export const metadata = {
-  title: "Community | Nyce Days",
-  description: "Join the Nyce Days community. See upcoming events and sign up for our newsletter.",
+  title: "Events | Nyce Days",
+  description: "Active Nyce Days events and the Nyce List signup. Hear about drops first.",
 }
 
 export default async function CommunityPage() {
@@ -14,10 +14,10 @@ export default async function CommunityPage() {
 
   return (
     <main>
-      {/* Video Header */}
+      {/* Events-first hero with active events front and center */}
       <EventsHeader activeEvents={events} />
 
-      {/* Events Section */}
+      {/* Full upcoming events grid */}
       <Section id="events-grid" className="bg-background">
         <FadeUp>
           <h2 className="font-serif text-2xl font-semibold text-foreground md:text-3xl">
@@ -40,34 +40,18 @@ export default async function CommunityPage() {
                 No upcoming events scheduled at the moment.
               </p>
               <p className="mt-2 text-muted-foreground/70">
-                Sign up for our newsletter to be the first to know when new events are announced.
+                Sign up for the Nyce List below to be the first to know when new events are
+                announced.
               </p>
             </div>
           </FadeUp>
         )}
       </Section>
 
-      {/* Newsletter Section */}
-      <Section className="bg-secondary">
-        <div className="mx-auto max-w-xl text-center">
-          <FadeUp>
-            <h2 className="font-serif text-2xl font-semibold text-foreground md:text-3xl">
-              Stay Connected
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              Subscribe to our newsletter for event announcements, exclusive content, and community updates.
-            </p>
-          </FadeUp>
+      {/* The Nyce List - secondary, after people see the events */}
+      <NyceListSection />
 
-          <FadeUp delay={0.2}>
-            <div className="mt-8">
-              <NewsletterForm source="community" />
-            </div>
-          </FadeUp>
-        </div>
-      </Section>
-
-      {/* Posh Follow Section */}
+      {/* Posh follow */}
       <PoshFollowSection />
     </main>
   )
