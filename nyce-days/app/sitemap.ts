@@ -36,19 +36,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  // Dynamic event pages
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: events } = await (supabase as any)
-    .from('events')
-    .select('slug, created_at')
-    .eq('published', true)
+  // Note: events are surfaced on /community (no standalone /events/[slug] route),
+  // so they are intentionally not emitted here.
 
-  const eventPages = (events || []).map((event: { slug: string; created_at: string }) => ({
-    url: `${baseUrl}/events/${event.slug}`,
-    lastModified: new Date(event.created_at),
-    changeFrequency: 'weekly' as const,
-    priority: 0.6,
-  }))
-
-  return [...staticPages, ...projectPages, ...eventPages]
+  return [...staticPages, ...projectPages]
 }
