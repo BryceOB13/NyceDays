@@ -6,8 +6,8 @@ corrects a line, add the lesson here so it sticks.
 
 ## The world (north star)
 
-Nyce Days is three things wearing one face: a DMV events and community brand, a fashion
-label (the hoodie drops), and a small cinematic universe. The universe is the soul. In it,
+Nyce Days is three things wearing one face: a DMV events and community brand, a label that
+makes things (apparel and beyond, drop by drop), and a small cinematic universe. The universe is the soul. In it,
 Nyce Days is an Edenic garden where a warm narrator, a god of sorts, greets strangers with
 "You are having a Nyce Day." Paradise that loops. A sunny promise with an undertow. The
 brand's whole tone lives in that tension: genuinely warm and welcoming on the surface, with
@@ -80,10 +80,11 @@ These are cinematic/visual references for mood, not endorsements of anything.
 
 ## Merchandising: the drops (product voice)
 
-The clothing is positioned as elevated essentials: high-quality basics with an avant-garde
-sensibility. The pieces should read considered and built to last, the staple you reach for
-every day and keep for years. Quality is the whole point, so the copy has to earn it instead
-of announcing it.
+Everything Nyce Days makes is positioned as elevated essentials: high-quality basics with an
+avant-garde sensibility. Hoodies were the first drop and they will be back, but the line runs
+wider than fleece, apparel, accessories, and whatever the world calls for next. Whatever the
+object, it should read considered and built to last, the staple you reach for and keep for
+years. Quality is the whole point, so the copy has to earn it instead of announcing it.
 
 How to signal quality. The rule: show it, never claim it.
 
@@ -94,11 +95,13 @@ How to signal quality. The rule: show it, never claim it.
   cheaper it sounds. One true detail beats five superlatives.
 - **Scarcity, not discount.** Limited runs, numbered drops, made in small quantities. Never
   sale energy, never "while supplies last."
-- **Tie it to the world.** Each piece is an artifact from the garden (the four colorways map
-  to the four characters). One line of story is enough; let the object carry the rest.
+- **Tie it to the world.** Each piece is an artifact from the garden. (The inaugural hoodies
+  mapped four colorways to the four characters; future pieces can carry the world their own
+  way.) One line of story is enough; let the object carry the rest.
 
-Use: heavyweight · brushed fleece · garment-dyed · boxy / relaxed fit · staple · essential ·
-made in small runs · numbered · built to last · the first drop · the collection.
+Use (swap in the true detail for each product, fleece words are just the example): heavyweight ·
+garment-dyed · boxy / relaxed fit · staple · essential · made in small runs · numbered · built
+to last · the first drop · the collection.
 
 Avoid: premium · luxury · high-end · best quality · top-tier · "shop now" · sale · limited
 time only · any superlative doing the work a real detail should do.
