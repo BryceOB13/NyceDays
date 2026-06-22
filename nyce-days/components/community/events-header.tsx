@@ -139,7 +139,7 @@ export function EventsHeader({ activeEvents = [] }: EventsHeaderProps) {
         ) : (
           <FadeUp delay={0.15}>
             <p className="mt-10 text-center text-white/60 font-serif text-base max-w-md mx-auto">
-              No active events scheduled. Slide back soon, or join the Nyce List below to hear
+              No active events right now. Check back soon, or join the Nyce List below to hear
               first.
             </p>
           </FadeUp>

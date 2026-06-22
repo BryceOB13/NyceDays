@@ -96,7 +96,7 @@ export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
       {/* Empty state */}
       {items.length === 0 && (
         <div className="text-center py-8 text-black dark:text-white">
-          <p>No images available.</p>
+          <p>No media yet.</p>
         </div>
       )}
 

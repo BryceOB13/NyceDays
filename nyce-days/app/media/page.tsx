@@ -6,7 +6,7 @@ import path from "path"
 
 export const metadata = {
   title: "Media | Nyce Days",
-  description: "Browse photos and videos from Nyce Days events, behind the scenes, and community moments.",
+  description: "Photos and videos from Nyce Days events, behind the scenes, and community moments.",
 }
 
 const INITIAL_LOAD = 24

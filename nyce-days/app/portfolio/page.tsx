@@ -6,7 +6,7 @@ import { getAllProjects } from "@/lib/queries"
 
 export const metadata = {
   title: "Portfolio | Nyce Days",
-  description: "Explore our portfolio of events, content creation, and partnership projects.",
+  description: "Events, content, and partnerships. Projects that moved people.",
 }
 
 export default async function PortfolioPage() {

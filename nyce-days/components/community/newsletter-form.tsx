@@ -72,7 +72,7 @@ export function NewsletterForm({ source = 'footer', className, onSuccess, varian
     return (
       <div className={cn('text-center', className)}>
         <p className={cn('text-sm', variant === 'dark' ? 'text-background' : 'text-foreground')}>
-          Thanks for subscribing! We&apos;ll be in touch.
+          You&apos;re in. Watch your inbox.
         </p>
       </div>
     )

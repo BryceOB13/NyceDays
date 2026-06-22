@@ -52,7 +52,7 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
       {filteredProjects.length === 0 ? (
         <FadeUp>
           <div className="py-12 text-center">
-            <p className="text-nd-gray-400">No projects found in this category.</p>
+            <p className="text-nd-gray-400">Nothing here yet. Check another category.</p>
           </div>
         </FadeUp>
       ) : (

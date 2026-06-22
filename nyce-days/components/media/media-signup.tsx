@@ -192,7 +192,7 @@ export function MediaSignup({ event, fellBack }: MediaSignupProps) {
           {/* Form header */}
           <div className="mb-8 space-y-3">
             <h1 className="font-serif text-3xl sm:text-4xl text-foreground leading-tight">
-              Apply for media credentials at {event.name}.
+              Apply for media credentials at {event.name}
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
               This is a credentialed media application. We review every submission, vet capabilities,
@@ -371,7 +371,7 @@ export function MediaSignup({ event, fellBack }: MediaSignupProps) {
             disabled={status === 'loading'}
             className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-11 text-sm font-semibold rounded-md"
           >
-            {status === 'loading' ? 'Submitting...' : 'Submit credentials request.'}
+            {status === 'loading' ? 'Submitting...' : 'Submit credentials request'}
           </Button>
         </form>
       </Form>

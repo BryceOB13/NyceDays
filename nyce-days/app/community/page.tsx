@@ -6,7 +6,7 @@ import { getUpcomingEvents } from "@/lib/queries"
 
 export const metadata = {
   title: "Events | Nyce Days",
-  description: "Active Nyce Days events and the Nyce List signup. Hear about drops first.",
+  description: "Active Nyce Days events and the Nyce List. Hear first. No algorithm in the way.",
 }
 
 export default async function CommunityPage() {
