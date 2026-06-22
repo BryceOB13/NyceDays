@@ -6,8 +6,9 @@ corrects a line, add the lesson here so it sticks.
 
 ## The world (north star)
 
-Nyce Days is three things wearing one face: a DMV events and community brand, a label that
-makes things (apparel and beyond, drop by drop), and a small cinematic universe. The universe is the soul. In it,
+Nyce Days is one creative house whose outputs share a single world: DMV events and community,
+a goods label (apparel and accessories), and a media arm, a music label and short films. That
+media side is a real cinematic universe, not just a mood, and it is the soul. In it,
 Nyce Days is an Edenic garden where a warm narrator, a god of sorts, greets strangers with
 "You are having a Nyce Day." Paradise that loops. A sunny promise with an undertow. The
 brand's whole tone lives in that tension: genuinely warm and welcoming on the surface, with
@@ -16,6 +17,19 @@ precious: the same garden gets loud. Nyce Days throws real parties, gets crunk, 
 goes all the way up. Dreamy on the surface, real release on the floor.
 
 So "Have a nyce day" is both a real sign-off and a quiet invocation. Treat it that way.
+
+## What Nyce Days makes
+
+- **Apparel.** High-quality basics, plus elevated cut-and-sew. The fall/winter collection leans
+  into custom construction next to the staples.
+- **Accessories.** Elevated everyday objects: rolling trays (a returning staple) and other cool
+  basics, made to feel premium, never novelty.
+- **Music and film.** A label and short films. This is where the mythic register lives most
+  fully: the VHS Eden world, the soundtrack, the narrator-god.
+- **Events.** DMV gatherings, with occasional event goods that should feel premium, not cheap swag.
+
+One world across all of it. The voice and aesthetic hold whether it is a cut-and-sew piece, a
+rolling tray, a record, a short film, or a party.
 
 ## Voice in one line
 
@@ -81,10 +95,11 @@ These are cinematic/visual references for mood, not endorsements of anything.
 ## Merchandising: the drops (product voice)
 
 Everything Nyce Days makes is positioned as elevated essentials: high-quality basics with an
-avant-garde sensibility. Hoodies were the first drop and they will be back, but the line runs
-wider than fleece, apparel, accessories, and whatever the world calls for next. Whatever the
-object, it should read considered and built to last, the staple you reach for and keep for
-years. Quality is the whole point, so the copy has to earn it instead of announcing it.
+avant-garde sensibility. Apparel spans the staples and elevated cut-and-sew (the make itself
+is the flex). Accessories are everyday objects done premium, rolling trays and other basics
+that feel considered, never novelty. Whatever the object, it should read built to last, the
+piece you reach for and keep for years. Quality is the whole point, so the copy has to earn it
+instead of announcing it.
 
 How to signal quality. The rule: show it, never claim it.
 
@@ -99,8 +114,9 @@ How to signal quality. The rule: show it, never claim it.
   mapped four colorways to the four characters; future pieces can carry the world their own
   way.) One line of story is enough; let the object carry the rest.
 
-Use (swap in the true detail for each product, fleece words are just the example): heavyweight ·
-garment-dyed · boxy / relaxed fit · staple · essential · made in small runs · numbered · built
+Use (swap in the true detail for each product, these are just examples): heavyweight ·
+cut-and-sew · garment-dyed · boxy / relaxed fit · machined · weighted · staple · essential ·
+made in small runs · numbered · built
 to last · the first drop · the collection.
 
 Avoid: premium · luxury · high-end · best quality · top-tier · "shop now" · sale · limited
