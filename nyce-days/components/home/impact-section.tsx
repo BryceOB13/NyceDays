@@ -32,15 +32,6 @@ const stats: Stat[] = [
   },
 ]
 
-const capabilities = [
-  "Event Curation",
-  "Brand Activations",
-  "Community Marketing",
-  "VHS Content Creation",
-  "Interview Series",
-  "Social Strategy",
-]
-
 function AnimatedCounter({ value, suffix, inView }: { value: number; suffix: string; inView: boolean }) {
   const [count, setCount] = useState(0)
   const prefersReducedMotion = useReducedMotion()
@@ -245,23 +236,18 @@ export function ImpactSectionPremium() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h3 className="heading-md mb-6 text-nd-cream">What We Do</h3>
-            <ul className="space-y-3">
-              {capabilities.map((item, i) => (
-                <motion.li
-                  key={item}
-                  initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.05 }}
-                  className="group flex items-center gap-3 border-b border-white/10 py-3 transition-colors hover:border-nd-red/50"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-nd-red transition-transform group-hover:scale-150" />
-                  <span className="font-sans text-nd-cream/80 transition-colors group-hover:text-nd-cream">
-                    {item}
-                  </span>
-                </motion.li>
-              ))}
-            </ul>
+            <p className="max-w-md font-sans leading-relaxed text-nd-cream/80">
+              Too much to put in a list, and we like it that way. Events, partnerships,
+              drops, film, and whatever the moment calls for. If it moves culture, we can
+              build it.
+            </p>
+            <a
+              href="/contact"
+              className="mt-6 inline-flex items-center gap-2 font-sans text-sm uppercase tracking-wider text-nd-cream transition-colors hover:text-nd-red"
+            >
+              Work with us
+              <span aria-hidden="true">&rarr;</span>
+            </a>
           </motion.div>
         </div>
 
