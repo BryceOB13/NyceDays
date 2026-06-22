@@ -11,7 +11,9 @@ label (the hoodie drops), and a small cinematic universe. The universe is the so
 Nyce Days is an Edenic garden where a warm narrator, a god of sorts, greets strangers with
 "You are having a Nyce Day." Paradise that loops. A sunny promise with an undertow. The
 brand's whole tone lives in that tension: genuinely warm and welcoming on the surface, with
-a knowing, dreamlike strangeness underneath. Tongue-in-cheek, never cynical.
+a knowing, dreamlike strangeness underneath. Tongue-in-cheek, never cynical. And it is not
+precious: the same garden gets loud. Nyce Days throws real parties, gets crunk, sweats, and
+goes all the way up. Dreamy on the surface, real release on the floor.
 
 So "Have a nyce day" is both a real sign-off and a quiet invocation. Treat it that way.
 
@@ -40,6 +42,9 @@ fully into incense-and-robes mode.
 - **Insider and communal.** The reader is one of "our people." Co-creator, not customer.
 - **Anti-corporate, anti-clout.** "Feels underground but organized." Taste over polish.
 - **DMV-rooted.** Local is the identity, not a detail.
+- **Calm voice, high energy.** The writing stays calm and low-ego; the night does not. Nyce
+  Days gets crunk and goes all the way up. "A space, not a party" means more than a party,
+  never lower energy than one.
 
 ## Mechanics (house style)
 
@@ -57,7 +62,7 @@ fully into incense-and-robes mode.
 
 **Use:** have a nyce day · the garden · the loop · the drop / drops · the Nyce List · our people ·
 a space (not a party) · moments (not parties) · experiences (not clubs) · the DMV · slide through ·
-found tape · events soon · surrender · soon.
+crunk · go up · all night · the floor · sweat · let loose · found tape · events soon · surrender · soon.
 
 **Avoid (corporate or off-world):** leverage · synergy · elevate · curated experiences ·
 seamless · world-class · solutions · "general inquiries" · "we'll be in touch" · "reach out" ·
@@ -73,14 +78,48 @@ of Wonders*, *The Source Family* (doc), *Gummo*, *Touki Bouki*, *Daughters of th
 shorthand: "VHS Eden-core meets Source Family transcendence meets Gummo existential quiet."
 These are cinematic/visual references for mood, not endorsements of anything.
 
+## Merchandising: the drops (product voice)
+
+The clothing is positioned as elevated essentials: high-quality basics with an avant-garde
+sensibility. The pieces should read considered and built to last, the staple you reach for
+every day and keep for years. Quality is the whole point, so the copy has to earn it instead
+of announcing it.
+
+How to signal quality. The rule: show it, never claim it.
+
+- **Lead with the object, not adjectives.** Name the fabric, weight, fit, and finish
+  ("heavyweight brushed fleece," "garment-dyed," "boxy fit," "double-stitched"). A real detail
+  reads as quality. The words "premium" and "luxury" read as insecure.
+- **Restraint is the flex.** Understatement signals confidence. The more you oversell, the
+  cheaper it sounds. One true detail beats five superlatives.
+- **Scarcity, not discount.** Limited runs, numbered drops, made in small quantities. Never
+  sale energy, never "while supplies last."
+- **Tie it to the world.** Each piece is an artifact from the garden (the four colorways map
+  to the four characters). One line of story is enough; let the object carry the rest.
+
+Use: heavyweight · brushed fleece · garment-dyed · boxy / relaxed fit · staple · essential ·
+made in small runs · numbered · built to last · the first drop · the collection.
+
+Avoid: premium · luxury · high-end · best quality · top-tier · "shop now" · sale · limited
+time only · any superlative doing the work a real detail should do.
+
+Product copy formula:
+> [name, colorway] · one line of fabric/feel · one line of fit · one line of world.
+> e.g. "Eden Hoodie, Moss. Heavyweight brushed fleece, garment-dyed so no two are the same.
+> Boxy, lived-in from the first wear. One of four, made in a small run."
+
+The quality voice and the no-hype voice are the same voice: low-ego excellence. You don't tell
+people something is good. You show the make, and let the restraint say the rest.
+
 ## Signature lines and invocations (canonical)
 
 - "You are having a Nyce Day."
 - "Have a nyce day."
 - "Don't you wish every day was Nyce... forever?"
 - "To live forever in beauty, you must first surrender to it." (after *The Source Family*)
-- "this isn't a party. it's a space."
-- "we're not throwing parties. we're building moments."
+- "this isn't a party. it's a space." (positions against generic clout-clubs, not against
+  energy. the floor still goes up.)
+- "we're not throwing parties. we're building moments." (and the moments get crunk.)
 
 ## Before, after (the voice in action)
 
