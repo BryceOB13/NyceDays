@@ -8,7 +8,7 @@ import { ArrowUp, ArrowUpRight, Instagram, Twitter } from "lucide-react"
 const makes = [
   { href: "/community", label: "Events", note: "the nights" },
   { href: "/shop", label: "Shop", note: "the drops" },
-  { href: "/media", label: "Media", note: "film + archive" },
+  { href: "/media", label: "Media", note: "shot on film" },
 ]
 
 const world = [
