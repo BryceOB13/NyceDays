@@ -13,10 +13,10 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://nycedays.com'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Nyce Days | A Community-First Culture Company',
+    default: 'Nyce Days | Have a nyce day.',
     template: '%s | Nyce Days',
   },
-  description: 'Nyce Days is a community-first culture company in the DMV. Events, brand partnerships, and original work across fashion, music, and film. Have a nyce day.',
+  description: 'events, brand partnerships, and original work out of the DMV, across fashion, music, and film. community first. have a nyce day.',
   keywords: ['culture company', 'community marketing', 'brand partnerships', 'DMV events', 'DC events', 'NYC events', 'Baltimore events'],
   authors: [{ name: 'Nyce Days' }],
   creator: 'Nyce Days',
@@ -47,8 +47,8 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'Nyce Days',
-    title: 'Nyce Days | Have a Nyce Day.',
-    description: 'A community-first culture company. Events, brand partnerships, and original work. DC · NYC · Baltimore.',
+    title: 'Nyce Days | Have a nyce day.',
+    description: 'events, brand partnerships, and original work out of the DMV. community first. DC · NYC · Baltimore.',
     images: [
       {
         url: '/api/og',
@@ -60,8 +60,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nyce Days | Have a Nyce Day.',
-    description: 'A community-first culture company. Events, brand partnerships, and original work. DC · NYC · Baltimore.',
+    title: 'Nyce Days | Have a nyce day.',
+    description: 'events, brand partnerships, and original work out of the DMV. community first. DC · NYC · Baltimore.',
     creator: '@nycedays',
     images: ['/api/og'],
   },

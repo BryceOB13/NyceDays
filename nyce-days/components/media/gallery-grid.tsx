@@ -15,6 +15,7 @@ interface GalleryGridProps {
 export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
   const [items, setItems] = useState<MediaItem[]>(initialItems)
   const [failedIds, setFailedIds] = useState<Set<string>>(new Set())
+  const [loadedIds, setLoadedIds] = useState<Set<string>>(new Set())
   const [allItems, setAllItems] = useState<MediaItem[] | null>(null)
   const [loading, setLoading] = useState(false)
   const [lightboxItem, setLightboxItem] = useState<MediaItem | null>(null)
@@ -45,6 +46,10 @@ export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
     setLoading(false)
   }, [loading, hasMore, allItems, items.length])
 
+  const markLoaded = useCallback((id: string) => {
+    setLoadedIds(prev => (prev.has(id) ? prev : new Set(prev).add(id)))
+  }, [])
+
   const handleImageClick = (item: MediaItem, index: number) => {
     setLightboxItem(item)
     setLightboxIndex(index)
@@ -74,7 +79,7 @@ export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
           <button
             key={item.id}
             onClick={() => handleImageClick(item, index)}
-            className="group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-nd-red block w-full border-0 p-0 m-0"
+            className="group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-nd-red block w-full border-0 p-0 m-0 bg-black/[0.06] dark:bg-white/[0.06]"
             style={{ display: 'block', lineHeight: 0 }}
           >
             <img
@@ -82,9 +87,11 @@ export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
               alt={item.alt || `Gallery image ${item.position + 1}`}
               width={item.variants.thumb.width}
               height={item.variants.thumb.height}
-              loading={index < 4 ? 'eager' : 'lazy'}
+              loading={index < 6 ? 'eager' : 'lazy'}
               decoding="async"
-              className="w-full h-auto block transition-opacity duration-300"
+              ref={(el) => { if (el?.complete && el.naturalWidth > 0) markLoaded(item.id) }}
+              onLoad={() => markLoaded(item.id)}
+              className={`w-full h-auto block transition-opacity duration-500 ${loadedIds.has(item.id) ? 'opacity-100' : 'opacity-0'}`}
               style={{ aspectRatio: `${item.variants.thumb.width} / ${item.variants.thumb.height}` }}
               onError={() => setFailedIds(prev => new Set(prev).add(item.id))}
             />

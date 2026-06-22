@@ -63,6 +63,12 @@ not the individual SKUs (keep specific products abstract until a launch is live)
 short films and music are brand and media, not merch. People don't buy them; they're the soul,
 not the storefront.
 
+Legitimacy is not corporate. Never describe the brand in a public title or headline with a
+"[adjective] [category] company" or "[discipline] and [discipline]" label (e.g. "Event Curation
+and Community Marketing," "A Community-First Culture Company"). Both read corporate and flat.
+Lead titles with the signature, a warm concrete line, or the work itself. The credibility comes
+from the substance on the page, not from a label slapped at the top.
+
 ## Voice attributes
 
 - **Warm but uncanny.** Sunny surface, dream logic underneath. Inviting, with mystery.
