@@ -158,7 +158,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                 fontWeight: 500,
               }}
             >
-              Get In Touch
+              reach out
             </Link>
           </div>
         </motion.div>

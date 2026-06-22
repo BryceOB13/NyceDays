@@ -37,11 +37,10 @@ export default async function CommunityPage() {
           <FadeUp>
             <div className="mt-8 rounded-lg bg-secondary p-8 text-center">
               <p className="text-lg text-muted-foreground">
-                No upcoming events scheduled at the moment.
+                No events live right now.
               </p>
               <p className="mt-2 text-muted-foreground/70">
-                Sign up for the Nyce List below to be the first to know when new events are
-                announced.
+                Join the Nyce List to hear first when something drops.
               </p>
             </div>
           </FadeUp>

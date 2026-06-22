@@ -22,7 +22,7 @@ export function MediaHeader() {
             Media
           </h1>
           <p className="mt-4 text-lg text-white/80 max-w-xl mx-auto">
-            Photos and videos from our events, behind the scenes, and community moments.
+            photos and videos. moments that matter.
           </p>
         </FadeUp>
       </div>

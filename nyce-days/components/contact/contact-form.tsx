@@ -108,9 +108,9 @@ export function ContactForm({ className, variant = 'default' }: ContactFormProps
   if (status === 'success') {
     return (
       <div className={cn('rounded-lg p-6 text-center', isDark ? 'bg-white/10 backdrop-blur-sm' : 'bg-secondary/50', className)}>
-        <h3 className={cn('font-serif text-xl mb-2', isDark ? 'text-white' : 'text-foreground')}>Message Sent!</h3>
+        <h3 className={cn('font-serif text-xl mb-2', isDark ? 'text-white' : 'text-foreground')}>message sent</h3>
         <p className={cn('text-sm', isDark ? 'text-white/70' : 'text-muted-foreground')}>
-          Thanks for reaching out. We&apos;ll get back to you soon.
+          thanks for reaching out. we&apos;ll get back to you soon.
         </p>
         <Button
           onClick={() => setStatus('idle')}
@@ -118,7 +118,7 @@ export function ContactForm({ className, variant = 'default' }: ContactFormProps
           size="sm"
           className={cn('mt-4', isDark && 'border-white/30 text-white hover:bg-white/10')}
         >
-          Send Another
+          send another
         </Button>
       </div>
     )
@@ -187,7 +187,7 @@ export function ContactForm({ className, variant = 'default' }: ContactFormProps
                 <FormLabel className={labelClasses}>Company</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Optional"
+                    placeholder="if applicable"
                     className={inputClasses}
                     disabled={status === 'loading'}
                     {...field}
@@ -203,7 +203,7 @@ export function ContactForm({ className, variant = 'default' }: ContactFormProps
             name="inquiry_type"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel className={labelClasses}>Inquiry Type *</FormLabel>
+                <FormLabel className={labelClasses}>What's this about *</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -214,7 +214,7 @@ export function ContactForm({ className, variant = 'default' }: ContactFormProps
                       ? 'bg-white/5 border-white/30 text-white h-10 text-sm focus:border-nd-red focus:bg-white/10 transition-all [&>span]:text-white/40 [&[data-state=open]>span]:text-white'
                       : 'bg-transparent border-border/50 h-9 text-sm focus:border-nd-red transition-colors'
                     }>
-                      <SelectValue placeholder="Select type" />
+                      <SelectValue placeholder="choose one" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent className="bg-popover border-border">
@@ -285,7 +285,7 @@ export function ContactForm({ className, variant = 'default' }: ContactFormProps
           disabled={status === 'loading'}
           className="w-full bg-nd-red hover:bg-nd-red/90 text-white h-10 text-sm font-medium"
         >
-          {status === 'loading' ? 'Sending...' : 'Send Message'}
+          {status === 'loading' ? 'sending...' : 'send message'}
         </Button>
       </form>
     </Form>

@@ -8,7 +8,7 @@ import { ServicesHeader } from "@/components/services/services-header"
 
 export const metadata = {
   title: "Services | Nyce Days",
-  description: "Explore Nyce Days services: Event Curation, Community Marketing, Content Creation, and Merch & Brand Collaboration.",
+  description: "We do events, brand partnerships, and content. Across fashion, music, and film. DMV-rooted, coast-to-coast.",
 }
 
 interface Service {
@@ -21,49 +21,45 @@ interface Service {
 const services: Service[] = [
   {
     title: "Event Curation",
-    description: "From intimate gatherings to large-scale productions, we craft memorable experiences that bring communities together.",
+    description: "Concept to day-of. We handle the whole thing, from what happens to how it all comes together.",
     features: [
-      "Concept development & creative direction",
-      "Venue sourcing & logistics",
-      "Talent booking & artist relations",
-      "Production & technical management",
+      "Concept development and creative direction",
+      "Venue sourcing and logistics",
+      "Talent booking and artist relations",
+      "Production and technical management on day-of",
       "Day-of coordination",
     ],
     icon: <Calendar className="h-8 w-8" />,
   },
   {
     title: "Community Marketing",
-    description: "We build authentic connections between brands and their audiences through grassroots engagement and cultural relevance.",
+    description: "We know the people in our markets. We connect brands with those people in real ways that matter to them.",
     features: [
-      "Brand strategy & positioning",
-      "Influencer partnerships",
-      "Grassroots activations",
-      "Social media management",
-      "Community building",
+      "Brand strategy and market positioning",
+      "Artist and influencer partnerships",
+      "Ground-level activations and events",
+      "Social presence and community",
     ],
     icon: <Users className="h-8 w-8" />,
   },
   {
     title: "Content Creation",
-    description: "Capturing moments that matter with photography, videography, and creative direction that tells your story.",
+    description: "Photos and videos that say something real. The kind you actually want to look at again.",
     features: [
-      "Photography & videography",
-      "Creative direction",
-      "Post-production & editing",
-      "Social content packages",
-      "Brand storytelling",
+      "Photography and videography",
+      "Creative direction for shoots",
+      "Editing and post-production",
+      "Content for social and archive",
     ],
     icon: <Camera className="h-8 w-8" />,
   },
   {
-    title: "Merch & Brand Collaboration",
-    description: "Custom merchandise and collaborative products that extend your brand into the physical world.",
+    title: "Merch and Collaborations",
+    description: "Apparel and accessories that mean something. Limited runs, collaborations, and the kind of pieces people actually want to wear.",
     features: [
-      "Product design & development",
-      "Limited edition drops",
-      "Brand collaborations",
-      "Pop-up shop experiences",
-      "E-commerce strategy",
+      "Apparel and accessory design",
+      "Limited edition drops and collaborations",
+      "Pop-ups and retail",
     ],
     icon: <ShoppingBag className="h-8 w-8" />,
   },
@@ -111,10 +107,10 @@ export default function ServicesPage() {
         <div className="text-center">
           <FadeUp>
             <h2 className="font-serif text-3xl font-bold text-white md:text-4xl">
-              Ready to Work Together?
+              Let&apos;s talk.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-white/90 leading-relaxed">
-              Let&apos;s discuss how we can help bring your vision to life. Get in touch to start the conversation.
+              Got something you want to build or a partnership in mind. We&apos;re here to figure it out with you.
             </p>
           </FadeUp>
 
@@ -124,7 +120,7 @@ export default function ServicesPage() {
               size="xl"
               className="mt-8 bg-white text-nd-red hover:bg-white/90"
             >
-              <Link href="/contact">Get In Touch</Link>
+              <Link href="/contact">Get in touch</Link>
             </Button>
           </FadeUp>
         </div>

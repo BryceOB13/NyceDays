@@ -22,7 +22,7 @@ export function AboutHeader() {
             About
           </h1>
           <p className="mt-4 text-lg text-white/80 max-w-xl mx-auto">
-            Building community through events, content, and culture.
+            Community first. Events, content, and culture, coast to coast.
           </p>
         </FadeUp>
       </div>

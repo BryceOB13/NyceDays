@@ -19,7 +19,7 @@ export async function WhatWeDo() {
           Next Experiences
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-center text-muted-foreground">
-          Join us at our upcoming events and become part of the community.
+          Real connection, real parties. Come be part of it.
         </p>
       </FadeUp>
 

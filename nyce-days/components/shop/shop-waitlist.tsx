@@ -104,8 +104,7 @@ export function ShopWaitlist() {
                   Coming soon.
                 </h2>
                 <p className="mx-auto mt-4 max-w-sm font-serif text-base leading-relaxed text-white/60">
-                  Apparel, accessories, and limited drops. Leave your info and you&apos;ll be
-                  first in line the moment the shop opens.
+                  Apparel, accessories, and limited drops. Sign up below and you&apos;ll be first to know when we open.
                 </p>
               </FadeUp>
 

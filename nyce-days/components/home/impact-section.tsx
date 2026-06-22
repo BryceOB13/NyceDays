@@ -207,7 +207,7 @@ export function ImpactSectionPremium() {
                 That turned into something bigger. Relationships that span the country, built on actually showing up for each other.
               </p>
               <p className="body-md">
-                Now we&apos;re putting that energy into events. DMV and nationwide. Spaces where real connection and letting loose isn&apos;t the exception. It&apos;s the point.
+                Now we&apos;re putting that energy into events. Coast to coast. Spaces where real connection and letting loose isn&apos;t the exception. It&apos;s the point.
               </p>
             </div>
 
@@ -275,8 +275,8 @@ export function ImpactSectionPremium() {
         >
           <div className="flex flex-col items-center text-center gap-6 lg:flex-row lg:items-center lg:text-left lg:justify-between">
             <div>
-              <span className="label-caps mb-2 block text-nd-red">Stay In The Loop</span>
-              <h3 className="heading-md text-nd-cream">Never Miss A Nyce Day</h3>
+              <span className="label-caps mb-2 block text-nd-red">Stay in the loop</span>
+              <h3 className="heading-md text-nd-cream">catch every nyce day</h3>
               <p className="mt-2 max-w-xl text-nd-cream/70">
                 Events drop here first. One follow. No algorithm in the way.
               </p>

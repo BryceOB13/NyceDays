@@ -103,7 +103,7 @@ export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
       {/* Empty state */}
       {items.length === 0 && (
         <div className="text-center py-8 text-black dark:text-white">
-          <p>No media yet.</p>
+          <p>more coming soon.</p>
         </div>
       )}
 
@@ -114,7 +114,7 @@ export function GalleryGrid({ initialItems, totalCount }: GalleryGridProps) {
             onClick={loadMore}
             className="px-8 py-3 border border-black/20 dark:border-white/20 rounded-full font-sans text-sm uppercase tracking-wider text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white hover:border-black/40 dark:hover:border-white/40 transition-colors"
           >
-            Load More
+            see more
           </button>
         </div>
       )}
