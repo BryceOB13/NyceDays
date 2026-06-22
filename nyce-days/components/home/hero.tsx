@@ -41,7 +41,7 @@ export function Hero() {
         
         <FadeUp delay={0.2}>
           <p className="mt-6 font-serif text-lg md:text-xl text-white/80 italic tracking-wide">
-            community first, out of the DMV.
+            community first. DMV-rooted, coast to coast.
           </p>
         </FadeUp>
         

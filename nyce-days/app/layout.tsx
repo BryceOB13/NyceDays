@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     default: 'Nyce Days | Have a nyce day.',
     template: '%s | Nyce Days',
   },
-  description: 'events, brand partnerships, and original work out of the DMV, across fashion, music, and film. community first. have a nyce day.',
+  description: 'events, brand partnerships, and original work across fashion, music, and film. community first, DMV-rooted and working coast to coast. have a nyce day.',
   keywords: ['culture company', 'community marketing', 'brand partnerships', 'DMV events', 'DC events', 'NYC events', 'Baltimore events'],
   authors: [{ name: 'Nyce Days' }],
   creator: 'Nyce Days',
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: 'Nyce Days',
     title: 'Nyce Days | Have a nyce day.',
-    description: 'events, brand partnerships, and original work out of the DMV. community first. DC · NYC · Baltimore.',
+    description: 'events, brand partnerships, and original work. community first, coast to coast. DMV · NYC · LA · SF · Charlotte · and more.',
     images: [
       {
         url: '/api/og',
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Nyce Days | Have a nyce day.',
-    description: 'events, brand partnerships, and original work out of the DMV. community first. DC · NYC · Baltimore.',
+    description: 'events, brand partnerships, and original work. community first, coast to coast. DMV · NYC · LA · SF · Charlotte · and more.',
     creator: '@nycedays',
     images: ['/api/og'],
   },

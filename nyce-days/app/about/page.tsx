@@ -6,7 +6,7 @@ import { ValuesSection } from "@/components/about/values-section"
 
 export const metadata = {
   title: "About | Nyce Days",
-  description: "The story behind Nyce Days, a community-first culture company out of the DMV.",
+  description: "The story behind Nyce Days. community first, DMV-rooted and working coast to coast.",
 }
 
 export default function AboutPage() {

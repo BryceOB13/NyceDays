@@ -76,7 +76,9 @@ from the substance on the page, not from a label slapped at the top.
 - **Confident and brief.** Short sentences. Fragments are fine. Say it once.
 - **Insider and communal.** The reader is one of "our people." Co-creator, not customer.
 - **Anti-corporate, anti-clout.** "Feels underground but organized." Taste over polish.
-- **DMV-rooted.** Local is the identity, not a detail.
+- **DMV-rooted, not DMV-limited.** The DMV is home and identity, but the work spans many
+  markets: Baltimore, NYC, Philly, Charlotte, LA, SF, Boston, San Diego. Lead with the roots,
+  never shrink the footprint to one city.
 - **Calm voice, high energy.** The writing stays calm and low-ego; the night does not. Nyce
   Days gets crunk and goes all the way up. "A space, not a party" means more than a party,
   never lower energy than one.
