@@ -48,6 +48,21 @@ DMV, not a brand, speaking from inside a beautiful, slightly uncanny dream.
 The craft is letting the everyday copy carry a hint of the mythic underneath, not switching
 fully into incense-and-robes mode.
 
+## Reading as a real business
+
+The public site (home, about, services, contact) has to land with a partner, a client, or a DC
+Tech and Startup Week rep as a legitimate company, not a vibe or a hobby. On those pages, lead
+with substance: what Nyce Days does, the range it operates across, and real traction (markets,
+reach, the work). Keep the warmth and the voice, but earn credibility first. Save the fuller
+mythic Eden/VHS register for the drops, the films, and social.
+
+Flexible and legitimate are not in tension. Describe the company by its breadth and its results,
+confidently (events, brand partnerships, a growing product line, original music and film), never
+by one narrow label and never so vaguely that it reads as flaky. Name the areas of the business,
+not the individual SKUs (keep specific products abstract until a launch is live). And note: the
+short films and music are brand and media, not merch. People don't buy them; they're the soul,
+not the storefront.
+
 ## Voice attributes
 
 - **Warm but uncanny.** Sunny surface, dream logic underneath. Inviting, with mystery.
