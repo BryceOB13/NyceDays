@@ -41,7 +41,7 @@ export function Hero() {
         
         <FadeUp delay={0.2}>
           <p className="mt-6 font-serif text-lg md:text-xl text-white/80 italic tracking-wide">
-            Building community, one experience at a time.
+            A community-first culture company out of the DMV.
           </p>
         </FadeUp>
         
@@ -58,7 +58,7 @@ export function Hero() {
               href="/contact"
               className="inline-flex items-center justify-center gap-2 px-6 py-4 text-white/70 font-medium hover:text-white transition-colors min-h-[48px] touch-manipulation"
             >
-              Get In Touch
+              Work With Us
             </Link>
           </div>
         </FadeUp>

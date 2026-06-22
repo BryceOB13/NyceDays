@@ -22,7 +22,7 @@ export function ServicesHeader() {
             Services
           </h1>
           <p className="mt-4 text-lg text-white/80 max-w-xl mx-auto">
-            Full-service creative solutions for brands looking to connect with culture and community.
+            Events, brand partnerships, and content that connect brands with real community, not just an audience.
           </p>
         </FadeUp>
       </div>

@@ -6,7 +6,7 @@ import { ValuesSection } from "@/components/about/values-section"
 
 export const metadata = {
   title: "About | Nyce Days",
-  description: "Learn about Nyce Days - our story, values, and the team behind the brand.",
+  description: "The story behind Nyce Days, a community-first culture company out of the DMV.",
 }
 
 export default function AboutPage() {
@@ -59,8 +59,8 @@ export default function AboutPage() {
               Let&apos;s Build Something Together
             </h2>
             <p className="mt-6 text-lg text-white/80 leading-relaxed">
-              Event curation. Community marketing. Content creation. 
-              We help brands connect with culture and community through authentic experiences.
+              Events, brand partnerships, and original work. We connect brands with culture and
+              community the real way, without it feeling like marketing.
             </p>
           </FadeUp>
           
