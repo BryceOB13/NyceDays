@@ -203,7 +203,7 @@ export function ContactForm({ className, variant = 'default' }: ContactFormProps
             name="inquiry_type"
             render={({ field }) => (
               <FormItem className="space-y-1">
-                <FormLabel className={labelClasses}>What's this about *</FormLabel>
+                <FormLabel className={labelClasses}>What&apos;s this about *</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
