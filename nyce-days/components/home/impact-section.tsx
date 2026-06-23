@@ -28,9 +28,9 @@ const stats: Stat[] = [
   {
     value: 0,
     suffix: "",
-    display: "Nationwide",
+    display: "all over",
     label: "Collaborators",
-    detail: "a network that vouches for Nyce Days",
+    detail: "the right people, city to city, for any job",
   },
 ]
 
