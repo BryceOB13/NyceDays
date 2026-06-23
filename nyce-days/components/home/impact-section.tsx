@@ -13,22 +13,22 @@ interface Stat {
 
 const stats: Stat[] = [
   {
-    value: 100,
-    suffix: "K+",
-    label: "Monthly Impressions",
-    detail: "Social reach across platforms",
+    value: 25,
+    suffix: "+",
+    label: "DJs",
+    detail: "came to spin at the Nyce Invitational",
   },
   {
     value: 10,
     suffix: "+",
-    label: "Team Members",
-    detail: "Creatives & collaborators",
+    label: "Collaborators",
+    detail: "creatives and alumni, coast to coast",
   },
   {
     value: 9,
     suffix: "",
     label: "Markets",
-    detail: "DMV, Baltimore, NYC, Philly, Charlotte, LA, SF, Bos, SD",
+    detail: "DMV, Baltimore, NYC, Philly, Charlotte, LA, SF, Boston, San Diego",
   },
 ]
 

@@ -7,12 +7,12 @@ interface Stat {
 
 const stats: Stat[] = [
   {
-    value: "100K+",
-    label: "Impressions",
+    value: "25+",
+    label: "DJs",
   },
   {
     value: "10+",
-    label: "Team Members",
+    label: "Collaborators",
   },
   {
     value: "9",
