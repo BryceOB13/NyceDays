@@ -9,26 +9,28 @@ interface Stat {
   suffix: string
   label: string
   detail: string
+  display?: string
 }
 
 const stats: Stat[] = [
   {
-    value: 25,
+    value: 100,
     suffix: "+",
-    label: "DJs",
-    detail: "came to spin at the Nyce Invitational",
-  },
-  {
-    value: 10,
-    suffix: "+",
-    label: "Collaborators",
-    detail: "creatives and alumni, coast to coast",
+    label: "Hours of VHS",
+    detail: "culture on film, across the country",
   },
   {
     value: 9,
     suffix: "",
     label: "Markets",
     detail: "DMV, Baltimore, NYC, Philly, Charlotte, LA, SF, Boston, San Diego",
+  },
+  {
+    value: 0,
+    suffix: "",
+    display: "Nationwide",
+    label: "Collaborators",
+    detail: "a network that vouches for Nyce Days",
   },
 ]
 
@@ -167,7 +169,11 @@ export function ImpactSectionPremium() {
               <div className="absolute inset-0 -z-10 bg-gradient-to-br from-nd-red/0 to-nd-red/0 opacity-0 transition-opacity duration-300 group-hover:opacity-20" />
               
               <p className="font-serif text-5xl font-bold text-nd-cream md:text-6xl">
-                <AnimatedCounter value={stat.value} suffix={stat.suffix} inView={statsInView} />
+                {stat.display ? (
+                  <span className="text-3xl md:text-4xl">{stat.display}</span>
+                ) : (
+                  <AnimatedCounter value={stat.value} suffix={stat.suffix} inView={statsInView} />
+                )}
               </p>
               <p className="mt-2 font-sans text-sm font-medium uppercase tracking-widest text-nd-cream/90">
                 {stat.label}
