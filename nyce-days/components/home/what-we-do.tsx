@@ -82,7 +82,7 @@ export async function WhatWeDo() {
                 Join the Nyce List to be the first to know when we announce our next experience.
               </p>
               <Link 
-                href="/community" 
+                href="/community#nyce-list"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-nd-red text-white font-medium uppercase tracking-wider text-sm rounded-full hover:bg-nd-red/90 transition-all"
               >
                 Join The Nyce List

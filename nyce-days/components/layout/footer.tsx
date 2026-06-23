@@ -94,7 +94,7 @@ export function Footer() {
               Drops and events before they go public.
             </p>
             <Link
-              href="/community"
+              href="/community#nyce-list"
               className="mt-4 inline-flex items-center gap-2 font-sans text-sm uppercase tracking-wider text-white transition-colors hover:text-nd-red"
             >
               Join
