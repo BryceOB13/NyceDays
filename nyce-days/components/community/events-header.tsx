@@ -36,7 +36,7 @@ export function EventsHeader({ activeEvents = [] }: EventsHeaderProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[80vh] md:min-h-[85vh] flex items-center justify-center py-16 md:py-24"
+      className="relative min-h-[calc(100dvh-4rem)] flex items-center justify-center py-16 md:py-24"
     >
       <VideoBackground
         desktopSrc={videos.events.header.desktop}
