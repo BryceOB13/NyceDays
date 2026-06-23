@@ -7,12 +7,12 @@ const values = [
   {
     number: '01',
     title: 'Community First',
-    description: "We don't build audiences. We build families.",
+    description: "We don't build audiences. We build family.",
   },
   {
     number: '02',
     title: 'No Shortcuts',
-    description: "If it's not memorable, we don't ship it.",
+    description: "If it won't last, we don't make it.",
   },
   {
     number: '03',
@@ -49,7 +49,7 @@ export function ValuesSection() {
             transition={{ delay: 0.1 }}
             className="font-serif text-3xl md:text-4xl lg:text-5xl text-white mt-4 mb-6"
           >
-            The Principles That Guide Us
+            The Things We Don&apos;t Budge On
           </motion.h2>
           
           <motion.p
@@ -59,8 +59,8 @@ export function ValuesSection() {
             transition={{ delay: 0.2 }}
             className="font-serif text-lg text-white/50 max-w-xl mx-auto"
           >
-            These aren&apos;t corporate values we put on a wall. 
-            They&apos;re the reasons people keep coming back.
+            Not corporate values for a wall.
+            Just the reasons people keep coming back.
           </motion.p>
         </div>
 
@@ -110,7 +110,7 @@ export function ValuesSection() {
           <div className="w-16 h-[1px] bg-white/20 mx-auto mb-8" />
           
           <p className="font-serif text-white/40 mb-4">
-            See it in action.
+            See it on the feed.
           </p>
           
           <a
