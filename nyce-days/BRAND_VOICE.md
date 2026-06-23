@@ -41,7 +41,7 @@ DMV, not a brand, speaking from inside a beautiful, slightly uncanny dream.
 - **Everyday** (events, signups, site copy, replies): casual, lowercase, low-ego, direct.
   "this isn't a party, it's a space." "events soon." "we're building it." This is the
   default for anything functional.
-- **Mythic** (film, the drops, manifestos, hero lines, social VHS content): the narrator-god
+- **Mythic** (film, the pieces, manifestos, hero lines, social VHS content): the narrator-god
   voice. Sincere, ritual, a little hypnotic. "Don't you wish every day was Nyce... forever?"
   Use sparingly, where it can breathe. Never explain it.
 
@@ -54,7 +54,7 @@ The public site (home, about, services, contact) has to land with a partner, a c
 Tech and Startup Week rep as a legitimate company, not a vibe or a hobby. On those pages, lead
 with substance: what Nyce Days does, the range it operates across, and real traction (markets,
 reach, the work). Keep the warmth and the voice, but earn credibility first. Save the fuller
-mythic Eden/VHS register for the drops, the films, and social.
+mythic Eden/VHS register for the pieces, the films, and social.
 
 Flexible and legitimate are not in tension. Describe the company by its breadth and its results,
 confidently (events, brand partnerships, a growing product line, original music and film), never
@@ -92,12 +92,12 @@ from the substance on the page, not from a label slapped at the top.
 - **No emoji** (one, rarely, at most). The aesthetic is analog, not emoji-bright.
 - **Short.** If a clause adds nothing, cut it. Imperfect and human beats polished.
 - **The signature** is "Have a nyce day." lowercase "nyce", one canonical form everywhere.
-- **Facts:** never invent stats, dates, or place names. The shop is apparel and limited drops
+- **Facts:** never invent stats, dates, or place names. The shop is apparel and limited-edition pieces
   (the hoodie collection), not "plates" (that was a one-off cookout).
 
 ## Lexicon
 
-**Use:** have a nyce day · the garden · the loop · the drop / drops · the Nyce List · our people ·
+**Use:** have a nyce day · the garden · the loop · the pieces · the Nyce List · our people ·
 a space (not a party) · moments (not parties) · experiences (not clubs) · the DMV · slide through ·
 crunk · go up · all night · the floor · sweat · let loose · found tape · events soon · surrender · soon.
 
@@ -115,7 +115,7 @@ of Wonders*, *The Source Family* (doc), *Gummo*, *Touki Bouki*, *Daughters of th
 shorthand: "VHS Eden-core meets Source Family transcendence meets Gummo existential quiet."
 These are cinematic/visual references for mood, not endorsements of anything.
 
-## Merchandising: the drops (product voice)
+## Merchandising: the pieces (product voice)
 
 Everything Nyce Days makes is positioned as elevated essentials: high-quality basics with an
 avant-garde sensibility. Apparel spans the staples and elevated cut-and-sew (the make itself
@@ -131,7 +131,7 @@ How to signal quality. The rule: show it, never claim it.
   reads as quality. The words "premium" and "luxury" read as insecure.
 - **Restraint is the flex.** Understatement signals confidence. The more you oversell, the
   cheaper it sounds. One true detail beats five superlatives.
-- **Scarcity, not discount.** Limited runs, numbered drops, made in small quantities. Never
+- **Scarcity, not discount.** Limited runs, numbered pieces, made in small quantities. Never
   sale energy, never "while supplies last."
 - **Tie it to the world.** Each piece is an artifact from the garden. (The inaugural hoodies
   mapped four colorways to the four characters; future pieces can carry the world their own
@@ -140,7 +140,7 @@ How to signal quality. The rule: show it, never claim it.
 Use (swap in the true detail for each product, these are just examples): heavyweight ·
 cut-and-sew · garment-dyed · boxy / relaxed fit · machined · weighted · staple · essential ·
 made in small runs · numbered · built
-to last · the first drop · the collection.
+to last · the first run · the collection.
 
 Avoid: premium · luxury · high-end · best quality · top-tier · "shop now" · sale · limited
 time only · any superlative doing the work a real detail should do.

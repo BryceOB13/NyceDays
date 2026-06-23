@@ -58,7 +58,7 @@ const services: Service[] = [
     description: "Apparel and accessories that mean something. Limited runs, collaborations, and the kind of pieces people actually want to wear.",
     features: [
       "Apparel and accessory design",
-      "Limited edition drops and collaborations",
+      "Limited edition pieces and collaborations",
       "Pop-ups and retail",
     ],
     icon: <ShoppingBag className="h-8 w-8" />,

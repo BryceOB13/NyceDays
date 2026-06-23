@@ -35,6 +35,9 @@ export default function AboutPage() {
                 Nyce Days started in studios, with creatives connecting over what they cared about. Friends inviting friends. No flyers. No ads. Just word of mouth and a simple promise: you&apos;ll leave knowing more people than you came with.
               </p>
               <p>
+                Nyce Days was incubated at Harvey Mudd and the Claremont 5 C&apos;s, then built back home in the DMV, the place that shaped it. That duality, where it started and where it belongs, lives in everything we make.
+              </p>
+              <p>
                 That&apos;s still how we operate. We don&apos;t chase algorithms or impressions. We create spaces where conversations happen naturally. Where collaboration feels effortless. Where strangers become regulars. Where regulars become family.
               </p>
               <p className="font-serif text-foreground italic">

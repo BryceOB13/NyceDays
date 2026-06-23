@@ -238,7 +238,7 @@ export function ImpactSectionPremium() {
             <h3 className="heading-md mb-6 text-nd-cream">What We Do</h3>
             <p className="max-w-md font-sans leading-relaxed text-nd-cream/80">
               Too much to put in a list, and we like it that way. Events, partnerships,
-              drops, film, and whatever the moment calls for. If it moves culture, we can
+              pieces, film, and whatever the moment calls for. If it moves culture, we can
               build it.
             </p>
             <a

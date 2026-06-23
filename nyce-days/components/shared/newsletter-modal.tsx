@@ -86,7 +86,7 @@ export function NewsletterModal() {
                   Nyce List
                 </h2>
                 <p className="text-background/70 mb-5 sm:mb-6 text-sm sm:text-base">
-                  Get early access to events, drops, and exclusive content.
+                  Get early access to events, pieces, and exclusive content.
                 </p>
                 
                 <NewsletterForm 

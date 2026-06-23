@@ -104,7 +104,7 @@ export function ShopWaitlist() {
                   Coming soon.
                 </h2>
                 <p className="mx-auto mt-4 max-w-sm font-serif text-base leading-relaxed text-white/60">
-                  Apparel, accessories, and limited drops. Sign up below and you&apos;ll be first to know when we open.
+                  Apparel, accessories, and limited-edition pieces. Sign up below and you&apos;ll be first to know when we open.
                 </p>
               </FadeUp>
 
@@ -193,7 +193,7 @@ export function ShopWaitlist() {
                   )}
 
                   <p className="mt-4 text-center font-serif text-[10px] text-white/30">
-                    No spam. Just the drops. Unsubscribe anytime.
+                    No spam. Just the pieces. Unsubscribe anytime.
                   </p>
                 </form>
               </FadeUp>

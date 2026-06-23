@@ -7,7 +7,7 @@ import { ArrowUp, ArrowUpRight, Instagram, Twitter } from "lucide-react"
 
 const makes = [
   { href: "/community", label: "Events", note: "the nights" },
-  { href: "/shop", label: "Shop", note: "the drops" },
+  { href: "/shop", label: "Shop", note: "the pieces" },
   { href: "/media", label: "Media", note: "shot on film" },
 ]
 
@@ -91,7 +91,7 @@ export function Footer() {
             <p className="font-sans text-[11px] uppercase tracking-[0.24em] text-nd-red">Hear first</p>
             <p className="mt-4 font-serif text-lg text-white/80">The Nyce List</p>
             <p className="mt-1 max-w-[200px] text-sm text-white/40">
-              Drops and events before they go public.
+              Pieces and events before they go public.
             </p>
             <Link
               href="/community#nyce-list"

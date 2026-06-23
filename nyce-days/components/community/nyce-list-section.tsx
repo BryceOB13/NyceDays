@@ -97,7 +97,7 @@ export function NyceListSection() {
                   The Nyce List
                 </h2>
                 <p className="mt-4 font-serif text-base text-white/60 leading-relaxed max-w-sm mx-auto">
-                  This is how you hear first. Event announcements before they&apos;re public. Drops
+                  This is how you hear first. Event announcements before they&apos;re public. Pieces
                   before they sell out. The things we only tell our people.
                 </p>
               </FadeUp>
@@ -155,7 +155,7 @@ export function NyceListSection() {
                         className="mt-0.5 w-4 h-4 rounded border-white/20 bg-white/5 text-nd-red focus:ring-nd-red focus:ring-offset-0 accent-nd-red"
                       />
                       <span className="text-white/60 text-sm font-serif">
-                        Text me about events and drops
+                        Text me about events and pieces
                       </span>
                     </label>
 
