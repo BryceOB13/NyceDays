@@ -172,6 +172,7 @@ people something is good. You show the make, and let the restraint say the rest.
 | Get in touch... or general inquiries. | Partnerships, events, content, or anything else. |
 | Explore our portfolio. | Events, content, and partnerships. Projects that moved people. |
 | Sign up for our newsletter to stay updated. | the Nyce List. hear first. no algorithm in the way. |
+| who's trying to work? (casting/recruiting that reads as asking for work) | we're casting the summer. (the house is casting; being picked is the opportunity, never the other way) |
 
 ## The test
 
