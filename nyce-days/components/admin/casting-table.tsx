@@ -5,9 +5,8 @@ import { createClient } from '@/lib/supabase/client'
 import { Archive, Star, Instagram, ExternalLink, Save } from 'lucide-react'
 
 interface Availability {
-  presets?: string[]
-  grid?: Record<string, string[]>
-  weeks?: string[]
+  recurring?: string[]
+  specific?: { date: string; note?: string }[]
   notes?: string
 }
 
@@ -60,10 +59,9 @@ const statusColors: Record<string, string> = {
 function availabilitySummary(a: Availability | null): string {
   if (!a) return '—'
   const parts: string[] = []
-  if (a.presets?.length) parts.push(a.presets.map((p) => p.replace(/_/g, ' ')).join(', '))
-  const slots = a.grid ? Object.values(a.grid).reduce((n, s) => n + s.length, 0) : 0
-  if (!a.presets?.length && slots) parts.push(`${slots} slots`)
-  if (a.weeks?.length) parts.push(a.weeks.map((w) => w.replace('jul_', 'Jul ')).join(', '))
+  if (a.recurring?.length)
+    parts.push(a.recurring.map((r) => r.replace('wk_', 'weekday ').replace('we_', 'weekend ')).join(', '))
+  if (a.specific?.length) parts.push(`${a.specific.length} locked date${a.specific.length === 1 ? '' : 's'}`)
   return parts.join(' · ') || '—'
 }
 
@@ -254,6 +252,13 @@ export function CastingTable({ submissions: initial }: { submissions: Casting[] 
                 transport: {selected.has_transport ? 'yes' : 'no'}
               </Detail>
               <Detail label="Availability">{availabilitySummary(selected.availability)}</Detail>
+              {selected.availability?.specific?.length ? (
+                <Detail label="Locked-in dates">
+                  {selected.availability.specific
+                    .map((s) => (s.note ? `${s.date} (${s.note})` : s.date))
+                    .join(', ')}
+                </Detail>
+              ) : null}
               {selected.availability?.notes && <Detail label="Schedule notes">{selected.availability.notes}</Detail>}
               {selected.earliest_date && <Detail label="Earliest date">{selected.earliest_date}</Detail>}
               {selected.other_socials && <Detail label="Other socials">{selected.other_socials}</Detail>}

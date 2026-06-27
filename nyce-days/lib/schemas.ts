@@ -86,13 +86,12 @@ export const castingSchema = z.object({
   bio: z.string().max(1000).optional().nullable(),
   experience: z.string().max(2000).optional().nullable(),
 
-  // availability
+  // availability — recurring windows + specific lock-in dates (matchmaking-ready)
   availability: z.object({
-    presets: z.array(z.string()).default([]),
-    grid: z.record(z.string(), z.array(z.string())).default({}),
-    weeks: z.array(z.string()).default([]),
+    recurring: z.array(z.string()).default([]),
+    specific: z.array(z.object({ date: z.string(), note: z.string().max(200).optional() })).default([]),
     notes: z.string().max(500).optional().default(''),
-  }).default({ presets: [], grid: {}, weeks: [], notes: '' }),
+  }).default({ recurring: [], specific: [], notes: '' }),
   earliest_date: z.string().optional().nullable(),
 
   // wrap

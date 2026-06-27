@@ -169,8 +169,8 @@ export async function POST(request: NextRequest) {
             ${line('Bio', row.bio)}
             ${line('Experience', row.experience)}
             <h3>Availability</h3>
-            <p><strong>Presets:</strong> ${esc((a.presets || []).join(', ') || '—')}</p>
-            <p><strong>July weeks:</strong> ${esc((a.weeks || []).join(', ') || '—')}</p>
+            <p><strong>Usually free:</strong> ${esc((a.recurring || []).map((x) => x.replace('wk_', 'weekday ').replace('we_', 'weekend ')).join(', ') || '—')}</p>
+            <p><strong>Locked-in dates:</strong> ${esc((a.specific || []).map((s) => (s.note ? `${s.date} (${s.note})` : s.date)).join(', ') || '—')}</p>
             ${line('Notes', a.notes)}
             ${line('Earliest date', row.earliest_date)}
             <h3>Wrap</h3>
