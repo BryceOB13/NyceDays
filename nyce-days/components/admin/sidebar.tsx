@@ -12,6 +12,7 @@ import {
   ShoppingBag,
   Mail,
   Users,
+  Clapperboard,
   Settings,
   LogOut,
 } from 'lucide-react'
@@ -24,6 +25,7 @@ const navItems = [
   { href: '/admin/media', label: 'Media', icon: ImageIcon },
   { href: '/admin/products', label: 'Products', icon: ShoppingBag },
   { href: '/admin/contacts', label: 'Contacts', icon: Mail },
+  { href: '/admin/casting', label: 'Casting', icon: Clapperboard },
   { href: '/admin/subscribers', label: 'Subscribers', icon: Users },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ]
