@@ -36,11 +36,13 @@ const WEEKS: [string, string][] = [
 ]
 
 type Preset = { id: string; label: string; covers: (day: string, slot: string) => boolean }
+// No "free all the time" preset on purpose — most people work weekdays, so the
+// realistic windows are weekday nights and weekends. Anyone genuinely open during
+// a weekday daytime can still tap those specific cells in the grid.
 const PRESETS: Preset[] = [
   { id: 'weekends', label: 'weekends', covers: (d) => WEEKEND.includes(d) },
   { id: 'weekday_nights', label: 'weekday nights', covers: (d, s) => WEEKDAYS.includes(d) && (s === 'evening' || s === 'late') },
   { id: 'weekday_days', label: 'weekday days', covers: (d, s) => WEEKDAYS.includes(d) && (s === 'morning' || s === 'afternoon') },
-  { id: 'flexible', label: "i'm flexible / whenever", covers: () => true },
 ]
 
 const cellKey = (day: string, slot: string) => `${day}:${slot}`
