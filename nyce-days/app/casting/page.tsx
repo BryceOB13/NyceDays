@@ -6,7 +6,7 @@ import { videos } from '@/lib/videos'
 
 export const metadata: Metadata = {
   title: 'Casting · Nyce Days',
-  description: "who's trying to work? big things coming. dc + md, all july. apply to be on camera, on the crew, or featured.",
+  description: "nyce days is casting for a month of shoots across dc + md this july. faces, crew, and people worth featuring. throw your name in.",
   robots: { index: false, follow: false },
 }
 
@@ -36,15 +36,14 @@ export default function CastingPage() {
             priority
           />
           <p className="mt-6 font-sans text-[11px] uppercase tracking-[0.3em] text-nd-red">
-            summer 2026 · casting
+            nyce days · now casting
           </p>
           <h1 className="mt-4 font-serif text-5xl italic leading-[1.05] text-white md:text-6xl">
-            who&apos;s trying to work?
+            we&apos;re casting the summer.
           </h1>
           <p className="mx-auto mt-5 max-w-md font-sans text-base leading-relaxed text-white/60">
-            big things coming. dc + md, all july. we&apos;re pulling together the people who
-            make it move: on camera, behind it, and out front. drop your info and we&apos;ll
-            reach out.
+            a full month of shoots across dc + md this july. we&apos;re casting faces, crew,
+            and the people worth featuring. if that&apos;s you, throw your name in.
           </p>
         </div>
       </section>
