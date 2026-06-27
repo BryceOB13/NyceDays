@@ -221,7 +221,7 @@ export function CastingForm() {
         setSubmitting(false)
         return
       }
-      track('casting_submit', { applicant_type: form.applicant_type, city: form.city })
+      track('casting_submit', { applicant_type: form.applicant_type.join(','), city: form.city })
       setDone(true)
     } catch {
       setSubmitError('Network hiccup. Try again.')
