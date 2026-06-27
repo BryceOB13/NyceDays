@@ -6,7 +6,7 @@ import { videos } from '@/lib/videos'
 
 export const metadata: Metadata = {
   title: 'Casting · Nyce Days',
-  description: "Nyce Days is casting for a month of shoots across DC + MD this July. Faces, crew, and the people who make it move. Throw your name in.",
+  description: "Nyce Days is casting for summer shoots across DC + MD this July. Want to be part of what we're building? Throw your name in.",
   robots: { index: false, follow: false },
 }
 
@@ -42,8 +42,8 @@ export default function CastingPage() {
             we&apos;re casting the summer.
           </h1>
           <p className="mx-auto mt-5 max-w-md font-sans text-base leading-relaxed text-white/60">
-            a full month of shoots across DC + MD this July. we&apos;re casting faces, crew,
-            and the people who make it move. if that&apos;s you, throw your name in.
+            shoots across DC + MD, all July. want to be part of what we&apos;re building?
+            throw your name in.
           </p>
         </div>
       </section>
