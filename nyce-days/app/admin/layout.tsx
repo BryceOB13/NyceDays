@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { AdminSidebar } from '@/components/admin/sidebar'
+import { isAdminEmail } from '@/lib/admin/allowlist'
 
 export default async function AdminLayout({
   children,
@@ -10,9 +11,15 @@ export default async function AdminLayout({
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Double-check auth (middleware should handle this, but just in case)
+  // Must be signed in.
   if (!user) {
     redirect('/admin/login')
+  }
+
+  // ...and on the admin allowlist. Any other authenticated account is sent away,
+  // so a self-registered magic-link user can never reach the dashboard.
+  if (!isAdminEmail(user.email)) {
+    redirect('/')
   }
 
   return (

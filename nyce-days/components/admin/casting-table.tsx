@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { Archive, Star, Instagram, ExternalLink, Save } from 'lucide-react'
+import { Archive, Star, Instagram, ExternalLink, Save, CalendarSearch, CalendarCheck, X } from 'lucide-react'
 
 interface Availability {
   recurring?: string[]
@@ -65,13 +65,44 @@ function availabilitySummary(a: Availability | null): string {
   return parts.join(' · ') || '—'
 }
 
+// "Who's free" matcher: does this person's availability cover the target date?
+// Specific lock-in dates are a strong match; recurring windows are a soft match.
+const DOW = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
+const RECUR_LABEL: Record<string, string> = {
+  wk_morning: 'mornings',
+  wk_afternoon: 'afternoons',
+  wk_evening: 'evenings',
+  wk_late: 'late nights',
+}
+
+function matchInfo(a: Availability | null, dateStr: string): { match: boolean; reason: string; strong: boolean } {
+  if (!a || !dateStr) return { match: false, reason: '', strong: false }
+  const spec = (a.specific || []).find((s) => s.date === dateStr)
+  if (spec) return { match: true, reason: spec.note ? `locked in · ${spec.note}` : 'locked in for this date', strong: true }
+  const rec = a.recurring || []
+  const weekend = ['sat', 'sun'].includes(DOW[new Date(dateStr + 'T00:00:00').getDay()])
+  if (weekend) {
+    const parts: string[] = []
+    if (rec.includes('we_day')) parts.push('daytime')
+    if (rec.includes('we_evening')) parts.push('evenings')
+    if (parts.length) return { match: true, reason: `usually free weekend ${parts.join(' + ')}`, strong: false }
+  } else {
+    const parts = rec.filter((r) => r.startsWith('wk_')).map((r) => RECUR_LABEL[r]).filter(Boolean)
+    if (parts.length) return { match: true, reason: `usually free weekday ${parts.join(' + ')}`, strong: false }
+  }
+  return { match: false, reason: '', strong: false }
+}
+
 export function CastingTable({ submissions: initial }: { submissions: Casting[] }) {
   const [rows, setRows] = useState(initial)
   const [selected, setSelected] = useState<Casting | null>(null)
   const [filter, setFilter] = useState<'all' | 'unread' | 'shortlisted' | 'booked' | 'archived'>('all')
+  const [matchDate, setMatchDate] = useState('')
   const [notesDraft, setNotesDraft] = useState('')
   const [savingNotes, setSavingNotes] = useState(false)
   const supabase = createClient()
+
+  const matchActive = matchDate !== ''
 
   const filtered = rows.filter((r) => {
     if (filter === 'unread') return !r.read && !r.archived
@@ -80,6 +111,17 @@ export function CastingTable({ submissions: initial }: { submissions: Casting[] 
     if (filter === 'booked') return r.status === 'booked' && !r.archived
     return !r.archived
   })
+
+  const matched = matchActive
+    ? rows
+        .filter((r) => !r.archived)
+        .map((row) => ({ row, info: matchInfo(row.availability, matchDate) }))
+        .filter((m) => m.info.match)
+        .sort(
+          (a, b) =>
+            Number(b.info.strong) - Number(a.info.strong) || b.row.created_at.localeCompare(a.row.created_at)
+        )
+    : []
 
   const patch = async (id: string, updates: Partial<Casting>) => {
     setRows((rs) => rs.map((r) => (r.id === id ? { ...r, ...updates } : r)))
@@ -102,65 +144,114 @@ export function CastingTable({ submissions: initial }: { submissions: Casting[] 
   }
 
   const fmt = (d: string, withTime = false) =>
-    new Date(d).toLocaleDateString('en-US', {
+    new Date(d + (d.length === 10 ? 'T00:00:00' : '')).toLocaleDateString('en-US', {
+      weekday: withTime ? undefined : 'short',
       month: 'short',
       day: 'numeric',
       ...(withTime ? { hour: 'numeric', minute: '2-digit' } : {}),
     })
 
+  const renderRow = (row: Casting, reason?: string, strong?: boolean) => (
+    <button
+      key={row.id}
+      onClick={() => handleSelect(row)}
+      className={`w-full border-b p-4 text-left transition-colors hover:bg-muted/50 ${
+        selected?.id === row.id ? 'bg-muted' : ''
+      } ${!row.read ? 'bg-primary/5' : ''}`}
+    >
+      <div className="flex items-center justify-between gap-2">
+        <span className={`truncate font-medium ${!row.read ? 'text-foreground' : 'text-muted-foreground'}`}>
+          {row.full_name}
+        </span>
+        <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs capitalize ${statusColors[row.status] || ''}`}>
+          {row.status}
+        </span>
+      </div>
+      {reason ? (
+        <div className="mt-1.5">
+          <span
+            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] ${
+              strong ? 'bg-green-100 text-green-800' : 'bg-muted text-muted-foreground'
+            }`}
+          >
+            {strong && <CalendarCheck className="h-3 w-3" />}
+            {reason}
+          </span>
+        </div>
+      ) : (
+        <div className="mt-1 flex flex-wrap gap-1">
+          {(row.applicant_type || []).map((t) => (
+            <span key={t} className="rounded bg-muted px-1.5 py-0.5 text-[11px] text-muted-foreground">
+              {t}
+            </span>
+          ))}
+        </div>
+      )}
+      <p className="mt-1 truncate text-sm text-muted-foreground">{row.headline || row.email}</p>
+      <p className="mt-2 text-xs text-muted-foreground">
+        {(row.city || '').toUpperCase()} · {fmt(row.created_at, true)}
+      </p>
+    </button>
+  )
+
   return (
     <div className="flex h-[calc(100vh-200px)] gap-6">
       {/* List */}
       <div className="flex w-1/2 flex-col overflow-hidden rounded-xl border bg-card">
-        <div className="flex flex-wrap gap-2 border-b p-4">
-          {(['all', 'unread', 'shortlisted', 'booked', 'archived'] as const).map((f) => (
+        {/* Who's-free matcher */}
+        <div className="flex items-center gap-2 border-b p-3">
+          <CalendarSearch className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <span className="shrink-0 text-sm text-muted-foreground">Who&apos;s free on</span>
+          <input
+            type="date"
+            value={matchDate}
+            onChange={(e) => setMatchDate(e.target.value)}
+            className="rounded-lg border bg-background px-2 py-1 text-sm"
+          />
+          {matchActive && (
             <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`rounded-lg px-3 py-1.5 text-sm capitalize transition-colors ${
-                filter === f ? 'bg-foreground text-background' : 'bg-muted hover:bg-muted/80'
-              }`}
+              onClick={() => setMatchDate('')}
+              className="ml-auto inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
             >
-              {f}
+              <X className="h-3.5 w-3.5" /> clear
             </button>
-          ))}
+          )}
         </div>
 
+        {/* Status filters (hidden while matching by date) */}
+        {!matchActive && (
+          <div className="flex flex-wrap gap-2 border-b p-4">
+            {(['all', 'unread', 'shortlisted', 'booked', 'archived'] as const).map((f) => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className={`rounded-lg px-3 py-1.5 text-sm capitalize transition-colors ${
+                  filter === f ? 'bg-foreground text-background' : 'bg-muted hover:bg-muted/80'
+                }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {matchActive && (
+          <div className="border-b bg-muted/30 px-4 py-2 text-xs text-muted-foreground">
+            {matched.length} free on {fmt(matchDate)} · locked-in dates first, then usual availability
+          </div>
+        )}
+
         <div className="flex-1 overflow-y-auto">
-          {filtered.length === 0 ? (
+          {matchActive ? (
+            matched.length === 0 ? (
+              <p className="p-4 text-center text-muted-foreground">No one matches that date yet</p>
+            ) : (
+              matched.map(({ row, info }) => renderRow(row, info.reason, info.strong))
+            )
+          ) : filtered.length === 0 ? (
             <p className="p-4 text-center text-muted-foreground">No submissions</p>
           ) : (
-            filtered.map((row) => (
-              <button
-                key={row.id}
-                onClick={() => handleSelect(row)}
-                className={`w-full border-b p-4 text-left transition-colors hover:bg-muted/50 ${
-                  selected?.id === row.id ? 'bg-muted' : ''
-                } ${!row.read ? 'bg-primary/5' : ''}`}
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <span className={`truncate font-medium ${!row.read ? 'text-foreground' : 'text-muted-foreground'}`}>
-                    {row.full_name}
-                  </span>
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs capitalize ${statusColors[row.status] || ''}`}>
-                    {row.status}
-                  </span>
-                </div>
-                <div className="mt-1 flex flex-wrap gap-1">
-                  {(row.applicant_type || []).map((t) => (
-                    <span key={t} className="rounded bg-muted px-1.5 py-0.5 text-[11px] text-muted-foreground">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                <p className="mt-1 truncate text-sm text-muted-foreground">
-                  {row.headline || row.email}
-                </p>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  {(row.city || '').toUpperCase()} · {fmt(row.created_at, true)}
-                </p>
-              </button>
-            ))
+            filtered.map((row) => renderRow(row))
           )}
         </div>
       </div>
