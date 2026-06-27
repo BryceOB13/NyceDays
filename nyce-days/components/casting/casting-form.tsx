@@ -482,7 +482,7 @@ export function CastingForm() {
                 </label>
                 <label className="flex cursor-pointer items-start gap-3">
                   <input type="checkbox" checked={form.email_consent} onChange={(e) => set('email_consent', e.target.checked)} className="mt-0.5 h-5 w-5 shrink-0 accent-[#C95E6C]" />
-                  <span className="font-sans text-sm text-white/70">email me about this and future drops.</span>
+                  <span className="font-sans text-sm text-white/70">email me about this and what&apos;s next.</span>
                 </label>
               </div>
 
