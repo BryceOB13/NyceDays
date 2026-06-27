@@ -18,6 +18,12 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // Short link-in-bio alias for the casting form.
+      { source: '/apply', destination: '/casting', permanent: false },
+    ]
+  },
 };
 
 export default nextConfig;

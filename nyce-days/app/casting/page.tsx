@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { CastingForm } from '@/components/casting/casting-form'
+import { VideoBackground } from '@/components/shared/video-background'
+import { videos } from '@/lib/videos'
 
 export const metadata: Metadata = {
   title: 'Casting · Nyce Days',
@@ -10,11 +12,21 @@ export const metadata: Metadata = {
 
 export default function CastingPage() {
   return (
-    <main className="min-h-[calc(100dvh-4rem)] bg-[#0A0A0A] text-white">
+    <main className="relative min-h-[calc(100dvh-4rem)] overflow-hidden bg-[#0A0A0A] text-white">
+      {/* Ambient brand video background */}
+      <VideoBackground
+        desktopSrc={videos.hero.desktop}
+        mobileSrc={videos.hero.mobile}
+        poster={videos.hero.poster}
+        overlay="bg-gradient-to-b from-[rgba(10,10,10,0.82)] via-[rgba(10,10,10,0.88)] to-[rgba(10,10,10,0.96)]"
+      />
+
+      {/* Red glow accent over the video */}
+      <div className="pointer-events-none absolute -top-24 left-1/2 h-[420px] w-[560px] -translate-x-1/2 rounded-full bg-nd-red/10 blur-[120px]" />
+
       {/* Hero */}
-      <section className="relative overflow-hidden px-6 pb-10 pt-16 md:pt-24">
-        <div className="pointer-events-none absolute -top-24 left-1/2 h-[420px] w-[560px] -translate-x-1/2 rounded-full bg-nd-red/10 blur-[120px]" />
-        <div className="relative z-10 mx-auto max-w-xl text-center">
+      <section className="relative z-10 px-6 pb-10 pt-16 md:pt-24">
+        <div className="mx-auto max-w-xl text-center">
           <Image
             src="/logos/stars-white.png"
             alt="Nyce Days"
