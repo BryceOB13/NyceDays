@@ -85,8 +85,15 @@ from the substance on the page, not from a label slapped at the top.
 
 ## Mechanics (house style)
 
-- **Lowercase** for nav, labels, captions, and most short copy. Title Case is fine for buttons
-  and big headlines (the site already does this consistently). The brand name is "Nyce Days".
+- **Capitalization: lowercase is an accent, not the default.** All-lowercase is a deliberate
+  tonal choice for small, intimate surfaces (nav, labels, captions, UI microcopy, social, the
+  signature), where it reads warm and unpolished on purpose. Anywhere the copy carries weight or
+  represents the business, write in standard sentence case: public-page body copy (home, about,
+  services, contact), partner- and client-facing copy, emails, and metadata. Headlines and
+  buttons can go either way to match the surface (Title Case is fine; the site already does this
+  for big headlines). Proper nouns and the brand name ("Nyce Days") are always capitalized. The
+  test: if all-lowercase would read as careless to a partner or a DC Tech and Startup Week rep,
+  use sentence case. Professional first; lowercase where it earns the tone.
 - **No exclamation points.** Calm confidence, not hype. "Mystery > explanation."
 - **No em dashes, ever.** Use a period, a comma, or the mid-dot " · " separator.
 - **No emoji** (one, rarely, at most). The aesthetic is analog, not emoji-bright.
